@@ -1,0 +1,52 @@
+@import "../../node_modules/bulma/sass/utilities/initial-variables.sass";
+@import "../../node_modules/bulma/bulma.sass";
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+nav .container {
+  max-width: 95%;
+}
+
+.navbar-brand > a.navbar-item:hover {
+  background-color: transparent !important;
+  color: white;
+}
+
+nav .navbar-item > .is-size-4 {
+  font-size: 1.25rem !important;
+}
+
+.sidebar {
+  width: 15%;
+  padding: 20px;
+  background-color: #343a40;
+}
+
+.sidebar .menu-list a:hover {
+  color: white;
+  background-color: transparent;
+}
+
+.sidebar .is-active {
+  background-color: transparent !important;
+  color: white !important;
+}
+
+.sidebar p,
+.sidebar a {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.sidebar ul li {
+  padding-bottom: 0.4rem;
+}
+
+.sidebar .menu-label {
+  font-size: 0.71rem;
+  letter-spacing: 2px;
+  color: hsl(0, 0%, 71%);
+}
