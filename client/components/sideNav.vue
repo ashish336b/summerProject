@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar">
+  <div class="sidebar" id="sidebar">
     <aside class="menu">
       <p class="menu-label has-text-weight-bold">General</p>
       <ul class="menu-list">
@@ -36,16 +36,6 @@
           </ul>
         </li>
       </ul>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
     </aside>
   </div>
 </template>

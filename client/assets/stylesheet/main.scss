@@ -1,10 +1,13 @@
 @import "../../node_modules/bulma/sass/utilities/initial-variables.sass";
 @import "../../node_modules/bulma/bulma.sass";
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Roboto", sans-serif;
+
+.main-body{
+  display: flex !important;
+}
+
+nav {
+  position: fixed;
 }
 
 nav .container {
@@ -16,20 +19,25 @@ nav .navbar-brand > a.navbar-item:hover {
   color: white;
 }
 
+nav .sidebar-burger {
+  margin-left: 50%;
+  font-size: 1.7rem;
+}
+
 nav .navbar-item > .title {
   font-size: 1.25rem;
+}
+
+.sidebar {
+  width: 30%;
+  padding: 15px;
+  background-color: #343a40;
 }
 
 .sidebar .list svg {
   padding: 0;
   margin: 0;
   font-size: 20px;
-}
-
-.sidebar {
-  width: 20%;
-  padding: 20px;
-  background-color: #343a40;
 }
 
 .sidebar .menu-list a:hover {
@@ -56,66 +64,47 @@ nav .navbar-item > .title {
   letter-spacing: 2px;
   color: hsl(0, 0%, 71%);
 }
-.list {
+.sidebar .list {
   display: flex;
   align-items: center;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
-.list span:nth-child(2) {
+.sidebar .list span:nth-child(2) {
   padding-left: 10px;
   padding-right: 3px;
 }
 
 @media only screen and (max-width: 480px) {
+  nav .sidebar-burger {
+    margin-left: 0%;
+  }
   .sidebar {
-    width: 30%;
+    width: 100%;
     padding-left: 10px;
     padding-right: 20px;
   }
+}
 
-  .sidebar .list span:nth-child(2) {
-    display: none;
+@media only screen and (min-width: 480px) and (max-width: 768px) {
+  .sidebar {
+    width: 70%;
+    padding-left: 10px;
+    padding-right: 20px;
   }
-
-  .sidebar .list svg {
-    width: 100%;
-  }
-
-  .sidebar .menu-label {
-    font-size: 0.5rem;
-    letter-spacing: 1px;
-    text-align: center;
-    color: hsl(0, 0%, 71%);
+  nav .sidebar-burger {
+    margin-left: 0%;
   }
 }
 
-@media only screen and (max-width: 768px) {
-  .list span:nth-child(2) {
-    display: none;
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  .sidebar {
+    width: 30%;
   }
-
-  .list svg {
-    width: 100%;
-  }
-
-  .sidebar .menu-label {
-    font-size: 0.5rem;
-    letter-spacing: 1px;
-    text-align: center;
-    color: hsl(0, 0%, 71%);
-  }
-}
-
-@media only screen and (max-width: 1024px) and (min-width: 768px) {
-  .list {
-    display: block;
-  }
-  .list svg {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
+  nav .sidebar-burger {
+    margin-left: 10%;
+    font-size: 1.7rem;
   }
   .sidebar .menu-label {
     font-size: 0.5rem;
