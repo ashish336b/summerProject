@@ -3,8 +3,8 @@
     <nav class="navbar is-dark py-2" role="navigation" aria-label="main navigation">
       <div class="container">
         <div class="navbar-brand">
-          <a class="navbar-item c-title" href="index.html">
-            <div class="has-text-white has-text-weight-bold is-size-4">Dashboard</div>
+          <a class="navbar-item" href="#">
+            <div class="has-text-white has-text-weight-bold title">Dashboard</div>
           </a>
           <a
             role="button"

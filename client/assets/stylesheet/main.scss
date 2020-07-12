@@ -11,17 +11,23 @@ nav .container {
   max-width: 95%;
 }
 
-.navbar-brand > a.navbar-item:hover {
+nav .navbar-brand > a.navbar-item:hover {
   background-color: transparent !important;
   color: white;
 }
 
-nav .navbar-item > .is-size-4 {
-  font-size: 1.25rem !important;
+nav .navbar-item > .title {
+  font-size: 1.25rem;
+}
+
+.sidebar .list svg {
+  padding: 0;
+  margin: 0;
+  font-size: 20px;
 }
 
 .sidebar {
-  width: 15%;
+  width: 20%;
   padding: 20px;
   background-color: #343a40;
 }
@@ -31,22 +37,90 @@ nav .navbar-item > .is-size-4 {
   background-color: transparent;
 }
 
-.sidebar .is-active {
-  background-color: transparent !important;
-  color: white !important;
-}
-
-.sidebar p,
-.sidebar a {
-  color: rgba(255, 255, 255, 0.5);
+.sidebar .active {
+  background-color: transparent;
+  color: white;
 }
 
 .sidebar ul li {
   padding-bottom: 0.4rem;
 }
 
+.sidebar ul li > a,
+.sidebar ul li > .custom-list-container {
+  color: #a6a2a2;
+}
+
 .sidebar .menu-label {
-  font-size: 0.71rem;
+  font-size: 0.7rem;
   letter-spacing: 2px;
   color: hsl(0, 0%, 71%);
+}
+.list {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.list span:nth-child(2) {
+  padding-left: 10px;
+  padding-right: 3px;
+}
+
+@media only screen and (max-width: 480px) {
+  .sidebar {
+    width: 30%;
+    padding-left: 10px;
+    padding-right: 20px;
+  }
+
+  .sidebar .list span:nth-child(2) {
+    display: none;
+  }
+
+  .sidebar .list svg {
+    width: 100%;
+  }
+
+  .sidebar .menu-label {
+    font-size: 0.5rem;
+    letter-spacing: 1px;
+    text-align: center;
+    color: hsl(0, 0%, 71%);
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .list span:nth-child(2) {
+    display: none;
+  }
+
+  .list svg {
+    width: 100%;
+  }
+
+  .sidebar .menu-label {
+    font-size: 0.5rem;
+    letter-spacing: 1px;
+    text-align: center;
+    color: hsl(0, 0%, 71%);
+  }
+}
+
+@media only screen and (max-width: 1024px) and (min-width: 768px) {
+  .list {
+    display: block;
+  }
+  .list svg {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .sidebar .menu-label {
+    font-size: 0.5rem;
+    letter-spacing: 1px;
+    text-align: center;
+    color: hsl(0, 0%, 71%);
+  }
 }

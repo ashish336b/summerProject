@@ -4,24 +4,36 @@
       <p class="menu-label has-text-weight-bold">General</p>
       <ul class="menu-list">
         <li>
-          <a class="is-active">
-            <span class="iconify" data-icon="ic:twotone-dashboard" data-inline="false"></span> Dashboard
+          <a class="active">
+            <div class="list">
+              <span class="iconify" data-icon="ic:twotone-dashboard" data-inline="false"></span>
+              <span>Dashboard</span>
+            </div>
           </a>
         </li>
-        <li>
-          <a>Customers</a>
-        </li>
       </ul>
-      <p class="menu-label has-text-weight-bold">Transactions</p>
+      <p class="menu-label has-text-weight-bold">Ecommerce Section</p>
       <ul class="menu-list">
         <li>
-          <a>Payments</a>
-        </li>
-        <li>
-          <a>Transfers</a>
-        </li>
-        <li>
-          <a>Balance</a>
+          <a class="custom-list-container">
+            <div class="list">
+              <span class="iconify" data-icon="ic:twotone-dashboard" data-inline="false"></span>
+              <span>Manage Your Team</span>
+              <!-- <span class="iconify" data-icon="dashicons:arrow-down-alt2" data-inline="false"></span> -->
+              <span class="iconify" data-icon="dashicons:arrow-right" data-inline="false"></span>
+            </div>
+          </a>
+          <ul>
+            <li>
+              <a href="#">Member</a>
+            </li>
+            <li>
+              <a href="#" class="dropdown-item">Member</a>
+            </li>
+            <li>
+              <a href="#" class="dropdown-item">Member</a>
+            </li>
+          </ul>
         </li>
       </ul>
       <br />
