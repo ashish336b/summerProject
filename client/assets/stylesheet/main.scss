@@ -2,7 +2,11 @@
 @import "../../node_modules/bulma/bulma.sass";
 
 .main-body {
-  display: flex !important;
+  display: flex;
+}
+
+.main{
+  width: 100%;
 }
 
 nav {
@@ -53,6 +57,10 @@ nav .container {
   color: #a6a2a2;
 }
 
+.hide {
+  display: none;
+}
+
 .sidebar .menu-label {
   font-size: 0.7rem;
   letter-spacing: 2px;
@@ -62,8 +70,9 @@ nav .container {
   display: flex;
   align-items: center;
 }
-.sidebar .list span:nth-child(2) {
-  padding-left: 10px;
+.sidebar .list p {
+  text-align: center;
+  margin-left: 10px;
 }
 
 @media only screen and (max-width: 480px) {
@@ -79,19 +88,19 @@ nav .container {
   .sidebar .list {
     display: block;
   }
-  .sidebar .list span{
+  .sidebar .list span {
     width: 100%;
     font-size: 0.95rem;
     margin-left: 10px;
   }
-  .sidebar .list svg{
+  .sidebar .list svg {
     width: 100%;
   }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 768px) {
   .sidebar {
-    width: 100%;
+    width: 60%;
     padding-left: 10px;
     padding-right: 20px;
   }
