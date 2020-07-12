@@ -1,8 +1,7 @@
 @import "../../node_modules/bulma/sass/utilities/initial-variables.sass";
 @import "../../node_modules/bulma/bulma.sass";
 
-
-.main-body{
+.main-body {
   display: flex !important;
 }
 
@@ -14,24 +13,19 @@ nav .container {
   max-width: 95%;
 }
 
-nav .navbar-brand > a.navbar-item:hover {
-  background-color: transparent !important;
-  color: white;
-}
-
-nav .sidebar-burger {
-  margin-left: 50%;
-  font-size: 1.7rem;
-}
-
-nav .navbar-item > .title {
-  font-size: 1.25rem;
-}
-
 .sidebar {
-  width: 30%;
+  width: 25%;
   padding: 15px;
   background-color: #343a40;
+}
+.sidebar .sidebar-heading > div {
+  font-size: 1.4rem;
+  padding-bottom: 5px;
+}
+
+.sidebar .divider {
+  border-top: 1px solid white;
+  width: 100%;
 }
 
 .sidebar .list svg {
@@ -67,19 +61,35 @@ nav .navbar-item > .title {
 .sidebar .list {
   display: flex;
   align-items: center;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
 }
 .sidebar .list span:nth-child(2) {
   padding-left: 10px;
-  padding-right: 3px;
 }
 
 @media only screen and (max-width: 480px) {
-  nav .sidebar-burger {
-    margin-left: 0%;
+  .sidebar {
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 20px;
   }
+  .sidebar .sidebar-heading > div {
+    font-size: 1.2rem;
+    padding-bottom: 5px;
+  }
+  .sidebar .list {
+    display: block;
+  }
+  .sidebar .list span{
+    width: 100%;
+    font-size: 0.95rem;
+    margin-left: 10px;
+  }
+  .sidebar .list svg{
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 768px) {
   .sidebar {
     width: 100%;
     padding-left: 10px;
@@ -87,29 +97,8 @@ nav .navbar-item > .title {
   }
 }
 
-@media only screen and (min-width: 480px) and (max-width: 768px) {
-  .sidebar {
-    width: 70%;
-    padding-left: 10px;
-    padding-right: 20px;
-  }
-  nav .sidebar-burger {
-    margin-left: 0%;
-  }
-}
-
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
   .sidebar {
     width: 30%;
-  }
-  nav .sidebar-burger {
-    margin-left: 10%;
-    font-size: 1.7rem;
-  }
-  .sidebar .menu-label {
-    font-size: 0.5rem;
-    letter-spacing: 1px;
-    text-align: center;
-    color: hsl(0, 0%, 71%);
   }
 }
