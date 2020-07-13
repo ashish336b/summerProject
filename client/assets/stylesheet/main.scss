@@ -5,7 +5,7 @@
   display: flex;
 }
 
-.main{
+.main {
   width: 100%;
 }
 
@@ -52,13 +52,21 @@ nav .container {
   padding-bottom: 0.4rem;
 }
 
-.sidebar ul li > a,
-.sidebar ul li > .custom-list-container {
+.sidebar ul li > a {
   color: #a6a2a2;
+}
+
+.sidebar ul  input[type="checkbox"] {
+  display: none;
+}
+
+.sidebar ul input[type="checkbox"]:checked ~ .hide {
+  display: block;
 }
 
 .hide {
   display: none;
+  transition: ease-in-out;
 }
 
 .sidebar .menu-label {
@@ -70,7 +78,9 @@ nav .container {
   display: flex;
   align-items: center;
 }
-.sidebar .list p {
+.sidebar .list p,
+.sidebar .list label {
+  cursor: pointer;
   text-align: center;
   margin-left: 10px;
 }

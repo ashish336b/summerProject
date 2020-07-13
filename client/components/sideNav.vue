@@ -31,13 +31,14 @@
       <ul class="menu-list">
         <li>
           <a class="custom-list-container">
-            <div class="list">
+            <div class="list" @click="toggle($event)">
               <span class="iconify" data-icon="ic:twotone-dashboard" data-inline="false"></span>
-              <p>Invoice</p>
+              <label for="invoice">Invoice</label>
               <!-- <span class="iconify" data-icon="dashicons:arrow-down-alt2" data-inline="false"></span> -->
               <span class="iconify" data-icon="dashicons:arrow-right" data-inline="false"></span>
             </div>
           </a>
+          <input type="checkbox" id="invoice" />
           <ul class="hide">
             <li>
               <a href="#">Member</a>
@@ -105,7 +106,12 @@
 
 <script>
 export default {
-  data: () => ({})
+  data: () => ({}),
+  methods: {
+    toggle: function(event) {
+      console.log(event.target);
+    }
+  }
 };
 </script>
 
