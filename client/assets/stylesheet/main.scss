@@ -56,17 +56,17 @@ nav .container {
   color: #a6a2a2;
 }
 
-.sidebar ul  input[type="checkbox"] {
+.sidebar ul input[type="checkbox"] {
   display: none;
-}
-
-.sidebar ul input[type="checkbox"]:checked ~ .hide {
-  display: block;
 }
 
 .hide {
   display: none;
-  transition: ease-in-out;
+  transition: display 2s;
+}
+
+.sidebar ul input[type="checkbox"]:checked ~ .hide {
+  display: block;
 }
 
 .sidebar .menu-label {

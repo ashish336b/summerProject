@@ -31,14 +31,16 @@
       <ul class="menu-list">
         <li>
           <a class="custom-list-container">
-            <div class="list" @click="toggle($event)">
+            <div class="list">
               <span class="iconify" data-icon="ic:twotone-dashboard" data-inline="false"></span>
-              <label for="invoice">Invoice</label>
+              <p for="second">
+                <label for="second">Hello</label>
+              </p>
               <!-- <span class="iconify" data-icon="dashicons:arrow-down-alt2" data-inline="false"></span> -->
               <span class="iconify" data-icon="dashicons:arrow-right" data-inline="false"></span>
             </div>
           </a>
-          <input type="checkbox" id="invoice" />
+          <input type="checkbox" id="second" />
           <ul class="hide">
             <li>
               <a href="#">Member</a>
