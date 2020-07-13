@@ -7,12 +7,12 @@
     <aside class="menu">
       <ul class="menu-list">
         <li>
-          <a class="active">
+          <nuxt-link to="/about" class="active">
             <div class="list">
               <span class="iconify" data-icon="ic:twotone-dashboard" data-inline="false"></span>
-              <p>Dashboard</p>
+              <p>About</p>
             </div>
-          </a>
+          </nuxt-link>
         </li>
       </ul>
       <div class="divider mb-4"></div>
