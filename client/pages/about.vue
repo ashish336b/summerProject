@@ -5,7 +5,7 @@
       <div class="main" id="main">
         <topNav />
         <div class="main-content">
-           <h1>About Page</h1>
+          <h1>About Page</h1>
         </div>
       </div>
     </div>

@@ -22,13 +22,15 @@ nav .container {
   padding: 15px;
   background-color: #343a40;
 }
-.sidebar .sidebar-heading > div {
+.sidebar .sidebar-heading > div,
+.sidebar .sidebar-heading > a {
   font-size: 1.4rem;
   padding-bottom: 5px;
+  cursor: pointer;
 }
 
 .sidebar .divider {
-  border-top: 1px solid white;
+  border-top: 1px solid #575656;
   width: 100%;
 }
 
@@ -43,7 +45,7 @@ nav .container {
   background-color: transparent;
 }
 
-.sidebar .active {
+.sidebar .active , .sidebar .nuxt-link-active  {
   background-color: transparent;
   color: white;
 }
