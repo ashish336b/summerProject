@@ -3,6 +3,11 @@
     <nav class="navbar is-dark py-2" role="navigation" aria-label="main navigation">
       <div class="container custom-container">
         <div class="navbar-brand">
+          <a class="navbar-item custom-navbar-item">
+            <label for="sidebar" class="my-burger">
+              <span class="iconify" data-icon="cil:hamburger-menu" data-inline="false"></span>
+            </label>
+          </a>
           <a
             role="button"
             class="navbar-burger burger"

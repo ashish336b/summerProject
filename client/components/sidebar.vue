@@ -1,10 +1,11 @@
 <template>
   <div>
     <div class="main-body">
+      <input type="checkbox" id="sidebar" />
       <sideNav />
       <div class="main" id="main">
         <topNav />
-        <div class="main-content">
+        <div class="main-content px-1 py-2 mx-1 my-2">
           <slot></slot>
         </div>
       </div>
