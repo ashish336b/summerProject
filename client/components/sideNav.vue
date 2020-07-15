@@ -9,7 +9,7 @@
     <aside class="menu">
       <ul class="menu-list">
         <li class="my-1">
-          <nuxt-link to="/about">
+          <nuxt-link to="/dashboard">
             <div class="list">
               <span class="iconify" data-icon="ic:twotone-dashboard" data-inline="false"></span>
               <p>Dashboard</p>
@@ -18,16 +18,43 @@
         </li>
       </ul>
       <div class="divider mb-4"></div>
+      <p class="menu-label has-text-weight-bold">Ecommerce Section</p>
+      <ul class="menu-list">
+        <li>
+          <a class="custom-list-container">
+            <div class="list">
+              <span class="iconify" data-icon="ic:twotone-dashboard" data-inline="false"></span>
+              <p for="second">
+                <label for="second">Invoice</label>
+              </p>
+              <!-- <span class="iconify" data-icon="dashicons:arrow-down-alt2" data-inline="false"></span> -->
+              <span class="iconify" data-icon="dashicons:arrow-right" data-inline="false"></span>
+            </div>
+          </a>
+          <input type="checkbox" id="second" />
+          <ul class="hide">
+            <li>
+              <a href="#">Member</a>
+            </li>
+            <li>
+              <a href="#" class="dropdown-item">Member</a>
+            </li>
+            <li>
+              <a href="#" class="dropdown-item">Member</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
 
       <p class="menu-label has-text-weight-bold">Ecommerce</p>
       <ul class="menu-list">
         <li>
-          <a class>
+          <nuxt-link to="/purchase">
             <div class="list">
               <span class="iconify" data-icon="ri:medicine-bottle-line" data-inline="false"></span>
               <p>Purchase</p>
             </div>
-          </a>
+          </nuxt-link>
         </li>
       </ul>
       <ul class="menu-list">

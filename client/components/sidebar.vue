@@ -5,7 +5,7 @@
       <div class="main" id="main">
         <topNav />
         <div class="main-content">
-          <h1>About Page</h1>
+          <slot></slot>
         </div>
       </div>
     </div>
@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import topNav from "../components/topNavbar";
-import sideNav from "../components/sideNav";
+import topNav from "./topNavbar";
+import sideNav from "./sideNav";
 export default {
   components: {
     topNav,

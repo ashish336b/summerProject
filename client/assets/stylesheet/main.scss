@@ -14,7 +14,7 @@ nav {
 }
 
 nav .container {
-  max-width: 95%;
+  max-width: 95% !important;
 }
 
 .sidebar {
@@ -45,7 +45,8 @@ nav .container {
   background-color: transparent;
 }
 
-.sidebar .active , .sidebar .nuxt-link-active  {
+.sidebar .active,
+.sidebar .nuxt-link-active {
   background-color: transparent;
   color: white;
 }

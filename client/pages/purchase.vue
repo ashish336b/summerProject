@@ -4,7 +4,11 @@
       <sideNav />
       <div class="main" id="main">
         <topNav />
-        <div class="main-content"></div>
+        <div class="main-content">
+           <div class="hero">
+              <h1>Purchase</h1>
+           </div>
+        </div>
       </div>
     </div>
   </div>

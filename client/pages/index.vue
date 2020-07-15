@@ -1,24 +1,13 @@
 <template>
-  <div>
-    <div class="main-body">
-      <sideNav />
-      <div class="main" id="main">
-        <topNav />
-        <div class="main-content"></div>
-      </div>
+  <sidebar>
+    <div class="container">
+      <button class="button is-danger">Hello world</button>
     </div>
-  </div>
+  </sidebar>
 </template>
 
 <script>
-import topNav from "../components/topNavbar";
-import sideNav from "../components/sideNav";
-export default {
-  components: {
-    topNav,
-    sideNav
-  }
-};
+export default {};
 </script>
 
 <style>
