@@ -1,7 +1,7 @@
 <template>
   <sidebar>
     <div class="container">
-      <button class="button is-danger">Hello world buddy</button>
+      <button class="button is-danger">Hello world </button>
     </div>
   </sidebar>
 </template>
