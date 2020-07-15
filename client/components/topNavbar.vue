@@ -1,7 +1,7 @@
 <template>
   <header>
     <nav class="navbar is-dark py-2" role="navigation" aria-label="main navigation">
-      <div class="container">
+      <div class="container custom-container">
         <div class="navbar-brand">
           <a
             role="button"

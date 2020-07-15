@@ -1,7 +1,9 @@
 <template>
   <sidebar>
-    <div class="container">
-      <button class="button is-danger">Hello world test</button>
+    <div class="hero">
+      <div class="container">
+        <button class="button is-danger">Hello world</button>
+      </div>
     </div>
   </sidebar>
 </template>
