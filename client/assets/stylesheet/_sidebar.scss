@@ -12,11 +12,24 @@
     border-top: 1px solid #575656;
     width: 100%;
   }
-  .list svg {
-    padding: 0;
-    margin: 0;
-    font-size: 20px;
+  .list {
+    display: flex;
+    align-items: center;
+    svg {
+      padding: 0;
+      margin: 0;
+      font-size: 20px;
+    }
+    p {
+      cursor: pointer;
+      text-align: center;
+      margin-left: 10px;
+      & > label {
+        cursor: pointer;
+      }
+    }
   }
+
   .menu-list a:hover {
     color: white;
     background-color: transparent;
@@ -46,15 +59,5 @@
     font-size: 0.7rem;
     letter-spacing: 2px;
     color: hsl(0, 0%, 71%);
-  }
-  .list {
-    display: flex;
-    align-items: center;
-  }
-  .list label,
-  .list p {
-    cursor: pointer;
-    text-align: center;
-    margin-left: 10px;
   }
 }

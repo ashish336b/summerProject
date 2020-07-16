@@ -25,7 +25,7 @@
             <div class="list">
               <span class="iconify" data-icon="ic:twotone-dashboard" data-inline="false"></span>
               <p for="second">
-                <label for="second">Invoice</label>
+                <label for="second">Invoice part</label>
               </p>
               <!-- <span class="iconify" data-icon="dashicons:arrow-down-alt2" data-inline="false"></span> -->
               <span class="iconify" data-icon="dashicons:arrow-right" data-inline="false"></span>
