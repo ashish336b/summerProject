@@ -5,7 +5,7 @@
       <sideNav />
       <div class="main" id="main">
         <topNav />
-        <div class="main-content px-1 py-2 mx-1 my-2">
+        <div class="main-content px-1 py-1 mx-1 my-2">
           <slot></slot>
         </div>
       </div>

@@ -5,7 +5,9 @@
         <div class="navbar-brand">
           <a class="navbar-item custom-navbar-item">
             <label for="sidebar" class="my-burger">
-              <span class="iconify" data-icon="cil:hamburger-menu" data-inline="false"></span>
+              <!-- sidebar input filed is in sidebar.vue file -->
+              <!-- when this label is clicked input is checked and sidebar hides -->
+              <span class="iconify" data-icon="bi:toggles2" data-inline="false"></span>
             </label>
           </a>
           <a

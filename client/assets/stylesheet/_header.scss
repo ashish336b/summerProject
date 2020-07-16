@@ -1,0 +1,17 @@
+nav {
+   .custom-container {
+     max-width: 95%;
+     margin: auto;
+   }
+   .my-burger {
+     cursor: pointer;
+     color: white;
+     font-size: 1.3rem;
+   }
+   .custom-navbar-item {
+     padding-left: 0;
+   }
+   .custom-navbar-item:hover {
+     background: transparent !important;
+   }
+ }
