@@ -44,9 +44,9 @@
                   v-for="el in actions"
                   :key="el.event"
                   :class="el.class"
-                  @click="editEvent(el.event , item._id)"
+                  @click="editEvent(el.event , {id : item._id , params : tableData.params})"
                 >
-                <span v-html="el.value"></span>
+                  <span v-html="el.value"></span>
                   <!-- <span class="iconify" data-icon="ant-design:edit-filled" data-inline="false"></span> -->
                 </a>
               </td>
@@ -113,7 +113,7 @@
 <script>
 import axios from "axios";
 export default {
-  props: ["columns", "endpoint", "actions"],
+  props: ["columns", "endpoint", "actions", "parameters", "val"],
   data: () => ({
     data: "Hello World",
     tableData: {
@@ -189,10 +189,12 @@ export default {
       this.tableData.params.paginationLinks = this.range(start, end);
     },
     fetchPage: async function() {
+      if (this.parameters) {
+        this.tableData.params = this.parameters;
+      }
       this.tableData.url =
         this.endpoint +
         `?limit=${this.tableData.params.limit}&page=${this.tableData.params.page}&sortBy=${this.tableData.params.sortBy}&order=${this.tableData.params.order}&searchText=${this.tableData.params.searchedText}`;
-      console.log(this.tableData.url);
       var res = await axios.get(this.tableData.url);
       this.showPageNumber(
         this.tableData.params.page,
@@ -212,12 +214,18 @@ export default {
       this.fetchPage();
     }
   },
+  watch: {
+    val: function(newval, oldVal) {
+      this.fetchPage();
+    }
+  },
   computed: {
     startPoint: function() {
       return (this.tableData.params.page - 1) * this.tableData.params.limit + 1;
     }
   },
   async created() {
+    console.log(this.val);
     this.fetchPage();
   }
 };
