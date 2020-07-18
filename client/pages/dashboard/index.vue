@@ -5,10 +5,9 @@
         :endpoint="tableData.endpoint"
         :columns="tableData.columns"
         :actions="tableData.actions"
-        @pushEvent="editEvent($event)"
-        v-if="show"
-        :parameters="params"
-        :val="tableData.val"
+        @deleteEvent="deleteEvent($event)"
+        :parameters="tableData.params"
+        :refresh="tableData.refresh"
       ></datatable>
     </sidebar>
   </div>
@@ -21,10 +20,9 @@ export default {
     datatable
   },
   data: () => ({
-    params: null,
-    show: true,
     tableData: {
-      val: true,
+      params: null,
+      refresh: true,
       endpoint: "http://localhost:3000/api/enquiry",
       columns: [
         { field: "name", column: "name" },
@@ -33,7 +31,7 @@ export default {
       ],
       actions: [
         {
-          event: "pushEvent",
+          event: "editEvent",
           class: "is-white has-text-primary px-2 py-0 mx-0 my-0",
           value: `<span class="iconify" data-icon="ant-design:edit-filled" data-inline="false"></span>`
         },
@@ -46,21 +44,17 @@ export default {
     }
   }),
   methods: {
-    editEvent: function(event) {
-      // this.show = false;
+    deleteEvent: function(event) {
+      var conform = confirm("are you sure");
+      if (!conform) return;
       axios
         .post("http://localhost:3000/api/enquiry/edit", { id: event.id })
         .then(res => {
-          // this.show = true;
-          this.tableData.val = !this.tableData.val;
-          this.params = event.params;
           this.endpoint = "http://localhost:3000/api/enquiry";
+          /* include these below two line of code everytime for reactivity */
+          this.params = event.params;
+          this.tableData.refresh = !this.tableData.refresh; //just change value every time request is sent to refresh datatable
         });
-    },
-    computed: {
-      incrementKey: function() {
-        return this.tableData.key++;
-      }
     }
   }
 };

@@ -2,6 +2,9 @@
   <div>
     <div class="card table-container">
       <div class="px-3 py-3">
+        <!-- <div class="hero-load" v-if="tableData.params.loading">
+          <div class="loader"></div>
+        </div> -->
         <div class="card-header pb-2">
           <div class="search-and-select">
             <div class="has-select">
@@ -44,10 +47,9 @@
                   v-for="el in actions"
                   :key="el.event"
                   :class="el.class"
-                  @click="editEvent(el.event , {id : item._id , params : tableData.params})"
+                  @click="passEvent(el.event , {id : item._id , params : tableData.params})"
                 >
                   <span v-html="el.value"></span>
-                  <!-- <span class="iconify" data-icon="ant-design:edit-filled" data-inline="false"></span> -->
                 </a>
               </td>
             </tr>
@@ -55,7 +57,7 @@
           <tfoot>
             <tr>
               <td colspan="1">
-                <span>Showing {{startPoint}} to of {{tableData.data.totalData}}</span>
+                <span>Showing {{startPoint}} to {{startPoint + tableData.data.currentPageData -1}} of {{tableData.data.totalData}}</span>
               </td>
               <td colspan="4">
                 <div
@@ -113,7 +115,7 @@
 <script>
 import axios from "axios";
 export default {
-  props: ["columns", "endpoint", "actions", "parameters", "val"],
+  props: ["columns", "endpoint", "actions", "parameters", "refresh"],
   data: () => ({
     data: "Hello World",
     tableData: {
@@ -132,11 +134,12 @@ export default {
     }
   }),
   methods: {
-    editEvent: function(eventName, id) {
+    passEvent: function(eventName, id) {
       this.$emit(eventName, id);
     },
     sortBy: function(fieldName) {
       this.tableData.params.sortBy = fieldName;
+      this.tableData.params.loading = true;
       this.tableData.params.order =
         this.tableData.params.order === "asc" ? "desc" : "asc";
       this.fetchPage();
@@ -147,7 +150,8 @@ export default {
     },
     anotherPage: function(id) {
       if (!id) return;
-      (this.tableData.params.loading = true), (this.tableData.params.page = id);
+      this.tableData.params.loading = true;
+      this.tableData.params.page = id;
       this.fetchPage();
     },
     range: function(start, stop, step) {
@@ -200,13 +204,15 @@ export default {
         this.tableData.params.page,
         res.data.totalNumberOfPage
       );
-      this.tableData.data = res.data;
-      setInterval(
+      setTimeout(
         function() {
           this.tableData.params.loading = false;
         }.bind(this),
         900
       );
+      if (this.tableData.params.loading) {
+        this.tableData.data = res.data;
+      }
     },
     searchData() {
       this.tableData.params.page = 1;
@@ -215,7 +221,7 @@ export default {
     }
   },
   watch: {
-    val: function(newval, oldVal) {
+    refresh: function(newval, oldVal) {
       this.fetchPage();
     }
   },
@@ -237,6 +243,20 @@ export default {
   display: flex;
   .has-select {
     width: 100%;
+  }
+}
+.table-container {
+  & > div {
+    position: relative;
+    .hero-load {
+      position: absolute;
+      top: 30%;
+      left: 40%;
+    }
+  }
+  .loader {
+    width: 5rem;
+    height: 5rem;
   }
 }
 .custom-table {
