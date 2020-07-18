@@ -57,6 +57,11 @@ export default {
           event: "deleteEvent",
           class: "is-white has-text-danger px-2 py-0 mx-0 my-0",
           value: `<span class="iconify" data-icon="ant-design:delete-filled" data-inline="false"></span>`
+        },
+        {
+          event: "deleteEvent",
+          class: "is-white has-text-danger px-2 py-0 mx-0 my-0",
+          value: `<span class="iconify" data-icon="ant-design:delete-filled" data-inline="false"></span>`
         }
       ]
     }
