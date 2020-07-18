@@ -1,8 +1,12 @@
 <template>
   <div>
     <sidebar>
-      <datatable endpoint="http://localhost:3000/api/medicine" :columns="tableData.columns">
-      </datatable>
+      <datatable
+        endpoint="http://localhost:3000/api/enquiry/paginate"
+        :columns="tableData.columns"
+        :actions="tableData.actions"
+        @pushEvent="editEvent($event)"
+      ></datatable>
     </sidebar>
   </div>
 </template>
@@ -15,12 +19,23 @@ export default {
   data: () => ({
     data: "Hello World",
     tableData: {
-      columns: ["Composition", "Group", "Discount", "Name", "Action"],
+      columns: [
+        { field: "name", column: "name" },
+        { field: "address", column: "address" },
+        { field: "email", column: "Email" }
+      ],
+      actions: [
+        {
+          event: "pushEvent",
+          class: "is-white has-text-primary px-2 py-0 mx-0 my-0",
+          value: `<span class="iconify" data-icon="ant-design:edit-filled" data-inline="false"></span>`
+        }
+      ]
     }
   }),
   methods: {
-    hello: function() {
-      console.log("hello");
+    editEvent: function(event) {
+      console.log(event);
     }
   }
 };

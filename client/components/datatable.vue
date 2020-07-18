@@ -30,23 +30,24 @@
         <table class="table is-narrow custom-table">
           <thead class="has-background-dark">
             <tr>
-              <th class="sort" v-for="i in columns" :key="i">
-                <span>{{i}}</span>
+              <th class="sort" v-for="i in columns" :key="i.column" @click="sortBy(i.field)">
+                <span>{{i.column}}</span>
               </th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="item in tableData.data.data" :key="item._id">
-              <td>{{item.composition}}</td>
-              <td>{{item.group_name ? item.group_name : "none"}}</td>
-              <td>{{item.discount_price}}</td>
-              <td>{{item.name}}</td>
+              <td v-for="i in columns" :key="i.column">{{item[i.field]}}</td>
               <td class="actions">
-                <a class="is-white has-text-primary px-2 py-0 mx-0 my-0" @click="hello()">
-                  <span class="iconify" data-icon="ant-design:edit-filled" data-inline="false"></span>
-                </a>
-                <a class="is-white has-text-danger is-medium px-0 py-0 mx-0 my-0">
-                  <span class="iconify" data-icon="ant-design:delete-filled" data-inline="false"></span>
+                <a
+                  v-for="el in actions"
+                  :key="el.event"
+                  :class="el.class"
+                  @click="editEvent(el.event , item._id)"
+                >
+                <span v-html="el.value"></span>
+                  <!-- <span class="iconify" data-icon="ant-design:edit-filled" data-inline="false"></span> -->
                 </a>
               </td>
             </tr>
@@ -112,7 +113,7 @@
 <script>
 import axios from "axios";
 export default {
-  props: ["columns", "endpoint"],
+  props: ["columns", "endpoint", "actions"],
   data: () => ({
     data: "Hello World",
     tableData: {
@@ -131,9 +132,17 @@ export default {
     }
   }),
   methods: {
+    editEvent: function(eventName, id) {
+      this.$emit(eventName, id);
+    },
+    sortBy: function(fieldName) {
+      this.tableData.params.sortBy = fieldName;
+      this.tableData.params.order =
+        this.tableData.params.order === "asc" ? "desc" : "asc";
+      this.fetchPage();
+    },
     onChange(event) {
       this.tableData.params.limit = event.target.value;
-      console.log(this.tableData.limit);
       this.fetchPage();
     },
     anotherPage: function(id) {
