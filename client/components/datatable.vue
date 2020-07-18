@@ -15,25 +15,32 @@
               </div>
               <span class="pl-1">Entry</span>
             </div>
-            <div class="has-search">
-              <input class="input is-small" type="text" placeholder="Text input" />
+            <div class="has-search is-flex">
+              <label for class="pr-3">Search</label>
+              <input
+                class="input is-small"
+                type="text"
+                v-model="tableData.params.searchedText"
+                @keyup="searchData()"
+                placeholder="Search"
+              />
             </div>
           </div>
         </div>
         <table class="table is-narrow custom-table">
           <thead class="has-background-dark">
             <tr>
-              <th class="sort" v-for="i in tableData.columns" :key="i">
+              <th class="sort" v-for="i in columns" :key="i">
                 <span>{{i}}</span>
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in rows" :key="item.sn">
-              <td>{{item.sn}}</td>
+            <tr v-for="item in tableData.data.data" :key="item._id">
+              <td>{{item.composition}}</td>
+              <td>{{item.group_name ? item.group_name : "none"}}</td>
+              <td>{{item.discount_price}}</td>
               <td>{{item.name}}</td>
-              <td>{{item.class}}</td>
-              <td>{{item.rollNo}}</td>
               <td class="actions">
                 <a class="is-white has-text-primary px-2 py-0 mx-0 my-0" @click="hello()">
                   <span class="iconify" data-icon="ant-design:edit-filled" data-inline="false"></span>
@@ -46,46 +53,50 @@
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="2">
+              <td colspan="1">
                 <span>Showing Content 1 of 100</span>
               </td>
-              <td colspan="3">
+              <td colspan="4">
                 <div
                   class="pagination is-rounded is-small"
                   role="navigation"
                   aria-label="pagination"
                 >
                   <ul class="pagination-list">
-                    <li>
-                      <a class="pagination-link">First</a>
-                    </li>
-                    <li>
-                      <a class="pagination-link">Prev</a>
-                    </li>
-                    <li>
-                      <a class="pagination-link" aria-label="Goto page 1">1</a>
-                    </li>
-                    <li>
-                      <a class="pagination-link" aria-label="Goto page 45">2</a>
-                    </li>
-                    <li>
+                    <li @click="anotherPage(1)">
                       <a
-                        class="pagination-link is-current"
-                        aria-label="Page 46"
-                        aria-current="page"
-                      >3</a>
+                        class="pagination-link"
+                        :class="{'pagination-ellipsis': tableData.data.currentPage == 1}"
+                      >First</a>
                     </li>
-                    <li>
-                      <a class="pagination-link" aria-label="Goto page 47">4</a>
+                    <li @click="anotherPage(tableData.data.prevPage)">
+                      <a
+                        class="pagination-link"
+                        :class="{'pagination-ellipsis': tableData.data.currentPage == 1}"
+                      >Prev</a>
                     </li>
-                    <li>
-                      <a class="pagination-link" aria-label="Goto page 86">5</a>
+                    <li
+                      @click="anotherPage(n)"
+                      v-for="n in tableData.params.paginationLinks"
+                      :key="n"
+                    >
+                      <a
+                        class="pagination-link"
+                        :class="{ 'is-current': tableData.params.page === n }"
+                        aria-label="Goto page 1"
+                      >{{ n }}</a>
                     </li>
-                    <li>
-                      <a class="pagination-link" aria-label="Goto page 47">Next</a>
+                    <li @click="anotherPage(tableData.data.nextPage)">
+                      <a
+                        class="pagination-next"
+                        :class="{'pagination-ellipsis': tableData.data.currentPage == tableData.data.totalNumberOfPage}"
+                      >next</a>
                     </li>
-                    <li>
-                      <a class="pagination-link" aria-label="Goto page 86">Last</a>
+                    <li @click="anotherPage(tableData.data.totalNumberOfPage)">
+                      <a
+                        class="pagination-next"
+                        :class="{'pagination-ellipsis': tableData.data.currentPage == tableData.data.totalNumberOfPage}"
+                      >Last</a>
                     </li>
                   </ul>
                 </div>
@@ -99,18 +110,96 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
-  props: ["rows"],
+  props: ["columns", "endpoint"],
   data: () => ({
     data: "Hello World",
     tableData: {
-      columns: ["SN", "Name", "Class", "Roll No", "Action"]
+      params: {
+        page: 1,
+        limit: 10,
+        sortBy: "name",
+        order: "desc",
+        searchedText: "",
+        totalPage: "",
+        paginationLinks: [],
+        loading: true
+      },
+      data: [],
+      url: ""
     }
   }),
   methods: {
-    hello: function() {
-      console.log("hello");
+    anotherPage: function(id) {
+      if (!id) return;
+      (this.tableData.params.loading = true), (this.tableData.params.page = id);
+      this.fetchPage();
+    },
+    range: function(start, stop, step) {
+      var a = [start],
+        b = start;
+      while (b < stop) {
+        a.push((b += step || 1));
+      }
+      return b > stop ? a.slice(0, -1) : a;
+    },
+    showPageNumber: function(currentPage, totalPage) {
+      this.tableData.params.paginationLinks = [];
+      var current = currentPage;
+      var pages_to_show = 5;
+      var end;
+      var start;
+      if (totalPage < pages_to_show) {
+        start = 1;
+        end = totalPage;
+      } else {
+        if (current > Math.ceil(pages_to_show / 2)) {
+          start =
+            current - Math.floor(pages_to_show / 2) == 0
+              ? 1
+              : current - Math.floor(pages_to_show / 2);
+
+          end =
+            current + pages_to_show >= totalPage
+              ? totalPage
+              : current + Math.floor(pages_to_show / 2);
+        } else {
+          start = 1;
+          end = pages_to_show;
+        }
+        if (end - start < pages_to_show - 1) {
+          start = end - (pages_to_show - 1);
+        }
+      }
+      this.tableData.params.paginationLinks = this.range(start, end);
+    },
+    fetchPage: async function() {
+      this.tableData.url =
+        this.endpoint +
+        `?limit=${this.tableData.params.limit}&page=${this.tableData.params.page}&sortBy=${this.tableData.params.sortBy}&order=${this.tableData.params.order}&searchText=${this.tableData.params.searchedText}`;
+      console.log(this.tableData.url);
+      var res = await axios.get(this.tableData.url);
+      this.showPageNumber(
+        this.tableData.params.page,
+        res.data.totalNumberOfPage
+      );
+      this.tableData.data = res.data;
+      setInterval(
+        function() {
+          this.tableData.params.loading = false;
+        }.bind(this),
+        900
+      );
+    },
+    searchData() {
+      this.tableData.params.page = 1;
+      this.tableData.params.loading = true;
+      this.fetchPage();
     }
+  },
+  async created() {
+    this.fetchPage();
   }
 };
 </script>

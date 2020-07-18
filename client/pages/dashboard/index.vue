@@ -1,8 +1,7 @@
 <template>
   <div>
     <sidebar>
-      <datatable :rows="tableData.rows">
-        <div></div>
+      <datatable endpoint="http://localhost:3000/api/medicine" :columns="tableData.columns">
       </datatable>
     </sidebar>
   </div>
@@ -16,33 +15,7 @@ export default {
   data: () => ({
     data: "Hello World",
     tableData: {
-      columns: ["SN", "Name", "Class", "Roll No", "Action"],
-      rows: [
-        {
-          sn: "1",
-          name: "Ashish",
-          class: "12",
-          rollNo: "12"
-        },
-        {
-          sn: "2",
-          name: "Ashish",
-          class: "12",
-          rollNo: "12"
-        },
-        {
-          sn: "3",
-          name: "Ashish",
-          class: "12",
-          rollNo: "12"
-        },
-        {
-          sn: "4",
-          name: "Ashish",
-          class: "12",
-          rollNo: "12"
-        }
-      ]
+      columns: ["Composition", "Group", "Discount", "Name", "Action"],
     }
   }),
   methods: {
