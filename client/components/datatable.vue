@@ -7,10 +7,10 @@
             <div class="has-select">
               <span class="pr-1">Show</span>
               <div class="select is-small">
-                <select>
-                  <option>10</option>
-                  <option>20</option>
-                  <option>30</option>
+                <select @change="onChange($event)">
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
                 </select>
               </div>
               <span class="pl-1">Entry</span>
@@ -54,7 +54,7 @@
           <tfoot>
             <tr>
               <td colspan="1">
-                <span>Showing Content 1 of 100</span>
+                <span>Showing {{startPoint}} to of {{tableData.data.totalData}}</span>
               </td>
               <td colspan="4">
                 <div
@@ -131,6 +131,11 @@ export default {
     }
   }),
   methods: {
+    onChange(event) {
+      this.tableData.params.limit = event.target.value;
+      console.log(this.tableData.limit);
+      this.fetchPage();
+    },
     anotherPage: function(id) {
       if (!id) return;
       (this.tableData.params.loading = true), (this.tableData.params.page = id);
@@ -196,6 +201,11 @@ export default {
       this.tableData.params.page = 1;
       this.tableData.params.loading = true;
       this.fetchPage();
+    }
+  },
+  computed: {
+    startPoint: function() {
+      return (this.tableData.params.page - 1) * this.tableData.params.limit + 1;
     }
   },
   async created() {
