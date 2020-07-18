@@ -36,7 +36,7 @@ export default {
           field: "address",
           column: "address",
           render: function(field) {
-            return !field ? "ok" : field;
+            return !field ? "..." : field;
           }
         },
         {
@@ -67,7 +67,6 @@ export default {
         .post("http://localhost:3000/api/enquiry/edit", { id: event.id })
         .then(res => {
           this.tableData.show = true;
-
           // this.tableData.endpoint = "http://localhost:3000/api/enquiry";
           /* include these below two line of code everytime for reactivity */
           this.tableData.params = event.params;

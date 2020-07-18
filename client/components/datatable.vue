@@ -2,9 +2,6 @@
   <div>
     <div class="card table-container">
       <div class="px-3 py-3">
-        <!-- <div class="hero-load" v-if="tableData.params.loading">
-          <div class="loader"></div>
-        </div>-->
         <div class="card-header pb-2">
           <div class="search-and-select">
             <div class="has-select">
@@ -42,14 +39,16 @@
           <tbody>
             <tr v-for="item in tableData.data.data" :key="item._id">
               <td v-for="i in columns" :key="i.column" v-html="renderData(i,item)"></td>
+
               <td class="actions">
                 <a
                   v-for="el in actions"
                   :key="el.event"
                   :class="el.class"
-                  @click="passEvent(el.event , {id : item._id , params : tableData.params})"
+                  @click="editEvent(el.event , {id : item._id , params : tableData.params})"
                 >
                   <span v-html="el.value"></span>
+                  <!-- <span class="iconify" data-icon="ant-design:edit-filled" data-inline="false"></span> -->
                 </a>
               </td>
             </tr>
@@ -134,12 +133,11 @@ export default {
     }
   }),
   methods: {
-    passEvent: function(eventName, id) {
+    editEvent: function(eventName, id) {
       this.$emit(eventName, id);
     },
     sortBy: function(fieldName) {
       this.tableData.params.sortBy = fieldName;
-      this.tableData.params.loading = true;
       this.tableData.params.order =
         this.tableData.params.order === "asc" ? "desc" : "asc";
       this.fetchPage();
@@ -150,8 +148,7 @@ export default {
     },
     anotherPage: function(id) {
       if (!id) return;
-      this.tableData.params.loading = true;
-      this.tableData.params.page = id;
+      (this.tableData.params.loading = true), (this.tableData.params.page = id);
       this.fetchPage();
     },
     range: function(start, stop, step) {
@@ -177,7 +174,6 @@ export default {
             current - Math.floor(pages_to_show / 2) == 0
               ? 1
               : current - Math.floor(pages_to_show / 2);
-
           end =
             current + pages_to_show >= totalPage
               ? totalPage
@@ -204,15 +200,13 @@ export default {
         this.tableData.params.page,
         res.data.totalNumberOfPage
       );
-      setInterval(
+      this.tableData.data = res.data;
+      setTimeout(
         function() {
           this.tableData.params.loading = false;
         }.bind(this),
         900
       );
-      if (this.tableData.params.loading) {
-        this.tableData.data = res.data;
-      }
     },
     searchData() {
       this.tableData.params.page = 1;
@@ -234,6 +228,7 @@ export default {
     }
   },
   async created() {
+    console.log(this.val);
     this.fetchPage();
   }
 };
@@ -245,20 +240,6 @@ export default {
   display: flex;
   .has-select {
     width: 100%;
-  }
-}
-.table-container {
-  & > div {
-    position: relative;
-    .hero-load {
-      position: absolute;
-      top: 30%;
-      left: 40%;
-    }
-  }
-  .loader {
-    width: 5rem;
-    height: 5rem;
   }
 }
 .custom-table {
