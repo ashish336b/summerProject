@@ -25,9 +25,27 @@ export default {
       refresh: true,
       endpoint: "http://localhost:3000/api/enquiry",
       columns: [
-        { field: "name", column: "name" },
-        { field: "address", column: "address" },
-        { field: "email", column: "Email" }
+        {
+          field: "name",
+          column: "name",
+          render: function(field) {
+            return !field ? "ok" : field;
+          }
+        },
+        {
+          field: "address",
+          column: "address",
+          render: function(field) {
+            return !field ? "ok" : field;
+          }
+        },
+        {
+          field: "email",
+          column: "Email",
+          render: function(field) {
+            return !field ? "<p class='has-text-primary'>No Email</p>" : field;
+          }
+        }
       ],
       actions: [
         {
@@ -45,14 +63,14 @@ export default {
   }),
   methods: {
     deleteEvent: function(event) {
-      var conform = confirm("are you sure");
-      if (!conform) return;
       axios
         .post("http://localhost:3000/api/enquiry/edit", { id: event.id })
         .then(res => {
-          this.endpoint = "http://localhost:3000/api/enquiry";
+          this.tableData.show = true;
+
+          // this.tableData.endpoint = "http://localhost:3000/api/enquiry";
           /* include these below two line of code everytime for reactivity */
-          this.params = event.params;
+          this.tableData.params = event.params;
           this.tableData.refresh = !this.tableData.refresh; //just change value every time request is sent to refresh datatable
         });
     }

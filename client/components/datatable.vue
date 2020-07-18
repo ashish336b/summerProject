@@ -4,7 +4,7 @@
       <div class="px-3 py-3">
         <!-- <div class="hero-load" v-if="tableData.params.loading">
           <div class="loader"></div>
-        </div> -->
+        </div>-->
         <div class="card-header pb-2">
           <div class="search-and-select">
             <div class="has-select">
@@ -41,7 +41,7 @@
           </thead>
           <tbody>
             <tr v-for="item in tableData.data.data" :key="item._id">
-              <td v-for="i in columns" :key="i.column">{{item[i.field]}}</td>
+              <td v-for="i in columns" :key="i.column" v-html="renderData(i,item)"></td>
               <td class="actions">
                 <a
                   v-for="el in actions"
@@ -204,7 +204,7 @@ export default {
         this.tableData.params.page,
         res.data.totalNumberOfPage
       );
-      setTimeout(
+      setInterval(
         function() {
           this.tableData.params.loading = false;
         }.bind(this),
@@ -218,6 +218,9 @@ export default {
       this.tableData.params.page = 1;
       this.tableData.params.loading = true;
       this.fetchPage();
+    },
+    renderData: function(i, item) {
+      return "render" in i ? i.render(item[i.field]) : item[i.field];
     }
   },
   watch: {
@@ -231,7 +234,6 @@ export default {
     }
   },
   async created() {
-    console.log(this.val);
     this.fetchPage();
   }
 };
