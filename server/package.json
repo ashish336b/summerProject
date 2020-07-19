@@ -1,0 +1,32 @@
+{
+  "name": "summerproject-backend",
+  "version": "1.0.0",
+  "description": "Backend for summer project",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon bin/www.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashish336b/summerProject.git"
+  },
+  "author": "Ashish Bhandari",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ashish336b/summerProject/issues"
+  },
+  "homepage": "https://github.com/ashish336b/summerProject#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "http-errors": "^1.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.19",
+    "mongoose": "^5.9.25",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
