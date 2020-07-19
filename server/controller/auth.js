@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const userModel = require("../models/userModel");
 const bcrypt = require("bcryptjs");
-const {verifyToken} = require("../middleware/verifyToken");
+const { verifyToken } = require("../middleware/verifyToken");
+const paginate = require("../middleware/paginate");
 /**
  * method : POST
  * url : /api/auth/login
@@ -69,7 +70,9 @@ router.post("/login", async (req, res, next) => {
     });
   }
   user.password = null;
-  var token = await jwt.sign({ user: user }, "12helloworld12",{expiresIn : '3h'});
+  var token = await jwt.sign({ user: user }, "12helloworld12", {
+    expiresIn: "3h",
+  });
   res.json({ token: token, error: null });
 });
 
@@ -77,8 +80,43 @@ router.post("/login", async (req, res, next) => {
  * method : get
  * url : /api/auth/me
  */
-router.get("/me", verifyToken ,(req , res , next)=>{
-    res.send("Welcome Ashish");
-})
+router.get("/me", verifyToken, (req, res, next) => {
+  res.send("Welcome Ashish");
+});
 
+/**
+ * method : get
+ * url : /api/auth/list
+ */
+router.get(
+  "/list",
+  paginate(userModel, {
+    searchableField: ["name"],
+    filterBy: { isDeleted: false },
+    select: [],
+  }),
+  (req, res, next) => {
+    res.json(res.paginatedResults);
+  }
+);
+
+/**
+ * method : GET
+ * url : /api/auth/generateUser
+ */
+/* router.get("/generateUser", async (req, res, next) => {
+  const axios = require("axios");
+  for (let i = 0; i <= 100; i++) {
+    await axios.post("http://localhost:3000/api/auth/register", {
+      firstName: "Ashish",
+      lastName: "Bhandari",
+      role: "admin",
+      address: "balkot",
+      username: "ashish336b" + i,
+      password: "11111111",
+      confirmPassword: "11111111",
+    });
+  }
+  res.send("success");
+}); */
 module.exports = router;
