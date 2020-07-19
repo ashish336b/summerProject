@@ -112,7 +112,6 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   props: ["columns", "endpoint", "actions", "parameters", "refresh"],
   data: () => ({
@@ -195,7 +194,7 @@ export default {
       this.tableData.url =
         this.endpoint +
         `?limit=${this.tableData.params.limit}&page=${this.tableData.params.page}&sortBy=${this.tableData.params.sortBy}&order=${this.tableData.params.order}&searchText=${this.tableData.params.searchedText}`;
-      var res = await axios.get(this.tableData.url);
+      var res = await this.$axios.get(this.tableData.url);
       this.showPageNumber(
         this.tableData.params.page,
         res.data.totalNumberOfPage

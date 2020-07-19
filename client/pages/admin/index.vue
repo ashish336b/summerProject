@@ -14,7 +14,6 @@
 </template>
 <script>
 import datatable from "../../components/datatable";
-import axios from "axios";
 export default {
   components: {
     datatable
@@ -70,9 +69,8 @@ export default {
   }),
   methods: {
     deleteEvent: function(event) {
-      console.log(event.id);
-      axios
-        .post("http://localhost:3000/api/auth/delete", { id: event.id })
+      this.$axios
+        .post("/auth/delete", { id: event.id })
         .then(res => {
           this.tableData.params = event.params;
           this.tableData.refresh = !this.tableData.refresh;

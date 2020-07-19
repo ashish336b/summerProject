@@ -51,13 +51,16 @@ export default {
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    "@nuxtjs/auth"
+    "@nuxtjs/auth",
+    "@nuxtjs/axios"
   ],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    baseURL : 'http://localhost:3000/api'
+  },
   /*
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
