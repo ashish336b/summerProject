@@ -79,10 +79,13 @@ export default {
       }
     },
     redirect: {
-      login: "/login",
+      login: "/",
       home: "/admin",
       logout: "/"
     }
+  },
+  router: {
+    middleware: ['auth']
   },
   /*
    ** Build configuration

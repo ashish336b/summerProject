@@ -15,6 +15,7 @@
 <script>
 import datatable from "../../components/datatable";
 export default {
+  middleware: "auth",
   components: {
     datatable
   },
@@ -63,18 +64,16 @@ export default {
           event: "deleteEvent",
           class: "is-white has-text-danger px-2 py-0 mx-0 my-0",
           value: `<span class="iconify" data-icon="ant-design:delete-filled" data-inline="false"></span>`
-        },
+        }
       ]
     }
   }),
   methods: {
     deleteEvent: function(event) {
-      this.$axios
-        .post("/auth/delete", { id: event.id })
-        .then(res => {
-          this.tableData.params = event.params;
-          this.tableData.refresh = !this.tableData.refresh;
-        });
+      this.$axios.post("/auth/delete", { id: event.id }).then(res => {
+        this.tableData.params = event.params;
+        this.tableData.refresh = !this.tableData.refresh;
+      });
     }
   }
 };
