@@ -76,11 +76,12 @@ export default {
           logout: { url: "/api/auth/logout", method: "post" },
           user: { url: "/api/auth/me", method: "get", propertyName: "user" }
         }
-      },
-      redirect: {
-        home: "/admin",
-        logout: "/"
       }
+    },
+    redirect: {
+      login: "/login",
+      home: "/admin",
+      logout: "/"
     }
   },
   /*

@@ -70,7 +70,6 @@ export default {
   methods: {
     login: async function() {
       this.$auth.loginWith("local", { data: this.form });
-      this.$router.push("/admin");
     }
   }
 };
