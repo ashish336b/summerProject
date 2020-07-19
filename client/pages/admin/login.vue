@@ -6,7 +6,7 @@
           <div class="columns is-centered">
             <div class="column is-5-tablet is-4-desktop is-5-widescreen">
               <div class="box">
-                <h1 class="has-text-centered has-text-info is-size-4">User Login Page</h1>
+                <h1 class="has-text-centered has-text-info is-size-4">Admin Login Page</h1>
                 <div class="field">
                   <label for class="label">Username</label>
                   <div class="control has-icons-left">
@@ -61,6 +61,7 @@
 
 <script>
 export default {
+  middleware: "auth",
   data: () => ({
     form: {
       username: "",
@@ -69,7 +70,7 @@ export default {
   }),
   methods: {
     login: async function() {
-      /*  */
+      await this.$auth.loginWith("admin", { data: this.form });
     }
   },
   created() {

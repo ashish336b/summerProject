@@ -1,8 +1,8 @@
 <template>
   <div class="sidebar" id="sidebar">
     <div class="sidebar-heading">
-      <nuxt-link to="/">
-        <div class="has-text-primary has-text-centered">Admin Section</div>
+      <nuxt-link to="/admin/dashboard">
+        <div class="has-text-primary has-text-centered">User Section</div>
       </nuxt-link>
     </div>
     <div class="divider mt-4"></div>
@@ -18,7 +18,7 @@
         </li>
       </ul>
       <div class="divider mb-4"></div>
-      <p class="menu-label has-text-weight-bold">Ecommerce Section</p>
+      <p class="menu-label has-text-weight-bold">User Section</p>
       <ul class="menu-list">
         <li>
           <a class="custom-list-container">

@@ -69,7 +69,8 @@ export default {
       namespace: "admin"
     },
     strategies: {
-      local: {
+      admin: {
+        _scheme: "local",
         endpoints: {
           login: {
             url: "/api/auth/login",
@@ -82,14 +83,14 @@ export default {
       }
     },
     redirect: {
-      login: "/",
-      home: "/admin",
-      logout: "/"
+      login: "/admin/login",
+      home: "/admin/dashboard",
+      logout: "/admin/login"
     }
   },
-  router: {
+  /*   router: {
     middleware: ["auth"]
-  },
+  }, */
   /*
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
