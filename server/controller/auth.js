@@ -75,13 +75,12 @@ router.post("/login", async (req, res, next) => {
   });
   res.json({ token: token, error: null });
 });
-
 /**
  * method : get
- * url : /api/auth/me
+ * url : /api/auth/user
  */
 router.get("/me", verifyToken, (req, res, next) => {
-  res.send("Welcome Ashish");
+  res.send(req.feUser);
 });
 
 /**

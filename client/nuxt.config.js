@@ -59,7 +59,25 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL : 'http://localhost:3000/api'
+    baseURL: "http://localhost:3000"
+  },
+  /**
+   * auth
+   */
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: "/api/auth/login",
+            method: "post",
+            propertyName: "token"
+          },
+          logout: { url: "/api/auth/logout", method: "post" },
+          user: { url: "/api/auth/me", method: "get", propertyName: "user" }
+        }
+      }
+    }
   },
   /*
    ** Build configuration
