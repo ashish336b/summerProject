@@ -82,6 +82,9 @@ router.post("/login", async (req, res, next) => {
 router.get("/me", verifyToken, (req, res, next) => {
   res.send(req.feUser);
 });
+router.post("/logout", verifyToken, (req, res, next) => {
+  res.send("success");
+});
 
 /**
  * method : get

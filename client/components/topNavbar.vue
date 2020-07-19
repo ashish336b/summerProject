@@ -27,8 +27,10 @@
             <a class="navbar-link has-text-white mr-1">Ashish Bhandari</a>
             <div class="navbar-dropdown">
               <a class="navbar-item">
-                <span class="iconify" data-icon="carbon:logout" data-inline="false"></span>
-                <span class="px-2 has-text-weight-bold">Logout</span>
+                <div @click="logout()">
+                  <span class="iconify" data-icon="carbon:logout" data-inline="false"></span>
+                  <span class="px-2 has-text-weight-bold">Logout</span>
+                </div>
               </a>
             </div>
           </div>
@@ -39,7 +41,14 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data: () => ({}),
+  methods: {
+    logout: function() {
+      this.$auth.logout();
+    }
+  }
+};
 </script>
 
 <style>
