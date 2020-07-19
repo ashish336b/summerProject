@@ -17,6 +17,7 @@ router.post("/register", async (req, res, next) => {
   /* check if phoneNumber already exits */
   var getUser = await userModel.findOne({
     username: req.body.username,
+    isDeleted: false,
   });
   if (getUser)
     return res.send({
@@ -56,6 +57,35 @@ router.post("/login", async (req, res, next) => {
     username: req.body.username,
     isDeleted: false,
     role: "admin",
+  });
+  if (!user) {
+    return res.status(403).json({
+      error: true,
+      message: "Password Or username doesn't Match",
+    });
+  }
+  if (!bcrypt.compareSync(req.body.password, user.password)) {
+    return res.status(403).json({
+      error: true,
+      message: "Password Or username doesn't Match",
+    });
+  }
+  user.password = null;
+  var token = await jwt.sign({ user: user }, "12helloworld12", {
+    expiresIn: "3h",
+  });
+  res.json({ token: token, error: null });
+});
+/**
+ * method : get
+ * url : /api/auth/user/login
+ */
+router.post("/user/login", async (req, res, next) => {
+  const jwt = require("jsonwebtoken");
+  const user = await userModel.findOne({
+    username: req.body.username,
+    isDeleted: false,
+    role: "user",
   });
   if (!user) {
     return res.status(403).json({

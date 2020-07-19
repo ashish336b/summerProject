@@ -65,6 +65,9 @@ export default {
    * auth
    */
   auth: {
+    vuex: {
+      namespace: "admin"
+    },
     strategies: {
       local: {
         endpoints: {
@@ -85,7 +88,7 @@ export default {
     }
   },
   router: {
-    middleware: ['auth']
+    middleware: ["auth"]
   },
   /*
    ** Build configuration

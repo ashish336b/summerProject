@@ -71,6 +71,9 @@ export default {
     login: async function() {
       this.$auth.loginWith("local", { data: this.form });
     }
+  },
+  created() {
+    console.log("user", this.$auth.loggedIn);
   }
 };
 </script>

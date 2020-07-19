@@ -15,7 +15,6 @@
 <script>
 import datatable from "../../components/datatable";
 export default {
-  middleware: "auth",
   components: {
     datatable
   },
@@ -70,11 +69,14 @@ export default {
   }),
   methods: {
     deleteEvent: function(event) {
-      this.$axios.post("/auth/delete", { id: event.id }).then(res => {
+      this.$axios.post("api/auth/delete", { id: event.id }).then(res => {
         this.tableData.params = event.params;
         this.tableData.refresh = !this.tableData.refresh;
       });
     }
+  },
+  created() {
+    console.log("user", this.$store.state.admin.user);
   }
 };
 </script>
