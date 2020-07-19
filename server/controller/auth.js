@@ -101,6 +101,15 @@ router.get(
 );
 
 /**
+ * method : POST
+ * url : /api/auth/delete
+ */
+router.post("/delete", async (req, res, next) => {
+  await userModel.findByIdAndUpdate(req.body.id, { isDeleted: true });
+  res.send("success");
+});
+
+/**
  * method : GET
  * url : /api/auth/generateUser
  */
