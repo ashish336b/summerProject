@@ -156,7 +156,7 @@ export default {
         b = start;
       while (b < stop) {
         a.push((b += step || 1));
-      }
+      } //status
       return b > stop ? a.slice(0, -1) : a;
     },
     showPageNumber: function(currentPage, totalPage) {
