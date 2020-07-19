@@ -9,7 +9,7 @@
     <aside class="menu">
       <ul class="menu-list">
         <li class="my-1">
-          <nuxt-link to="/dashboard">
+          <nuxt-link to="/admin">
             <div class="list">
               <span class="iconify" data-icon="ic:twotone-dashboard" data-inline="false"></span>
               <p>Dashboard</p>
@@ -49,7 +49,7 @@
       <p class="menu-label has-text-weight-bold">Ecommerce</p>
       <ul class="menu-list">
         <li>
-          <nuxt-link to="/purchase">
+          <nuxt-link to="#">
             <div class="list">
               <span class="iconify" data-icon="ri:medicine-bottle-line" data-inline="false"></span>
               <p>Purchase</p>

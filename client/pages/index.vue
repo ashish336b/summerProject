@@ -1,9 +1,5 @@
 <template>
-  <sidebar>
-    <div class="container">
-      <button class="button is-danger">Hello world</button>
-    </div>
-  </sidebar>
+  <h1>Login Page</h1>
 </template>
 
 <script>
