@@ -62,6 +62,7 @@
 <script>
 import { mapState } from "vuex";
 export default {
+  middleware: "user-login",
   data: () => ({
     form: {
       username: "",
@@ -70,9 +71,10 @@ export default {
   }),
   methods: {
     login: async function() {
-      await this.$store.dispatch("userAuth/makeAuth", this.form);
+      await this.$auth.loginWith("user", { data: this.form });
+      this.$router.push("/user");
       // await this.$store.dispatch("userAuth/fetchUser");
-      console.log(this.$store.state.userAuth.loggedInUser);
+      // console.log(this.$store.state.userAuth.loggedInUser);
     }
   },
   computed: {
@@ -81,10 +83,10 @@ export default {
     })
   },
   created() {
-    console.log(this.$store.state.userAuth.loggedInUser);
+    // console.log(this.$store.state.userAuth.loggedInUser);
     // this.$store.dispatch("userAuth/fetchName", "Ashish");
     // console.log("name", this.name);
-    // console.log("user", this.$auth.loggedIn);
+    console.log("user", this.$auth.state.user);
   }
 };
 </script>

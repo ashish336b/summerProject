@@ -24,7 +24,7 @@
         </div>
         <div class="navbar-menu navbar-end">
           <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link has-text-white mr-1">Ashish Bhandari</a>
+            <a class="navbar-link has-text-white mr-1">Hari Bhandari</a>
             <div class="navbar-dropdown">
               <a class="navbar-item">
                 <div @click="logout()">
@@ -44,8 +44,9 @@
 export default {
   data: () => ({}),
   methods: {
-    logout: function() {
-      this.$auth.logout();
+    logout: async function() {
+      await this.$auth.logout();
+      this.$router.push("/admin/login");
     }
   }
 };

@@ -15,7 +15,7 @@
 <script>
 import datatable from "../../components/datatable";
 export default {
-  middleware: "auth",
+  middleware: ["auth", "auth-admin"],
   components: {
     datatable
   },
@@ -75,6 +75,9 @@ export default {
         this.tableData.refresh = !this.tableData.refresh;
       });
     }
+  },
+  created() {
+    console.log(this.$auth.state.user);
   }
 };
 </script>
