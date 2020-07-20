@@ -84,7 +84,7 @@ export default {
     },
     redirect: {
       login: "/admin/login",
-      home: "/admin/dashboard",
+      home: "/admin",
       logout: "/admin/login"
     }
   },

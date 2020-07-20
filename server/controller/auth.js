@@ -88,13 +88,13 @@ router.post("/user/login", async (req, res, next) => {
     role: "user",
   });
   if (!user) {
-    return res.status(403).json({
+    return res.status(401).json({
       error: true,
       message: "Password Or username doesn't Match",
     });
   }
   if (!bcrypt.compareSync(req.body.password, user.password)) {
-    return res.status(403).json({
+    return res.status(401).json({
       error: true,
       message: "Password Or username doesn't Match",
     });
@@ -106,12 +106,23 @@ router.post("/user/login", async (req, res, next) => {
   res.json({ token: token, error: null });
 });
 /**
- * method : get
- * url : /api/auth/user
+ * method : GET
+ * url : /api/auth/me
  */
 router.get("/me", verifyToken, (req, res, next) => {
   res.send(req.feUser);
 });
+/**
+ * method : GET
+ * url : "/api/auth/user/me"
+ */
+router.get("/api/auth/user/me", verifyToken, (req, res, next) => {
+  res.send();
+});
+/**
+ * method : POST
+ * url : "/api/auth/logout"
+ */
 router.post("/logout", verifyToken, (req, res, next) => {
   res.send("success");
 });

@@ -70,11 +70,12 @@ export default {
   }),
   methods: {
     login: async function() {
-      await this.$auth.loginWith("admin", { data: this.form });
+      try {
+        await this.$auth.loginWith("admin", { data: this.form });
+      } catch (e) {
+        this.$router.push("/admin/login");
+      }
     }
-  },
-  created() {
-    console.log("user", this.$auth.loggedIn);
   }
 };
 </script>
