@@ -1,7 +1,7 @@
 <template>
-  <sidebar>
+  <adminSidebar>
     <div class="has-text-centered has-text-primary is-size-2">Purchase Page</div>
-  </sidebar>
+  </adminSidebar>
 </template>
 
 <script>

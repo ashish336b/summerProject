@@ -1,6 +1,6 @@
 <template>
   <div>
-    <sidebar>
+    <adminSidebar>
       <datatable
         :endpoint="tableData.endpoint"
         :columns="tableData.columns"
@@ -9,7 +9,7 @@
         :parameters="tableData.params"
         :refresh="tableData.refresh"
       ></datatable>
-    </sidebar>
+    </adminSidebar>
   </div>
 </template>
 <script>
