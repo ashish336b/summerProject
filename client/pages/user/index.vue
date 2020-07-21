@@ -3,9 +3,7 @@
 </template>
 
 <script>
-export default {
-  middleware: "auth-user"
-};
+export default {};
 </script>
 
 <style>

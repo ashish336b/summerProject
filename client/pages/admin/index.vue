@@ -15,7 +15,6 @@
 <script>
 import datatable from "../../components/datatable";
 export default {
-  middleware: ["auth", "auth-admin"],
   components: {
     datatable
   },

@@ -99,7 +99,7 @@ export default {
       }
     },
     redirect: {
-      login: "/admin/login",
+      login: "/login",
       home: "/admin"
     }
   },

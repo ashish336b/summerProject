@@ -5,9 +5,7 @@
 </template>
 
 <script>
-export default {
-  middleware: ["auth", "auth-admin"]
-};
+export default {};
 </script>
 
 <style>
