@@ -71,23 +71,20 @@ export default {
   }),
   methods: {
     login: async function() {
-      await this.$auth.loginWith("user", { data: this.form });
+      try {
+        await this.$auth.loginWith("user", { data: this.form });
+      } catch (e) {
+        this.form = {
+          username: "",
+          password: ""
+        };
+        this.$router.push("/");
+      }
       this.$router.push("/user");
-      // await this.$store.dispatch("userAuth/fetchUser");
-      // console.log(this.$store.state.userAuth.loggedInUser);
     }
   },
-  computed: {
-    ...mapState({
-      loggedInUser: state => state.userAuth.loggedInUser
-    })
-  },
-  created() {
-    // console.log(this.$store.state.userAuth.loggedInUser);
-    // this.$store.dispatch("userAuth/fetchName", "Ashish");
-    // console.log("name", this.name);
-    console.log("user", this.$auth.state.user);
-  }
+  computed: {},
+  created() {}
 };
 </script>
 

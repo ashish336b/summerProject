@@ -7,4 +7,4 @@ export default async function({ store, redirect, $auth, next }) {
     redirect("/admin");
   }
 }
-//login xa banee login page ma jana nadinaee
+//one cannot access login page if they are already login

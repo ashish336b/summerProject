@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const userModel = require("../models/userModel");
 const bcrypt = require("bcryptjs");
-const { verifyToken } = require("../middleware/verifyToken");
+const { verifyAdminToken } = require("../middleware/verifyToken");
+const { verifyUserToken } = require("../middleware/verifyToken");
 const paginate = require("../middleware/paginate");
 /**
  * method : POST
@@ -103,28 +104,36 @@ router.post("/user/login", async (req, res, next) => {
   var token = await jwt.sign({ user: user }, "12helloworld12", {
     expiresIn: "3h",
   });
+
   res.json({ token: token, error: null });
 });
 /**
  * method : GET
  * url : /api/auth/me
  */
-router.get("/me", verifyToken, (req, res, next) => {
-  res.send(req.feUser);
+router.get("/me", verifyAdminToken, (req, res, next) => {
+  res.send(req.adminData);
 });
 /**
  * method : GET
  * url : "/api/auth/user/me"
  */
-router.get("/api/auth/user/me", verifyToken, (req, res, next) => {
-  res.send();
+router.get("/user/me", verifyUserToken, (req, res, next) => {
+  res.send(req.userData);
 });
 /**
  * method : POST
  * url : "/api/auth/logout"
  */
-router.post("/logout", verifyToken, (req, res, next) => {
+router.post("/logout", verifyAdminToken, (req, res, next) => {
   res.send("success");
+});
+/**
+ * method : POST
+ * url : "/api/auth/user/logout"
+ */
+router.post("/user/logout", verifyUserToken, (req, res, next) => {
+  res.send("user logout success");
 });
 
 /**
@@ -133,6 +142,7 @@ router.post("/logout", verifyToken, (req, res, next) => {
  */
 router.get(
   "/list",
+  verifyAdminToken,
   paginate(userModel, {
     searchableField: ["name"],
     filterBy: { isDeleted: false },
@@ -156,7 +166,7 @@ router.post("/delete", async (req, res, next) => {
  * method : GET
  * url : /api/auth/generateUser
  */
-/* router.get("/generateUser", async (req, res, next) => {
+router.get("/generateUser", async (req, res, next) => {
   const axios = require("axios");
   for (let i = 0; i <= 100; i++) {
     await axios.post("http://localhost:3000/api/auth/register", {
@@ -170,5 +180,5 @@ router.post("/delete", async (req, res, next) => {
     });
   }
   res.send("success");
-}); */
+});
 module.exports = router;
