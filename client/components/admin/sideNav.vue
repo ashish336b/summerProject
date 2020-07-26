@@ -18,33 +18,7 @@
         </li>
       </ul>
       <div class="divider mb-4"></div>
-      <p class="menu-label has-text-weight-bold">Ecommerce Section</p>
-      <ul class="menu-list">
-        <li>
-          <a class="custom-list-container">
-            <div class="list">
-              <span class="iconify" data-icon="ic:twotone-dashboard" data-inline="false"></span>
-              <p for="second">
-                <label for="second">Invoice part</label>
-              </p>
-              <!-- <span class="iconify" data-icon="dashicons:arrow-down-alt2" data-inline="false"></span> -->
-              <span class="iconify" data-icon="dashicons:arrow-right" data-inline="false"></span>
-            </div>
-          </a>
-          <input type="checkbox" id="second" />
-          <ul class="hide">
-            <li>
-              <a href="#">Member</a>
-            </li>
-            <li>
-              <a href="#" class="dropdown-item">Member</a>
-            </li>
-            <li>
-              <a href="#" class="dropdown-item">Member</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
+      <!-- <p class="menu-label has-text-weight-bold">Invoice Section</p> -->
 
       <p class="menu-label has-text-weight-bold">Ecommerce</p>
       <ul class="menu-list">
@@ -62,7 +36,7 @@
           <a class>
             <div class="list">
               <span class="iconify" data-icon="ant-design:user-outlined" data-inline="false"></span>
-              <p>Trusted Customer</p>
+              <p>Customer</p>
             </div>
           </a>
         </li>
@@ -133,10 +107,10 @@
 export default {
   data: () => ({}),
   methods: {
-    toggle: function(event) {
+    toggle: function (event) {
       console.log(event.target);
-    }
-  }
+    },
+  },
 };
 </script>
 

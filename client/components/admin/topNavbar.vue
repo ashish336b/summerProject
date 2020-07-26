@@ -24,7 +24,7 @@
         </div>
         <div class="navbar-menu navbar-end">
           <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link has-text-white mr-1">Hari Bhandari</a>
+            <a class="navbar-link has-text-white mr-1">Admin</a>
             <div class="navbar-dropdown">
               <a class="navbar-item">
                 <div @click="logout()">
