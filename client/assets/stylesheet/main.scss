@@ -4,7 +4,10 @@
 /* header style */
 @import "./header";
 @import "./sidebar";
-
+.container {
+  max-width: 95%;
+  margin: auto;
+}
 .main-body {
   display: flex;
   & > input {

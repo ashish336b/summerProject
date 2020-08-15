@@ -16,7 +16,6 @@
               <span class="pl-1">Entry</span>
             </div>
             <div class="has-search is-flex">
-              <label for class="pr-3">Search</label>
               <input
                 class="input is-small"
                 type="text"
@@ -28,9 +27,9 @@
           </div>
         </div>
         <table class="table is-narrow custom-table">
-          <thead class="has-background-dark">
+          <thead>
             <tr>
-              <th class="sort" v-for="i in columns" :key="i.column" @click="sortBy(i.field)">
+              <th v-for="i in columns" :key="i.column" @click="sortBy(i.field)">
                 <span>{{i.column}}</span>
               </th>
               <th>Action</th>
@@ -59,11 +58,7 @@
                 <span>Showing {{startPoint}} to {{startPoint + tableData.data.currentPageData -1}} of {{tableData.data.totalData}}</span>
               </td>
               <td colspan="4">
-                <div
-                  class="pagination is-rounded is-small"
-                  role="navigation"
-                  aria-label="pagination"
-                >
+                <div class="pagination is-small" role="navigation" aria-label="pagination">
                   <ul class="pagination-list">
                     <li @click="anotherPage(1)">
                       <a
@@ -103,6 +98,7 @@
                   </ul>
                 </div>
               </td>
+              <td></td>
             </tr>
           </tfoot>
         </table>
@@ -125,17 +121,17 @@ export default {
         searchedText: "",
         totalPage: "",
         paginationLinks: [],
-        loading: true
+        loading: true,
       },
       data: [],
-      url: ""
-    }
+      url: "",
+    },
   }),
   methods: {
-    editEvent: function(eventName, id) {
+    editEvent: function (eventName, id) {
       this.$emit(eventName, id);
     },
-    sortBy: function(fieldName) {
+    sortBy: function (fieldName) {
       this.tableData.params.sortBy = fieldName;
       this.tableData.params.order =
         this.tableData.params.order === "asc" ? "desc" : "asc";
@@ -145,12 +141,12 @@ export default {
       this.tableData.params.limit = event.target.value;
       this.fetchPage();
     },
-    anotherPage: function(id) {
+    anotherPage: function (id) {
       if (!id) return;
       (this.tableData.params.loading = true), (this.tableData.params.page = id);
       this.fetchPage();
     },
-    range: function(start, stop, step) {
+    range: function (start, stop, step) {
       var a = [start],
         b = start;
       while (b < stop) {
@@ -158,7 +154,7 @@ export default {
       } //status
       return b > stop ? a.slice(0, -1) : a;
     },
-    showPageNumber: function(currentPage, totalPage) {
+    showPageNumber: function (currentPage, totalPage) {
       this.tableData.params.paginationLinks = [];
       var current = currentPage;
       var pages_to_show = 5;
@@ -174,7 +170,7 @@ export default {
               ? 1
               : current - Math.floor(pages_to_show / 2);
           end =
-            current + pages_to_show >= totalPage
+            current + Math.floor(pages_to_show / 2) >= totalPage
               ? totalPage
               : current + Math.floor(pages_to_show / 2);
         } else {
@@ -187,7 +183,7 @@ export default {
       }
       this.tableData.params.paginationLinks = this.range(start, end);
     },
-    fetchPage: async function() {
+    fetchPage: async function () {
       if (this.parameters) {
         this.tableData.params = this.parameters;
       }
@@ -201,7 +197,7 @@ export default {
       );
       this.tableData.data = res.data;
       setTimeout(
-        function() {
+        function () {
           this.tableData.params.loading = false;
         }.bind(this),
         900
@@ -212,24 +208,23 @@ export default {
       this.tableData.params.loading = true;
       this.fetchPage();
     },
-    renderData: function(i, item) {
+    renderData: function (i, item) {
       return "render" in i ? i.render(item[i.field]) : item[i.field];
-    }
+    },
   },
   watch: {
-    refresh: function(newval, oldVal) {
+    refresh: function (newval, oldVal) {
       this.fetchPage();
-    }
+    },
   },
   computed: {
-    startPoint: function() {
+    startPoint: function () {
       return (this.tableData.params.page - 1) * this.tableData.params.limit + 1;
-    }
+    },
   },
   async created() {
-    console.log(this.val);
     this.fetchPage();
-  }
+  },
 };
 </script>
 
@@ -244,14 +239,11 @@ export default {
 .custom-table {
   width: 100%;
   thead {
-    .sort {
-      background-color: rgb(54, 38, 38);
-    }
     tr {
       cursor: pointer;
       width: 100%;
       th {
-        color: white;
+        padding: 12px !important;
         svg {
           text-align: left;
           cursor: pointer;
@@ -272,5 +264,8 @@ export default {
       justify-content: flex-end;
     }
   }
+}
+.pagination ul li > a {
+  margin: 0.25rem 1px !important;
 }
 </style>

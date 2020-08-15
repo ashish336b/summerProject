@@ -144,7 +144,7 @@ router.get(
   "/list",
   verifyAdminToken,
   paginate(userModel, {
-    searchableField: ["name"],
+    searchableField: ["firstName", "lastName", "userName"],
     filterBy: { isDeleted: false },
     select: [],
   }),
