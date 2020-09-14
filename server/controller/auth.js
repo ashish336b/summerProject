@@ -2,9 +2,12 @@ const express = require("express");
 const router = express.Router();
 const userModel = require("../models/userModel");
 const bcrypt = require("bcryptjs");
-const { verifyAdminToken } = require("../middleware/verifyToken");
-const { verifyUserToken } = require("../middleware/verifyToken");
-const paginate = require("../middleware/paginate");
+const {
+  verifyAdminToken,
+  verifyUserToken,
+} = require("../middleware/authGuard");
+
+const paginate = require("../helpers/paginate");
 /**
  * method : POST
  * url : /api/auth/login
@@ -140,18 +143,18 @@ router.post("/user/logout", verifyUserToken, (req, res, next) => {
  * method : get
  * url : /api/auth/list
  */
-router.get(
-  "/list",
-  verifyAdminToken,
-  paginate(userModel, {
-    searchableField: ["firstName", "lastName", "userName"],
-    filterBy: { isDeleted: false },
-    select: [],
-  }),
-  (req, res, next) => {
-    res.json(res.paginatedResults);
-  }
-);
+router.get("/list", verifyAdminToken, async (req, res, next) => {
+  var paginatedResult = await paginate(
+    userModel,
+    {
+      searchableField: ["firstName", "lastName", "userName"],
+      filterBy: { isDeleted: false },
+      select: [],
+    },
+    req
+  );
+  res.json(paginatedResult);
+});
 
 /**
  * method : POST
