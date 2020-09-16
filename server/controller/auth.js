@@ -170,14 +170,16 @@ router.post("/delete", async (req, res, next) => {
  * url : /api/auth/generateUser
  */
 router.get("/generateUser", async (req, res, next) => {
+  const faker = require("faker");
+
   const axios = require("axios");
   for (let i = 0; i <= 100; i++) {
     await axios.post("http://localhost:3000/api/auth/register", {
-      firstName: "Ashish",
-      lastName: "Bhandari",
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
       role: "admin",
-      address: "balkot",
-      username: "ashish336b" + i,
+      address: faker.address.streetAddress(),
+      username:  faker.internet.userName(),
       password: "11111111",
       confirmPassword: "11111111",
     });

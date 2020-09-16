@@ -73,7 +73,7 @@ export default {
       try {
         await this.$auth.loginWith("admin", { data: this.form });
       } catch (e) {
-        this.$router.push("/admin/login");
+        this.$router.push("/login");
       }
     }
   }
