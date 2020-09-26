@@ -11,6 +11,7 @@ const inventoryModel = new mongoose.Schema(
     unit: { type: String },
     space: { type: String },
     vendorId: { type: mongoose.Schema.ObjectId, ref: "vendor" },
+    purchasedFrom: { type: String },
     fractionalCC: { type: String },
     purchaseId: { type: String },
     isDeleted: { type: Boolean, default: false },
