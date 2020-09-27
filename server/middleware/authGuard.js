@@ -2,7 +2,7 @@ const verifyToken = require("../helpers/verifyToken");
 
 const authGuard = {
   verifyAdminToken: async (req, res, next) => {
-    var data = await verifyToken(req.headers.authorization);
+    let data = await verifyToken(req.headers.authorization);
     if (!data) {
       return res.status(403).json({ error: true, message: "unauthorized" });
     }
@@ -13,7 +13,7 @@ const authGuard = {
     return res.status(403).json({ error: true, message: "unauthorized" });
   },
   verifyUserToken: async (req, res, next) => {
-    var data = await verifyToken(req.headers.authorization);
+    let data = await verifyToken(req.headers.authorization);
     if (!data) {
       return res.status(403).json({ error: true, message: "unauthorized" });
     }

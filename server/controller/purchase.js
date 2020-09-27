@@ -9,7 +9,7 @@ const paginate = require("../helpers/paginate");
  * url : /crm/purchase/paginate
  */
 router.get("/paginate", async (req, res, next) => {
-  var paginatedResult = await paginate(
+  const paginatedResult = await paginate(
     purchaseModel,
     {
       searchableField: ["invoiceNumber", "vendorName"],
@@ -37,7 +37,7 @@ router.post("/", async (req, res, next) => {
   });
   /* if vendor is not added already, then add */
   if (req.body.panNumber.trim()) {
-    var vendorResult = await vendorModel.find(
+    const vendorResult = await vendorModel.findOne(
       prepareData.find(
         {
           panNumber: req.body.panNumber.trim(),
@@ -45,8 +45,8 @@ router.post("/", async (req, res, next) => {
         req
       )
     );
-    if (!vendorResult[0]) {
-      await new vendorModel(
+    if (!vendorResult) {
+      var vendor = await new vendorModel(
         prepareData.create(
           {
             vendorName: req.body.vendorName,
@@ -67,6 +67,7 @@ router.post("/", async (req, res, next) => {
       item.space = "";
       item.purchasedFrom = req.body.vendorName;
       item.createdBy = req.body.createdBy;
+      item.vendorId = vendor._id ? vendor._id : vendorResult._id;
 
       new inventoryModel(prepareData.create(item, req))
         .save()
