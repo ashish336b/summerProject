@@ -16,9 +16,10 @@ const invoiceModel = new mongoose.Schema(
     panNumber: { type: String },
     isCredit: { type: Boolean, default: false },
     paidDate: { type: Date, default: null },
+    date: { tyoe: Date, default: Date.now() },
     paymentMethod: {
       type: String,
-      enum: ["cash", "cheque", "online"],
+      enum: ["cash", "cheque", "online", null],
       default: null,
     },
     //

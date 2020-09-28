@@ -12,4 +12,5 @@ router.use(
   verifyAdminToken,
   require("../controller/inventory")
 );
+router.use("/crm/invoice", verifyAdminToken, require("../controller/invoice"));
 module.exports = router;
