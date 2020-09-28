@@ -17,7 +17,7 @@ router.get("/paginate/:type?", async (req, res, next) => {
     inventoryModel,
     {
       searchableField: ["invoiceNumber", "name", "phoneNumber"],
-      filterBy: prepareData.find({}, req),
+      filterBy: params,
     },
     req
   );

@@ -8,15 +8,15 @@ const paginate = require("../helpers/paginate");
  * method : GET
  * url : /crm/purchase/paginate
  */
-router.get("/paginate", async (req, res, next) => {
+router.get("/paginate/:type?", async (req, res, next) => {
+  let params = prepareData.find({ isReturn: false }, req);
+  if (req.params.type == "return")
+    params = prepareData.find({ isReturn: true }, req);
   const paginatedResult = await paginate(
     purchaseModel,
     {
       searchableField: ["invoiceNumber", "vendorName"],
-      filterBy: prepareData.find(
-        { $or: [{ isReturn: false }, { isReturn: null }] },
-        req
-      ),
+      filterBy: params,
     },
     req
   );
