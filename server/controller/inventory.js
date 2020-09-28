@@ -3,7 +3,7 @@ const inventoryModel = require("../models/inventoryModel");
 const paginate = require("../helpers/paginate");
 const prepareData = require("../helpers/prepareData");
 /**
- * method : GET
+ * method : GET ok
  * url : /crm/inventory/paginate
  */
 router.get("/paginate", async (req, res, next) => {
