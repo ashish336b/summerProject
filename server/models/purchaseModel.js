@@ -3,7 +3,6 @@ const purchasedItems = new mongoose.Schema(
   {
     productName: { type: String },
     manufacturer: { type: String },
-    expiryDate: { type: String },
     quantity: { type: Number },
     mrp: { type: String },
     cp: { type: String },
@@ -11,7 +10,6 @@ const purchasedItems = new mongoose.Schema(
     space: { type: String },
     vendorId: { type: mongoose.Schema.ObjectId, ref: "vendor" },
     purchasedFrom: { type: String },
-    fractionalCC: { type: String },
     purchaseId: { type: String },
     isDeleted: { type: Boolean, default: false },
   },

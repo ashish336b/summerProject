@@ -10,6 +10,6 @@ router.use(
 router.use(
   "/crm/inventory",
   verifyAdminToken,
-  require("../controller/purchase")
+  require("../controller/inventory")
 );
 module.exports = router;
