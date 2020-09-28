@@ -9,7 +9,10 @@ const prepareData = require("../helpers/prepareData");
 router.get("/paginate", async (req, res, next) => {
   let paginatedResult = await paginate(
     inventoryModel,
-    { searchableField: ["productName" , 'manufacturer','quantity','mrp','cp'], filterBy: prepareData.find({}, req) },
+    {
+      searchableField: ["productName", "manufacturer", "quantity", "mrp", "cp"],
+      filterBy: prepareData.find({}, req),
+    },
     req
   );
   res.json(paginatedResult);
