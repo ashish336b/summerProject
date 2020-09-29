@@ -26,25 +26,35 @@
             </div>
           </div>
         </div>
-        <table class="table is-narrow custom-table">
+        <table class="table is-fullwidth is-striped custom-table">
           <thead>
             <tr>
               <th v-for="i in columns" :key="i.column" @click="sortBy(i.field)">
-                <span>{{i.column}}</span>
+                <span>{{ i.column }}</span>
               </th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="item in tableData.data.data" :key="item._id">
-              <td v-for="i in columns" :key="i.column" v-html="renderData(i,item)"></td>
+              <td
+                class="has-text-weight-medium"
+                v-for="i in columns"
+                :key="i.column"
+                v-html="renderData(i, item)"
+              ></td>
 
               <td class="actions">
                 <a
                   v-for="el in actions"
                   :key="el.event"
                   :class="el.class"
-                  @click="editEvent(el.event , {id : item._id , params : tableData.params})"
+                  @click="
+                    editEvent(el.event, {
+                      id: item._id,
+                      params: tableData.params,
+                    })
+                  "
                 >
                   <span v-html="el.value"></span>
                   <!-- <span class="iconify" data-icon="ant-design:edit-filled" data-inline="false"></span> -->
@@ -55,22 +65,38 @@
           <tfoot>
             <tr>
               <td colspan="1">
-                <span>Showing {{startPoint}} to {{startPoint + tableData.data.currentPageData -1}} of {{tableData.data.totalData}}</span>
+                <span
+                  >Showing {{ startPoint }} to
+                  {{ startPoint + tableData.data.currentPageData - 1 }} of
+                  {{ tableData.data.totalData }}</span
+                >
               </td>
               <td colspan="4">
-                <div class="pagination is-small" role="navigation" aria-label="pagination">
+                <div
+                  class="pagination is-small"
+                  role="navigation"
+                  aria-label="pagination"
+                >
                   <ul class="pagination-list">
                     <li @click="anotherPage(1)">
                       <a
                         class="pagination-link"
-                        :class="{'pagination-ellipsis': tableData.data.currentPage == 1}"
-                      >First</a>
+                        :class="{
+                          'pagination-ellipsis':
+                            tableData.data.currentPage == 1,
+                        }"
+                        >First</a
+                      >
                     </li>
                     <li @click="anotherPage(tableData.data.prevPage)">
                       <a
                         class="pagination-link"
-                        :class="{'pagination-ellipsis': tableData.data.currentPage == 1}"
-                      >Prev</a>
+                        :class="{
+                          'pagination-ellipsis':
+                            tableData.data.currentPage == 1,
+                        }"
+                        >Prev</a
+                      >
                     </li>
                     <li
                       @click="anotherPage(n)"
@@ -81,19 +107,30 @@
                         class="pagination-link"
                         :class="{ 'is-current': tableData.params.page === n }"
                         aria-label="Goto page 1"
-                      >{{ n }}</a>
+                        >{{ n }}</a
+                      >
                     </li>
                     <li @click="anotherPage(tableData.data.nextPage)">
                       <a
                         class="pagination-next"
-                        :class="{'pagination-ellipsis': tableData.data.currentPage == tableData.data.totalNumberOfPage}"
-                      >next</a>
+                        :class="{
+                          'pagination-ellipsis':
+                            tableData.data.currentPage ==
+                            tableData.data.totalNumberOfPage,
+                        }"
+                        >next</a
+                      >
                     </li>
                     <li @click="anotherPage(tableData.data.totalNumberOfPage)">
                       <a
                         class="pagination-next"
-                        :class="{'pagination-ellipsis': tableData.data.currentPage == tableData.data.totalNumberOfPage}"
-                      >Last</a>
+                        :class="{
+                          'pagination-ellipsis':
+                            tableData.data.currentPage ==
+                            tableData.data.totalNumberOfPage,
+                        }"
+                        >Last</a
+                      >
                     </li>
                   </ul>
                 </div>

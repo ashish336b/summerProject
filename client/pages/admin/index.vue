@@ -22,7 +22,7 @@ export default {
     tableData: {
       params: null,
       refresh: true,
-      endpoint: "http://localhost:3000/api/auth/list",
+      endpoint: "http://localhost:3000/crm/list",
       columns: [
         {
           field: "firstName",

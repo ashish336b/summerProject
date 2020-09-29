@@ -11,7 +11,11 @@
         <li class="my-1">
           <nuxt-link to="/admin">
             <div class="list">
-              <span class="iconify" data-icon="ic:twotone-dashboard" data-inline="false"></span>
+              <span
+                class="iconify"
+                data-icon="ic:twotone-dashboard"
+                data-inline="false"
+              ></span>
               <p>Dashboard</p>
             </div>
           </nuxt-link>
@@ -23,9 +27,13 @@
       <p class="menu-label has-text-weight-bold">Ecommerce</p>
       <ul class="menu-list">
         <li>
-          <nuxt-link to="#">
+          <nuxt-link to="/admin/purchase">
             <div class="list">
-              <span class="iconify" data-icon="ri:medicine-bottle-line" data-inline="false"></span>
+              <span
+                class="iconify"
+                data-icon="ri:medicine-bottle-line"
+                data-inline="false"
+              ></span>
               <p>Purchase</p>
             </div>
           </nuxt-link>
@@ -35,7 +43,11 @@
         <li>
           <a class>
             <div class="list">
-              <span class="iconify" data-icon="ant-design:user-outlined" data-inline="false"></span>
+              <span
+                class="iconify"
+                data-icon="ant-design:user-outlined"
+                data-inline="false"
+              ></span>
               <p>Customer</p>
             </div>
           </a>
@@ -45,7 +57,11 @@
         <li>
           <a class>
             <div class="list">
-              <span class="iconify" data-icon="mdi:warehouse" data-inline="false"></span>
+              <span
+                class="iconify"
+                data-icon="mdi:warehouse"
+                data-inline="false"
+              ></span>
               <p>Inventory</p>
             </div>
           </a>
@@ -55,7 +71,11 @@
         <li>
           <a class>
             <div class="list">
-              <span class="iconify" data-icon="typcn:vendor-apple" data-inline="false"></span>
+              <span
+                class="iconify"
+                data-icon="typcn:vendor-apple"
+                data-inline="false"
+              ></span>
               <p>Suppliers</p>
             </div>
           </a>
@@ -66,7 +86,11 @@
         <li>
           <a class>
             <div class="list">
-              <span class="iconify" data-icon="bx:bxs-purchase-tag" data-inline="false"></span>
+              <span
+                class="iconify"
+                data-icon="bx:bxs-purchase-tag"
+                data-inline="false"
+              ></span>
               <p>Purchase Report</p>
             </div>
           </a>

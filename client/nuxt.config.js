@@ -73,25 +73,25 @@ export default {
         _scheme: "local",
         endpoints: {
           login: {
-            url: "/api/auth/login",
+            url: "/crm/login",
             method: "post",
             propertyName: "token"
           },
-          logout: { url: "/api/auth/logout", method: "post" },
-          user: { url: "/api/auth/me", method: "get", propertyName: "user" }
+          logout: { url: "/crm/logout", method: "post" },
+          user: { url: "/crm/me", method: "get", propertyName: "user" }
         }
       },
       user: {
         _scheme: "local",
         endpoints: {
           login: {
-            url: "/api/auth/user/login",
+            url: "/crm/user/login",
             method: "post",
             propertyName: "token"
           },
-          logout: { url: "/api/auth/user/logout", method: "post" },
+          logout: { url: "/crm/user/logout", method: "post" },
           user: {
-            url: "/api/auth/user/me",
+            url: "/crm/user/me",
             method: "get",
             propertyName: "user"
           }
