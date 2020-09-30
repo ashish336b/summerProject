@@ -136,11 +136,20 @@
           <div class="field">
             <label class="label is-small">Product Name</label>
             <div class="control">
-              <input
-                class="input"
-                type="text"
-                v-model="items.productName"
-                placeholder="Product Name"
+              <AutoComplete
+                id="search"
+                placeholder="ProductName"
+                attr="label"
+                value="label"
+                api="/crm/inventory/autoComplete?displayEmpty=Y&searchText="
+                @selected="selectProduct($event)"
+                @tab="$refs.manufacturer.focus()"
+                :reset="false"
+                @newVal="
+                  (val) => {
+                    purchaseData.productName = val;
+                  }
+                "
               />
             </div>
           </div>
@@ -154,6 +163,7 @@
                 type="text"
                 v-model="items.manufacturer"
                 placeholder="Manufacturer"
+                ref="manufacturer"
               />
             </div>
           </div>
@@ -235,9 +245,10 @@
             <div class="control">
               <input
                 class="input"
-                v-model="purchaseData.grandTotal"
                 type="text"
-                placeholder="Mrp"
+                readonly
+                :value="purchaseData.grandTotal"
+                placeholder="Grand Total"
               />
             </div>
           </div>
@@ -265,6 +276,7 @@
 
 <script>
 import AutoComplete from "../../../components/autocomplete";
+import Swal from "sweetalert2";
 export default {
   components: {
     AutoComplete,
@@ -301,6 +313,7 @@ export default {
       this.items["cpAmount"] = cpAmount;
       this.items["mrpAmount"] = mrpAmount;
       this.purchaseData.item.push(this.items);
+      this.grandTotal;
       this.items = {
         productName: "",
         manufacturer: "",
@@ -313,21 +326,47 @@ export default {
         cpAmount: "",
       };
     },
-    selectVendor(vendor) {
+    selectVendor: function (vendor) {
+      this.purchaseData.vendorName = vendor.vendorName;
       this.purchaseData.phoneNumber = vendor.phoneNumber;
       this.purchaseData.address = vendor.address;
       this.purchaseData.panNumber = vendor.panNumber;
+    },
+
+    selectProduct: function (product) {
+      this.items.productName = product.productName;
+      this.items.manufacturer = product.manufacturer;
+      this.items.unit = product.unit;
     },
 
     savePurchase: function () {
       this.$axios
         .post("/crm/purchase", this.purchaseData)
         .then((result) => {
-          alert("success created Purchase");
+          Swal.fire(
+            `Success!`,
+            `Invoice #${result.invoiceNumber} Created`,
+            "success"
+          ).then((result) => {
+            this.$router.push("/admin/purchase");
+          });
         })
         .catch((err) => {
           console.log(err);
         });
+    },
+  },
+  computed: {
+    grandTotal: function () {
+      this.purchaseData.grandTotal = this.purchaseData.item.reduce(
+        (acc, curr) => {
+          if (!acc) {
+            return parseInt(curr.cpAmount);
+          }
+          return acc + parseInt(curr.cpAmount);
+        },
+        0
+      );
     },
   },
 };
