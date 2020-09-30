@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar" id="sidebar">
     <div class="sidebar-heading">
-      <nuxt-link to="/admin">
+      <nuxt-link to="/admin/dashboard">
         <div class="has-text-primary has-text-centered">Admin Section</div>
       </nuxt-link>
     </div>
@@ -9,7 +9,7 @@
     <aside class="menu">
       <ul class="menu-list">
         <li class="my-1">
-          <nuxt-link to="/admin">
+          <nuxt-link to="/admin/dashboard">
             <div class="list">
               <span
                 class="iconify"

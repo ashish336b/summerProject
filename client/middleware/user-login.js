@@ -4,7 +4,7 @@ export default async function({ store, redirect, $auth, next }) {
     redirect("/user");
   }
   if (user && user.role == "admin") {
-    redirect("/admin");
+    redirect("/admin/dashboard");
   }
 }
 //one cannot access login page if they are already login

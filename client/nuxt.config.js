@@ -100,7 +100,7 @@ export default {
     },
     redirect: {
       login: "/login",
-      home: "/admin"
+      home: "/admin/dashboard"
     }
   },
   /*   router: {
