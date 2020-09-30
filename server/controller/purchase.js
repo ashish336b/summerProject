@@ -36,39 +36,38 @@ router.post("/", async (req, res, next) => {
     el.productName = el.productName.trim();
   });
   /* if vendor is not added already, then add */
-  if (req.body.panNumber.trim()) {
-    const vendorResult = await vendorModel.findOne(
-      prepareData.find(
-        {
-          panNumber: req.body.panNumber.trim(),
-        },
-        req
-      )
-    );
-    if (!vendorResult) {
-      var vendor = await new vendorModel(
-        prepareData.create(
+
+  /* save purchase invoice and update the inventory */
+  new purchaseModel(req.body).save().then(async (result) => {
+    if (req.body.panNumber.trim()) {
+      var vendorResult = await vendorModel.findOne(
+        prepareData.find(
           {
-            vendorName: req.body.vendorName,
-            phoneNumber: req.body.phoneNumber.trim(),
-            address: req.body.address,
-            panNumber: req.body.panNumber,
+            panNumber: req.body.panNumber.trim(),
           },
           req
         )
-      ).save();
+      );
+      if (!vendorResult) {
+        vendorResult = await new vendorModel(
+          prepareData.create(
+            {
+              vendorName: req.body.vendorName,
+              phoneNumber: req.body.phoneNumber.trim(),
+              address: req.body.address,
+              panNumber: req.body.panNumber,
+            },
+            req
+          )
+        ).save();
+      }
     }
-  }
-
-  /* save purchase invoice and update the inventory */
-  new purchaseModel(req.body).save().then((result) => {
     req.body.item.forEach(async (item) => {
       item.purchaseId = result._id.toString();
       item.space = "";
       item.purchasedFrom = req.body.vendorName;
       item.createdBy = req.body.createdBy;
-      item.vendorId = vendor._id ? vendor._id : vendorResult._id;
-
+      item.vendorId = vendorResult._id;
       new inventoryModel(prepareData.create(item, req))
         .save()
         .then((res) => {});

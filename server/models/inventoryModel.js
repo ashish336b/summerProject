@@ -7,6 +7,8 @@ const inventoryModel = new mongoose.Schema(
     quantity: { type: Number },
     mrp: { type: String },
     cp: { type: String },
+    mrpAmount: { type: String },
+    cpAmount: { type: String },
     unit: { type: String },
     space: { type: String },
     vendorId: { type: mongoose.Schema.ObjectId, ref: "vendor" },
