@@ -76,7 +76,7 @@ router.post("/login", async (req, res, next) => {
   }
   user.password = null;
   var token = await jwt.sign({ user: user }, "12helloworld12", {
-    expiresIn: "3h",
+    expiresIn: "12h",
   });
   res.json({ token: token, error: null });
 });
@@ -179,7 +179,7 @@ router.get("/generateUser", async (req, res, next) => {
       lastName: faker.name.lastName(),
       role: "admin",
       address: faker.address.streetAddress(),
-      username:  faker.internet.userName(),
+      username: faker.internet.userName(),
       password: "11111111",
       confirmPassword: "11111111",
     });

@@ -144,10 +144,11 @@
                 api="/crm/inventory/autoComplete?displayEmpty=Y&searchText="
                 @selected="selectProduct($event)"
                 @tab="$refs.manufacturer.focus()"
-                :reset="false"
+                :reset="refresh"
+                :text="autoComplete.text"
                 @newVal="
                   (val) => {
-                    purchaseData.productName = val;
+                    items.productName = val;
                   }
                 "
               />
@@ -282,6 +283,10 @@ export default {
     AutoComplete,
   },
   data: () => ({
+    refresh: false,
+    autoComplete: {
+      text: "",
+    },
     purchaseData: {
       invoiceNumber: "",
       vendorName: "",
@@ -314,6 +319,7 @@ export default {
       this.items["mrpAmount"] = mrpAmount;
       this.purchaseData.item.push(this.items);
       this.grandTotal;
+      this.refresh = !this.refresh;
       this.items = {
         productName: "",
         manufacturer: "",
@@ -334,6 +340,7 @@ export default {
     },
 
     selectProduct: function (product) {
+      this.autoComplete.text = product.productName;
       this.items.productName = product.productName;
       this.items.manufacturer = product.manufacturer;
       this.items.unit = product.unit;
@@ -345,7 +352,7 @@ export default {
         .then((result) => {
           Swal.fire(
             `Success!`,
-            `Invoice #${result.invoiceNumber} Created`,
+            `Invoice number #${this.purchaseData.invoiceNumber} Created`,
             "success"
           ).then((result) => {
             this.$router.push("/admin/purchase");
