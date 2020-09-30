@@ -16,11 +16,19 @@
           <div class="field">
             <label class="label is-small">Vendor Name</label>
             <div class="control">
-              <input
-                class="input"
-                type="text"
-                v-model="purchaseData.vendorName"
+              <AutoComplete
+                id="search"
                 placeholder="Vendor Name"
+                attr="label"
+                value="label"
+                api="/crm/vendor/search?searchText="
+                @selected="selectVendor"
+                @tab="$refs.phoneNumber.focus()"
+                @newVal="
+                  (val) => {
+                    purchaseData.vendorName = val;
+                  }
+                "
               />
             </div>
           </div>
@@ -34,6 +42,7 @@
                 type="text"
                 v-model="purchaseData.phoneNumber"
                 placeholder="Phone Number"
+                ref="phoneNumber"
               />
             </div>
           </div>
@@ -47,6 +56,7 @@
                 type="text"
                 v-model="purchaseData.address"
                 placeholder="Address"
+                ref="address"
               />
             </div>
           </div>
@@ -62,6 +72,7 @@
                 type="text"
                 v-model="purchaseData.panNumber"
                 placeholder="Pan Number"
+                ref="panNumber"
               />
             </div>
           </div>
@@ -75,6 +86,7 @@
                 type="text"
                 v-model="purchaseData.invoiceNumber"
                 placeholder="Invoice Number"
+                ref="invoiceNumber"
               />
             </div>
           </div>
@@ -252,7 +264,11 @@
 </template>
 
 <script>
+import AutoComplete from "../../../components/autocomplete";
 export default {
+  components: {
+    AutoComplete,
+  },
   data: () => ({
     purchaseData: {
       invoiceNumber: "",
@@ -297,6 +313,12 @@ export default {
         cpAmount: "",
       };
     },
+    selectVendor(vendor) {
+      this.purchaseData.phoneNumber = vendor.phoneNumber;
+      this.purchaseData.address = vendor.address;
+      this.purchaseData.panNumber = vendor.panNumber;
+    },
+
     savePurchase: function () {
       this.$axios
         .post("/crm/purchase", this.purchaseData)
