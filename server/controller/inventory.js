@@ -10,7 +10,7 @@ router.get("/paginate", async (req, res, next) => {
   let paginatedResult = await paginate(
     inventoryModel,
     {
-      searchableField: ["productName", "manufacturer", "quantity", "mrp", "cp"],
+      searchableField: ["productName", "manufacturer", "mrp", "cp"],
       filterBy: prepareData.find({}, req),
     },
     req
