@@ -1,6 +1,19 @@
 const router = require("express").Router();
 const vendorModel = require("../models/vendorModel");
 const prepareData = require("../helpers/prepareData");
+const paginate = require("../helpers/paginate");
+/**
+ * method : GET
+ * url : /crm/vendor/paginate
+ */
+router.get("/paginate", async (req, res, next) => {
+  var paginatedResult = await paginate(
+    vendorModel,
+    { searchableField: ["name"], filterBy: prepareData.find({}, req) },
+    req
+  );
+  res.json(paginatedResult);
+});
 /**
  * method : GET
  * url : /crm/vendor/search

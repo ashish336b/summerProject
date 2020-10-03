@@ -32,7 +32,11 @@ const purchaseModel = new mongoose.Schema(
     grandTotal: { type: String },
     isDeleted: { type: Boolean, default: false },
   },
-  { strict: false, timestamps: true }
+  {
+    strict: false,
+    timestamps: true,
+    collation: { locale: "en_US", strength: 1 },
+  }
 );
 
 module.exports = mongoose.model("purchase", purchaseModel);
