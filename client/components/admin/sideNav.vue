@@ -69,7 +69,7 @@
       </ul>
       <ul class="menu-list">
         <li>
-          <a class>
+          <nuxt-link to="/admin/vendor">
             <div class="list">
               <span
                 class="iconify"
@@ -78,7 +78,7 @@
               ></span>
               <p>Suppliers</p>
             </div>
-          </a>
+          </nuxt-link>
         </li>
       </ul>
       <p class="menu-label has-text-weight-bold">Report</p>

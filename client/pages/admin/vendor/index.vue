@@ -1,19 +1,30 @@
 <template>
-  <div>
-    <adminSidebar>
-      <datatable
-        :endpoint="tableData.endpoint"
-        :columns="tableData.columns"
-        :actions="tableData.actions"
-        @deleteEvent="deleteEvent($event)"
-        :parameters="tableData.params"
-        :refresh="tableData.refresh"
-      ></datatable>
-    </adminSidebar>
-  </div>
+  <adminSidebar>
+    <div>
+      <div class="columns is-multiline">
+        <div class="column is-11">
+          <h1 class="has-text-info has-text-weight-bold is-size-4">Vendors</h1>
+        </div>
+        <div class="column is-1">
+          <nuxt-link to="/admin/purchase/add" class="button is-small is-primary"
+            >Add</nuxt-link
+          >
+        </div>
+      </div>
+    </div>
+    <datatable
+      :endpoint="tableData.endpoint"
+      :columns="tableData.columns"
+      :actions="tableData.actions"
+      @deleteEvent="deleteEvent($event)"
+      :parameters="tableData.params"
+      :refresh="tableData.refresh"
+    ></datatable>
+  </adminSidebar>
 </template>
+
 <script>
-import datatable from "../../components/datatable";
+import datatable from "../../../components/datatable";
 export default {
   components: {
     datatable,
@@ -22,39 +33,32 @@ export default {
     tableData: {
       params: null,
       refresh: true,
-      endpoint: "/crm/list",
+      endpoint: "/crm/purchase/paginate",
       columns: [
         {
-          field: "firstName",
-          column: "FirstName",
+          field: "invoiceNumber",
+          column: "InvoiceNumber",
           render: function (field) {
             return !field ? "ok" : field;
           },
         },
         {
-          field: "lastName",
-          column: "LastName",
+          field: "vendorName",
+          column: "Purchased From",
           render: function (field) {
             return !field ? "..." : field;
           },
         },
         {
-          field: "address",
-          column: "Address",
+          field: "phoneNumber",
+          column: "PhoneNumber",
           render: function (field) {
             return !field ? "<p class='has-text-primary'>No Email</p>" : field;
           },
         },
         {
-          field: "username",
-          column: "UserName",
-          render: function (field) {
-            return !field ? "<p class='has-text-primary'>No Email</p>" : field;
-          },
-        },
-        {
-          field: "role",
-          column: "Role",
+          field: "grandTotal",
+          column: "GrandTotal",
           render: function (field) {
             return !field ? "<p class='has-text-primary'>No Email</p>" : field;
           },
@@ -74,14 +78,9 @@ export default {
       ],
     },
   }),
-  methods: {
-    deleteEvent: function (event) {
-      this.$axios.post("api/auth/delete", { id: event.id }).then((res) => {
-        this.tableData.params = event.params;
-        this.tableData.refresh = !this.tableData.refresh;
-      });
-    },
-  },
-  created() {},
+  methods: {},
 };
 </script>
+
+<style>
+</style>

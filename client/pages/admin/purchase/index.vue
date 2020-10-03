@@ -35,32 +35,32 @@ export default {
     tableData: {
       params: null,
       refresh: true,
-      endpoint: "http://localhost:3000/crm/purchase/paginate",
+      endpoint: "/crm/vendor/paginate",
       columns: [
         {
-          field: "invoiceNumber",
-          column: "InvoiceNumber",
+          field: "vendorName",
+          column: "VendorName",
           render: function (field) {
             return !field ? "ok" : field;
           },
         },
         {
-          field: "vendorName",
-          column: "Purchased From",
+          field: "phoneNumber",
+          column: "Phone No.",
           render: function (field) {
             return !field ? "..." : field;
           },
         },
         {
-          field: "phoneNumber",
-          column: "PhoneNumber",
+          field: "address",
+          column: "Address",
           render: function (field) {
             return !field ? "<p class='has-text-primary'>No Email</p>" : field;
           },
         },
         {
-          field: "grandTotal",
-          column: "GrandTotal",
+          field: "panNumber",
+          column: "PAN",
           render: function (field) {
             return !field ? "<p class='has-text-primary'>No Email</p>" : field;
           },
