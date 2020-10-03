@@ -41,7 +41,7 @@
       </ul>
       <ul class="menu-list">
         <li>
-          <a class>
+          <nuxt-link to="/admin/customer">
             <div class="list">
               <span
                 class="iconify"
@@ -50,7 +50,7 @@
               ></span>
               <p>Customer</p>
             </div>
-          </a>
+          </nuxt-link>
         </li>
       </ul>
       <ul class="menu-list">

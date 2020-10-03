@@ -3,8 +3,8 @@
     <div class="card table-container">
       <div class="px-3 py-3">
         <div class="card-header pb-2">
-          <div class="search-and-select">
-            <div class="has-select">
+          <div class="search-and-select columns">
+            <div class="has-select column is-8">
               <span class="pr-1">Show</span>
               <div class="select is-small">
                 <select @change="onChange($event)">
@@ -15,14 +15,23 @@
               </div>
               <span class="pl-1">Entry</span>
             </div>
-            <div class="has-search is-flex">
-              <input
-                class="input is-small"
-                type="text"
-                v-model="tableData.params.searchedText"
-                @keyup="searchData()"
-                placeholder="Search"
-              />
+            <div class="has-search column is-4">
+              <div class="control has-icons-left">
+                <input
+                  class="input is-small"
+                  type="text"
+                  v-model="tableData.params.searchedText"
+                  @keyup="searchData()"
+                  placeholder="Search"
+                />
+                <span class="icon is-small is-left">
+                  <span
+                    class="iconify"
+                    data-icon="ant-design:search-outlined"
+                    data-inline="false"
+                  ></span>
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -180,10 +189,12 @@ export default {
     },
     anotherPage: function (id) {
       if (!id) return;
-      (this.tableData.params.loading = true), (this.tableData.params.page = id);
+      this.tableData.params.loading = true;
+      this.tableData.params.page = id;
       this.fetchPage();
     },
     range: function (start, stop, step) {
+      //like python range function
       var a = [start],
         b = start;
       while (b < stop) {
@@ -268,10 +279,6 @@ export default {
 <style lang="scss">
 .search-and-select {
   width: 100%;
-  display: flex;
-  .has-select {
-    width: 100%;
-  }
 }
 .custom-table {
   width: 100%;
