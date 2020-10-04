@@ -61,17 +61,17 @@ router.post("/", async (req, res, next) => {
   // net total
   invoiceDataToSave.netTotal =
     netTotal - parseFloat(invoiceDataToSave.discountAmt);
-  invoiceDataToSave.netTotal = parseFloat(invoiceDataToSave.netTotal).toFixed(
-    2
-  );
+  invoiceDataToSave.netTotal = parseFloat(invoiceDataToSave.netTotal)
+    .toFixed(2)
+    .toString();
   //  discount amount
-  invoiceDataToSave.discountAmt = parseFloat(
-    invoiceDataToSave.discountAmt
-  ).toFixed(2);
+  invoiceDataToSave.discountAmt = parseFloat(invoiceDataToSave.discountAmt)
+    .toFixed(2)
+    .toString();
   // grand total
-  invoiceDataToSave.grandTotal = parseFloat(
-    invoiceDataToSave.grandTotal
-  ).toFixed(2);
+  invoiceDataToSave.grandTotal = parseFloat(invoiceDataToSave.grandTotal)
+    .toFixed(2)
+    .toString();
 
   new invoiceModel(prepareData.create(invoiceDataToSave, req))
     .save()
@@ -92,7 +92,7 @@ router.post("/", async (req, res, next) => {
           } else if (name.length == 2) {
             userObjToSave = {
               firstName: name[0],
-              lastName: name[2],
+              lastName: name[1],
             };
           }
           userObjToSave.role = "customer";

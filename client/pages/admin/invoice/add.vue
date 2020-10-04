@@ -250,7 +250,7 @@
 </template>
 
 <script>
-import swal from "sweetalert2";
+import Swal from "sweetalert2";
 import AutoComplete from "../../../components/autocomplete";
 export default {
   components: {
@@ -268,7 +268,7 @@ export default {
       item: [],
       grandTotal: "",
       netTotal: "",
-      discountAmt: "",
+      discountAmt: "0",
     },
     item: {
       inventoryId: "",
@@ -307,8 +307,28 @@ export default {
       };
     },
     createInvoice: function () {
+      let items = this.invoiceToSave.item.map((el) => {
+        return {
+          inventoryId: el.inventoryId,
+          productName: el.productName,
+          quantity: el.quantity,
+          rate: el.rate,
+          discountRate: el.discountRate,
+        };
+      });
+      let invoiceDataToSave = {
+        name: this.invoiceToSave.name,
+        phoneNumber: this.invoiceToSave.phoneNumber,
+        address: this.invoiceToSave.address,
+        item: items,
+        grandTotal: this.invoiceToSave.grandTotal,
+        discountAmt: this.invoiceToSave.discountAmt,
+      };
+      console.log(invoiceDataToSave);
       this.$axios.post("/crm/invoice", this.invoiceToSave).then((result) => {
-        alert("ok");
+        Swal.fire(`Success!`, `Invoice Created`, "danger").then((result) => {
+          this.$router.push("/admin/purchase");
+        });
       });
     },
   },

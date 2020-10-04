@@ -6,11 +6,11 @@ const invoiceModel = new mongoose.Schema(
     name: { type: String },
     address: { type: String },
     phoneNumber: { type: String },
-    invoiceNumber: { type: Number, default: 22 },
-    discountAmt: { type: Number },
+    invoiceNumber: { type: String, default: 22 },
+    discountAmt: { type: String },
     item: { type: Array, default: [] },
-    netTotal: { type: Number },
-    grandTotal: { type: Number },
+    netTotal: { type: String },
+    grandTotal: { type: String },
     deliveryCharge: { type: String },
     user: { type: Object, default: {} },
     panNumber: { type: String },
@@ -30,6 +30,7 @@ const invoiceModel = new mongoose.Schema(
   {
     timestamps: true,
     strict: false,
+    collation: { locale: "en_US", numericOrdering: true },
   }
 );
 autoIncrement.initialize(mongoose.connection);
