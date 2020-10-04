@@ -329,8 +329,8 @@ export default {
         discountAmt: this.invoiceToSave.discountAmt,
       };
       this.$axios.post("/crm/invoice", this.invoiceToSave).then((result) => {
-        Swal.fire(`Success!`, `Invoice Created`, "danger").then((result) => {
-          this.$router.push("/admin/purchase");
+        Swal.fire(`Success!`, `Invoice Created`, "success").then((result) => {
+          this.$router.push("/admin/invoice");
         });
       });
     },

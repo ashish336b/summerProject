@@ -183,7 +183,7 @@ router.get("/generateUser", async (req, res, next) => {
     password: "11111111",
     confirmPassword: "11111111",
   });
-  for (let i = 0; i <= 100; i++) {
+  for (let i = 0; i <= 5; i++) {
     await axios.post("http://localhost:3000/crm/register", {
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
