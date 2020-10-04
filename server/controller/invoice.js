@@ -108,4 +108,11 @@ router.post("/", async (req, res, next) => {
       });
     });
 });
+/**
+ * method : GET
+ * url : /crm/invoice/:id
+ */
+router.get("/:id", async (req, res, next) => {
+  res.json(await invoiceModel.findById(req.params.id));
+});
 module.exports = router;

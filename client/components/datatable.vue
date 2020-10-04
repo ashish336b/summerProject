@@ -68,6 +68,7 @@
                   <span v-html="el.value"></span>
                   <!-- <span class="iconify" data-icon="ant-design:edit-filled" data-inline="false"></span> -->
                 </a>
+                <slot v-bind="item"></slot>
               </td>
             </tr>
           </tbody>

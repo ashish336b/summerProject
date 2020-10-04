@@ -14,6 +14,7 @@
         </div>
       </div>
     </div>
+    <button class="button">A</button>
     <datatable
       :endpoint="tableData.endpoint"
       :columns="tableData.columns"
@@ -21,7 +22,13 @@
       @deleteEvent="deleteEvent($event)"
       :parameters="tableData.params"
       :refresh="tableData.refresh"
-    ></datatable>
+    >
+      <template slot-scope="item">
+        <button class="button is-small is-primary" @click="goToInvoice(item)">
+          Details
+        </button>
+      </template>
+    </datatable>
   </adminSidebar>
 </template>
 
@@ -75,21 +82,13 @@ export default {
           },
         },
       ],
-      actions: [
-        {
-          event: "editEvent",
-          class: "is-white has-text-primary px-2 py-0 mx-0 my-0",
-          value: `<span class="iconify" data-icon="ant-design:edit-filled" data-inline="false"></span>`,
-        },
-        {
-          event: "deleteEvent",
-          class: "is-white has-text-danger px-2 py-0 mx-0 my-0",
-          value: `<span class="iconify" data-icon="ant-design:delete-filled" data-inline="false"></span>`,
-        },
-      ],
     },
   }),
-  methods: {},
+  methods: {
+    goToInvoice: function (item) {
+      this.$router.push(`/admin/invoice/${item._id}`);
+    },
+  },
 };
 </script>
 
