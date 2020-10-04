@@ -51,6 +51,7 @@ router.post("/", async (req, res, next) => {
       } else {
         let oldQty = parseInt(doc.quantity);
         let newQty = oldQty - reduceQty;
+        newQty = newQty <= 0 ? 0 : newQty;
         doc.quantity = newQty;
         doc.save();
       }
