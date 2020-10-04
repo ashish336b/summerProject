@@ -19,7 +19,7 @@ router.get("/paginate/:type?", async (req, res, next) => {
   let paginatedResult = await paginate(
     invoiceModel,
     {
-      searchableField: ["invoiceNumber", "name", "phoneNumber"],
+      searchableField: ["name", "phoneNumber"],
       filterBy: params,
     },
     req

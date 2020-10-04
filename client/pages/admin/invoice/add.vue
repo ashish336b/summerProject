@@ -203,6 +203,7 @@
               <input
                 class="input"
                 :value="invoiceToSave.grandTotal"
+                disabled
                 type="number"
                 placeholder="0"
               />
@@ -236,6 +237,7 @@
             <div class="control">
               <input
                 class="input"
+                disabled
                 :value="calculateNetTotal"
                 type="number"
                 placeholder="0"
@@ -307,6 +309,8 @@ export default {
       };
     },
     createInvoice: function () {
+      this.calculateGrandTotal;
+      this.calculateNetTotal;
       let items = this.invoiceToSave.item.map((el) => {
         return {
           inventoryId: el.inventoryId,
@@ -324,7 +328,6 @@ export default {
         grandTotal: this.invoiceToSave.grandTotal,
         discountAmt: this.invoiceToSave.discountAmt,
       };
-      console.log(invoiceDataToSave);
       this.$axios.post("/crm/invoice", this.invoiceToSave).then((result) => {
         Swal.fire(`Success!`, `Invoice Created`, "danger").then((result) => {
           this.$router.push("/admin/purchase");
