@@ -3,6 +3,11 @@ const router = express.Router();
 const { verifyAdminToken } = require("../middleware/authGuard");
 router.use("/crm", require("../controller/auth"));
 router.use(
+  "/crm/customer",
+  verifyAdminToken,
+  require("../controller/customer")
+);
+router.use(
   "/crm/purchase",
   verifyAdminToken,
   require("../controller/purchase")

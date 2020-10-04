@@ -9,12 +9,15 @@ const paginate = require("../helpers/paginate");
  * url : /crm/invoice/paginate/:type?
  */
 router.get("/paginate/:type?", async (req, res, next) => {
-  let params = prepareData.find({ isReturn: false }, req);
+  let params = prepareData.find(
+    { $or: [{ isReturn: false }, { isReturn: null }] },
+    req
+  );
   if (req.params.type == "return") {
     params = prepareData.find({ isReturn: true }, req);
   }
   let paginatedResult = await paginate(
-    inventoryModel,
+    invoiceModel,
     {
       searchableField: ["invoiceNumber", "name", "phoneNumber"],
       filterBy: params,
@@ -92,7 +95,7 @@ router.post("/", async (req, res, next) => {
               lastName: name[2],
             };
           }
-          userObjToSave.role = "user";
+          userObjToSave.role = "customer";
           userObjToSave.phoneNumber = req.body.phoneNumber.trim();
           userObjToSave.address = req.body.address.trim();
           await new userModel(userObjToSave).save();

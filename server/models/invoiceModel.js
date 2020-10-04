@@ -5,7 +5,7 @@ const invoiceModel = new mongoose.Schema(
   {
     name: { type: String },
     address: { type: String },
-    phoneNumber: { type: Number },
+    phoneNumber: { type: String },
     invoiceNumber: { type: Number, default: 22 },
     discountAmt: { type: Number },
     item: { type: Array, default: [] },
@@ -25,6 +25,7 @@ const invoiceModel = new mongoose.Schema(
     //
     date: { type: Date, default: Date.now() },
     isReturn: { type: Boolean, default: false },
+    isDeleted: { type: Boolean, default: false },
   },
   {
     timestamps: true,

@@ -341,7 +341,6 @@ export default {
 
     selectProduct: function (product) {
       this.autoComplete.text = product.productName;
-      this.items.productName = product.productName;
       this.items.manufacturer = product.manufacturer;
       this.items.unit = product.unit;
     },

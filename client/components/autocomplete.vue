@@ -4,7 +4,7 @@
       <input
         autocomplete="off"
         type="text"
-        class="input mr-sm-2 dropdown-toggle"
+        class="input dropdown-toggle"
         :placeholder="placeholder ? placeholder : 'eg: Ecosprin 75mg'"
         aria-haspopup="true"
         aria-expanded="false"
@@ -124,5 +124,14 @@ export default {
 <style lang="scss" scoped>
 .dropdown-content {
   border: 1px solid black;
+}
+.dropdown {
+  width: 100%;
+}
+.dropdown-tigger {
+  width: 100%;
+}
+input {
+  width: 100%;
 }
 </style>

@@ -15,9 +15,9 @@ const paginatedResults = async (model, otherParams, req) => {
   const select = otherParams.select === undefined ? [] : otherParams.select;
   const order = req.query.order;
   const params = buildSearchParameters(
-      req.query.searchText,
-      otherParams.searchableField,
-      otherParams.filterBy
+    req.query.searchText,
+    otherParams.searchableField,
+    otherParams.filterBy
   );
   var sort = {};
   sort[req.query.sortBy] = order;
@@ -25,12 +25,12 @@ const paginatedResults = async (model, otherParams, req) => {
   const totalNumberOfPage = Math.ceil(numberOfData / limit);
 
   const queryResult = await model
-      .find(params)
-      .skip(startIndex)
-      .limit(limit)
-      .sort(sort)
-      .select(select)
-      .exec();
+    .find(params)
+    .skip(startIndex)
+    .limit(limit)
+    .sort(sort)
+    .select(select)
+    .exec();
   const results = {};
 
   if (startIndex > 0) results.prevPage = page - 1;
@@ -42,7 +42,7 @@ const paginatedResults = async (model, otherParams, req) => {
   results.totalData = numberOfData;
   results.data = queryResult;
   if (totalNumberOfPage < page) {
-      results.data = [];
+    results.data = [];
   }
   return results;
 };

@@ -173,14 +173,24 @@ router.post("/delete", async (req, res, next) => {
 router.get("/generateUser", async (req, res, next) => {
   const faker = require("faker");
   const axios = require("axios");
+  await axios.post("http://localhost:3000/crm/register", {
+    firstName: "Ashish",
+    lastName: "Bhandari",
+    role: "admin",
+    address: "Balkot",
+    username: "ashish336b",
+    phoneNumber: "9864022314",
+    password: "11111111",
+    confirmPassword: "11111111",
+  });
   for (let i = 0; i <= 100; i++) {
     await axios.post("http://localhost:3000/crm/register", {
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
-      role: "admin",
+      role: "customer",
       address: faker.address.streetAddress(),
       username: faker.internet.userName(),
-      phoneNumber: faker.fake(`${faker.phone.phoneNumber()}`),
+      phoneNumber: faker.phone.phoneNumberFormat().replace(/-/g, ""),
       password: "11111111",
       confirmPassword: "11111111",
     });
