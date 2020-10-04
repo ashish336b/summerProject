@@ -40,6 +40,7 @@ router.post("/register", async (req, res, next) => {
     role: req.body.role,
     address: req.body.address,
     username: req.body.username,
+    phoneNumber: req.body.phoneNumber || null,
     password: hashedPassword,
   })
     .save()
@@ -171,15 +172,15 @@ router.post("/delete", async (req, res, next) => {
  */
 router.get("/generateUser", async (req, res, next) => {
   const faker = require("faker");
-
   const axios = require("axios");
   for (let i = 0; i <= 100; i++) {
-    await axios.post("http://localhost:3000/api/auth/register", {
+    await axios.post("http://localhost:3000/crm/register", {
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       role: "admin",
       address: faker.address.streetAddress(),
       username: faker.internet.userName(),
+      phoneNumber: faker.fake(`${faker.phone.phoneNumber()}`),
       password: "11111111",
       confirmPassword: "11111111",
     });
