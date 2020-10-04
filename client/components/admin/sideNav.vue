@@ -41,6 +41,20 @@
       </ul>
       <ul class="menu-list">
         <li>
+          <nuxt-link to="/admin/invoice">
+            <div class="list">
+              <span
+                class="iconify"
+                data-icon="la:file-invoice-dollar-solid"
+                data-inline="false"
+              ></span>
+              <p>Invoice</p>
+            </div>
+          </nuxt-link>
+        </li>
+      </ul>
+      <ul class="menu-list">
+        <li>
           <nuxt-link to="/admin/customer">
             <div class="list">
               <span
