@@ -75,4 +75,11 @@ router.post("/", async (req, res, next) => {
     res.json({ error: false, message: "Purchase Created" });
   });
 });
+/**
+ * method : GET
+ * url : /crm/purchase/:id
+ */
+router.get("/:id", async (req, res, next) => {
+  res.json(await purchaseModel.findById(req.params.id));
+});
 module.exports = router;
