@@ -289,14 +289,16 @@ export default {
       this.invoiceToSave.phoneNumber = customer.phoneNumber;
     },
     selectProduct: function (product) {
+      console.log(product);
       this.autoComplete.text = product.productName;
+      console.log(this.autoComplete.text);
       this.item.rate = product.mrp;
       this.item.inventoryId = product.inventoryId;
     },
     add: function () {
       this.item.total = this.item.quantity * this.item.rate;
       this.item.totalAdjust = this.totalAdjust;
-      this.invoiceToSave.item.push(this.item);
+      this.invoiceToSave.item.push({ ...this.item });
       this.calculateGrandTotal;
       this.refresh = !this.refresh;
       this.item = {

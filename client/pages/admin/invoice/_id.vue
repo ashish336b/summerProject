@@ -91,8 +91,7 @@ export default {
   },
   methods: {
     getDate: function (date) {
-      date = moment(date).format("YYYY/MM/DD");
-      return date;
+      return moment(date).format("YYYY/MM/DD");
     },
   },
 };

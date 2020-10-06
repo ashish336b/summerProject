@@ -21,7 +21,13 @@
       @deleteEvent="deleteEvent($event)"
       :parameters="tableData.params"
       :refresh="tableData.refresh"
-    ></datatable>
+    >
+      <template slot-scope="item">
+        <button class="button is-primary is-small" @click="goToinfo(item)">
+          Info
+        </button>
+      </template>
+    </datatable>
   </adminSidebar>
 </template>
 
@@ -35,7 +41,7 @@ export default {
     tableData: {
       params: null,
       refresh: true,
-      endpoint: "/crm/vendor/paginate",
+      endpoint: "/crm/purchase/paginate",
       columns: [
         {
           field: "vendorName",
@@ -66,21 +72,13 @@ export default {
           },
         },
       ],
-      actions: [
-        {
-          event: "editEvent",
-          class: "is-white has-text-primary px-2 py-0 mx-0 my-0",
-          value: `<span class="iconify" data-icon="ant-design:edit-filled" data-inline="false"></span>`,
-        },
-        {
-          event: "deleteEvent",
-          class: "is-white has-text-danger px-2 py-0 mx-0 my-0",
-          value: `<span class="iconify" data-icon="ant-design:delete-filled" data-inline="false"></span>`,
-        },
-      ],
     },
   }),
-  methods: {},
+  methods: {
+    goToinfo: function (item) {
+      this.$router.push(`/admin/purchase/${item._id}`);
+    },
+  },
 };
 </script>
 
