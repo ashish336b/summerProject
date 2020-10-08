@@ -27,7 +27,7 @@
             <tbody>
               <tr v-for="(item, i) in purchaseData.item" :key="i">
                 <td>{{ i + 1 }}</td>
-                <td>{{ item.ProductName }}</td>
+                <td>{{ item.productName }}</td>
                 <td>{{ item.manufacturer }}</td>
                 <td>{{ item.unit }}</td>
                 <td>{{ item.packaging }}</td>
