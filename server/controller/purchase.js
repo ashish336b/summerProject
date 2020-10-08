@@ -63,14 +63,27 @@ router.post("/", async (req, res, next) => {
       }
     }
     req.body.item.forEach(async (item) => {
-      item.purchaseId = result._id.toString();
-      item.space = "";
-      item.purchasedFrom = req.body.vendorName;
-      item.createdBy = req.body.createdBy;
-      item.vendorId = vendorResult._id;
-      new inventoryModel(prepareData.create(item, req))
-        .save()
-        .then((res) => {});
+      let getInventory = await inventoryModel.findOne({
+        productSlug: `${item.productName} ${item.mrp}`
+          .toLowerCase()
+          .replace(/\s+/g, "-"),
+      });
+      if (getInventory) {
+        getInventory.quantity += item.quantity;
+        await getInventory.save();
+      } else {
+        item.purchaseId = result._id.toString();
+        item.space = "";
+        item.purchasedFrom = req.body.vendorName;
+        item.createdBy = req.body.createdBy;
+        item.vendorId = vendorResult._id;
+        item.productSlug = `${item.productName} ${item.mrp}`
+          .toLowerCase()
+          .replace(/\s+/g, "-");
+        new inventoryModel(prepareData.create(item, req))
+          .save()
+          .then((res) => {});
+      }
     });
     res.json({ error: false, message: "Purchase Created" });
   });

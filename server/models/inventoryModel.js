@@ -8,6 +8,7 @@ const inventoryModel = new mongoose.Schema(
     mrp: { type: String },
     cp: { type: String },
     mrpAmount: { type: String },
+    productSlug: { type: String },
     cpAmount: { type: String },
     unit: { type: String },
     space: { type: String },
