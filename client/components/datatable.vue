@@ -45,7 +45,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in tableData.data.data" :key="item._id">
+            <tr v-if="!tableData.data.totalData">
+              <td :colspan="columns.length + 1" class="has-text-centered">
+                No data available in table
+              </td>
+            </tr>
+            <tr v-else v-for="item in tableData.data.data" :key="item._id">
               <td
                 class="has-text-weight-medium"
                 v-for="i in columns"
