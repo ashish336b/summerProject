@@ -365,15 +365,15 @@ export default {
     },
   },
   computed: {},
-  created() {
-    this.$axios.get(`/crm/purchase/${this.$route.params.id}`).then((result) => {
-      this.purchaseData = result.data;
-      this.$axios
-        .get(`/crm/inventory/${this.$route.params.id}`)
-        .then((invResult) => {
-          this.purchaseData.item = invResult.data;
-        });
-    });
+  async created() {
+    let result = await this.$axios.get(
+      `/crm/purchase/${this.$route.params.id}`
+    );
+    let invResult = await this.$axios.get(
+      `/crm/inventory/${this.$route.params.id}`
+    );
+    result.data.item = invResult.data;
+    this.purchaseData = result.data;
   },
 };
 </script>
