@@ -128,5 +128,40 @@ router.get("/invoiceNumber/:invoiceNumber", async (req, res, next) => {
  * type: POST
  * path: crm/invoice/return
  */
-router.post("/return", (req, res, next) => {});
+router.post("/return", async (req, res, next) => {
+  req.body.isCredit = false;
+  req.body.paidDate = Date.now();
+  req.body.isReturn = true;
+  let invoiceReturnDataToSave = req.body;
+  let netTotal = 0;
+  invoiceReturnDataToSave.item.forEach((item) => {
+    let increaseQty = parseInt(item.quantity);
+    let doc = inventoryModel.findById(item.inventoryId);
+    let oldQty = parseInt(doc.quantity);
+    doc.quantity = oldQty + increaseQty;
+    /* calculate total and all */
+    let total = item.quantity * item.rate;
+    let totalAfterDiscount = total - (total * item.discountRate) / 100;
+    item.totalAfterDiscount = parseFloat(totalAfterDiscount).toFixed(2);
+    netTotal = netTotal + totalAfterDiscount;
+  });
+  invoiceReturnDataToSave.grandTotal = netTotal;
+  invoiceReturnDataToSave.netTotal =
+    netTotal - parseFloat(invoiceReturnDataToSave.discountAmt);
+  invoiceReturnDataToSave.netTotal = parseFloat(
+    invoiceReturnDataToSave.netTotal
+  ).toFixed(2);
+  invoiceReturnDataToSave.discountAmt = parseFloat(
+    invoiceReturnDataToSave.discountAmt
+  ).toFixed(2);
+  // grand total
+  invoiceReturnDataToSave.grandTotal = parseFloat(
+    invoiceReturnDataToSave.grandTotal
+  ).toFixed(2);
+  invoiceReturnDataToSave.date = Date.now();
+  let savedData = await new invoiceModel(
+    prepareData.create(invoiceReturnDataToSave, req)
+  ).save();
+  res.json(savedData);
+});
 module.exports = router;
