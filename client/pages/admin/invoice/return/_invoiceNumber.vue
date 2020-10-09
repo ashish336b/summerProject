@@ -7,8 +7,8 @@
             <div class="has-text-primary is-size-4">Customer Details</div>
           </div>
           <div class="column is-2">
-            <button class="button is-info" @click="createInvoice()">
-              Add Invoice
+            <button class="button is-info" @click="returnInvoice()">
+              Return
             </button>
           </div>
         </div>
@@ -17,19 +17,11 @@
             <div class="field">
               <label class="label is-small">Name</label>
               <div class="control">
-                <AutoComplete
-                  id="search"
-                  placeholder="Name"
-                  attr="label"
-                  value="label"
-                  api="/crm/customer/autocomplete?searchText="
-                  @selected="selectCustomer($event)"
-                  @tab="$refs.address.focus()"
-                  @newVal="
-                    (val) => {
-                      invoiceToSave.name = val;
-                    }
-                  "
+                <input
+                  type="text"
+                  :value="invoiceData.name"
+                  readonly
+                  class="input"
                 />
               </div>
             </div>
@@ -41,9 +33,10 @@
                 <input
                   class="input"
                   type="text"
-                  v-model="invoiceToSave.address"
                   placeholder="Address"
                   ref="address"
+                  :value="invoiceData.address"
+                  readonly
                 />
               </div>
             </div>
@@ -55,7 +48,8 @@
                 <input
                   class="input"
                   type="text"
-                  v-model="invoiceToSave.phoneNumber"
+                  :value="invoiceData.phoneNumber"
+                  readonly
                   placeholder="Phone Number"
                   ref="phoneNumber"
                 />
@@ -83,17 +77,29 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="item in invoiceToSave.item"
-              :key="`${item.productName}${item.rate}${item.quantity}`"
-            >
+            <tr v-for="(item, i) in invoiceData.item" :key="i">
               <th>1</th>
               <th>{{ item.productName }}</th>
               <th>{{ item.quantity }}</th>
               <th>{{ item.rate }}</th>
-              <th>{{ item.discountRate }}</th>
+              <th>{{ item.discountRate ? item.discountRate : 0 }}</th>
               <th>{{ item.total }}</th>
-              <th></th>
+              <th>
+                <a @click="edit(item, i)" class="has-text-primary">
+                  <span
+                    class="iconify"
+                    data-icon="ant-design:edit-outlined"
+                    data-inline="false"
+                  ></span>
+                </a>
+                <a @click="remove(i)" class="has-text-danger">
+                  <span
+                    class="iconify"
+                    data-icon="mdi:delete"
+                    data-inline="false"
+                  ></span>
+                </a>
+              </th>
             </tr>
           </tbody>
         </table>
@@ -103,21 +109,11 @@
           <div class="field">
             <label class="label is-small">Product Name</label>
             <div class="control">
-              <AutoComplete
-                id="search"
-                placeholder="Name"
-                attr="label"
-                value="label"
-                api="/crm/inventory/autocomplete?searchText="
-                @selected="selectProduct($event)"
-                @tab="$refs.qty.focus()"
-                :reset="refresh"
-                :text="autoComplete.text"
-                @newVal="
-                  (val) => {
-                    item.productName = val;
-                  }
-                "
+              <input
+                type="text"
+                class="input"
+                v-model="item.productName"
+                placeholder="ProductName"
               />
             </div>
           </div>
@@ -204,7 +200,7 @@
             <div class="control">
               <input
                 class="input"
-                :value="invoiceToSave.grandTotal"
+                :value="invoiceData.grandTotal"
                 disabled
                 type="number"
                 placeholder="0"
@@ -222,7 +218,7 @@
             <div class="control">
               <input
                 class="input"
-                v-model="invoiceToSave.discountAmt"
+                v-model="invoiceData.discountAmt"
                 type="number"
                 placeholder="0"
               />
@@ -254,26 +250,9 @@
 </template>
 
 <script>
-import Swal from "sweetalert2";
-import AutoComplete from "../../../components/autocomplete";
 export default {
-  components: {
-    AutoComplete,
-  },
   data: () => ({
-    refresh: false,
-    autoComplete: {
-      text: "",
-    },
-    invoiceToSave: {
-      name: "",
-      phoneNumber: "",
-      address: "",
-      item: [],
-      grandTotal: "",
-      netTotal: "",
-      discountAmt: "0",
-    },
+    invoiceData: "",
     item: {
       inventoryId: "",
       productName: "",
@@ -285,25 +264,13 @@ export default {
     },
   }),
   methods: {
-    selectCustomer: function (customer) {
-      this.invoiceToSave.name = customer.label;
-      this.invoiceToSave.address = customer.address;
-      this.invoiceToSave.phoneNumber = customer.phoneNumber;
-    },
-    selectProduct: function (product) {
-      console.log(product);
-      this.autoComplete.text = product.productName;
-      console.log(this.autoComplete.text);
-      this.item.rate = product.mrp;
-      this.item.inventoryId = product.inventoryId;
-    },
     add: function () {
       this.item.total = this.item.quantity * this.item.rate;
       this.item.totalAdjust = this.totalAdjust;
-      this.invoiceToSave.item.push({ ...this.item });
+      this.invoiceData.item.push({ ...this.item });
       this.calculateGrandTotal;
-      this.refresh = !this.refresh;
       this.item = {
+        inventoryId: "",
         productName: "",
         rate: "",
         quantity: "",
@@ -312,31 +279,45 @@ export default {
         discountRate: "",
       };
     },
-    createInvoice: function () {
-      this.calculateGrandTotal;
-      this.calculateNetTotal;
-      let items = this.invoiceToSave.item.map((el) => {
+    edit: function (item, index) {
+      this.item = {
+        productName: item.productName,
+        rate: item.rate,
+        quantity: item.quantity,
+        total: item.total,
+        totalAdjust: item.totalAdjust,
+        discountRate: item.discountRate,
+        inventoryId: item.inventoryId,
+      };
+      this.invoiceData.item.splice(index, 1);
+    },
+    remove: function (index) {
+      this.invoiceData.item.splice(index, 1);
+    },
+    returnInvoice: function () {
+      let item = this.invoiceData.item.map((el) => {
         return {
           inventoryId: el.inventoryId,
           productName: el.productName,
-          quantity: el.quantity,
           rate: el.rate,
+          quantity: el.quantity,
           discountRate: el.discountRate,
         };
       });
-      let invoiceDataToSave = {
-        name: this.invoiceToSave.name,
-        phoneNumber: this.invoiceToSave.phoneNumber,
-        address: this.invoiceToSave.address,
-        item: items,
-        grandTotal: this.invoiceToSave.grandTotal,
-        discountAmt: this.invoiceToSave.discountAmt,
+      let invoiceReturnData = {
+        item: item,
+        name: this.invoiceData.name,
+        phoneNumber: this.invoiceData.phoneNumber,
+        address: this.invoiceData.address,
+        grandTotal: parseFloat(this.invoiceData.grandTotal),
+        netTotal: parseFloat(this.invoiceData.netTotal),
+        discountAmt: this.invoiceData.discountAmt,
       };
-      this.$axios.post("/crm/invoice", this.invoiceToSave).then((result) => {
-        Swal.fire(`Success!`, `Invoice Created`, "success").then((result) => {
-          this.$router.push("/admin/invoice");
+      this.$axios
+        .post("/crm/invoice/return", invoiceReturnData)
+        .then((result) => {
+          alert("success");
         });
-      });
     },
   },
   computed: {
@@ -344,19 +325,19 @@ export default {
       this.item.total = this.item.quantity * this.item.rate;
       return this.item.total - this.item.total * (this.item.discountRate / 100);
     },
-    calculateGrandTotal: function () {
-      this.invoiceToSave.grandTotal = this.invoiceToSave.item.reduce(
-        (acc, curr) => {
-          return acc + parseFloat(curr.totalAdjust);
-        },
-        0
-      );
-    },
     calculateNetTotal: function () {
-      this.invoiceToSave.netTotal =
-        this.invoiceToSave.grandTotal - this.invoiceToSave.discountAmt;
-      return this.invoiceToSave.netTotal;
+      if (this.invoiceData) {
+        this.invoiceData.netTotal =
+          this.invoiceData.grandTotal - this.invoiceData.discountAmt;
+        return this.invoiceData.netTotal;
+      }
     },
+  },
+  async created() {
+    let result = await this.$axios.get(
+      `/crm/invoice/invoiceNumber/${this.$route.params.invoiceNumber}`
+    );
+    this.invoiceData = result.data;
   },
 };
 </script>
