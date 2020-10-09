@@ -104,7 +104,7 @@ router.post("/", async (req, res, next) => {
       }
     }
   } catch (error) {
-    console.log("error sdf sdf sdfffffffffffffffffffffffffffffffffffff");
+    console.log("error");
     console.log(error);
   }
 });
@@ -134,11 +134,12 @@ router.post("/return", async (req, res, next) => {
   req.body.isReturn = true;
   let invoiceReturnDataToSave = req.body;
   let netTotal = 0;
-  invoiceReturnDataToSave.item.forEach((item) => {
+  invoiceReturnDataToSave.item.forEach(async (item) => {
     let increaseQty = parseInt(item.quantity);
     let doc = inventoryModel.findById(item.inventoryId);
     let oldQty = parseInt(doc.quantity);
     doc.quantity = oldQty + increaseQty;
+    await doc.save();
     /* calculate total and all */
     let total = item.quantity * item.rate;
     let totalAfterDiscount = total - (total * item.discountRate) / 100;
