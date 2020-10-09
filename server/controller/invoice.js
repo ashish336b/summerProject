@@ -115,4 +115,18 @@ router.post("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   res.json(await invoiceModel.findById(req.params.id));
 });
+/**
+ * method : GET
+ * url : /crm/invoice/invoiceNumber/:invoiceNumber
+ */
+router.get("/invoiceNumber/:invoiceNumber", async (req, res, next) => {
+  res.json(
+    await invoiceModel.findOne({ invoiceNumber: req.params.invoiceNumber })
+  );
+});
+/**
+ * type: POST
+ * path: crm/invoice/return
+ */
+router.post("/return", (req, res, next) => {});
 module.exports = router;
