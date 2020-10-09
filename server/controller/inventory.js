@@ -68,4 +68,20 @@ router.get("/autoComplete", (req, res, next) => {
       res.json(ret);
     });
 });
+/**
+ * method : GET
+ * url : /crm/inventory/:purchaseId
+ */
+router.get("/:purchaseId", async (req, res, next) => {
+  res.json(
+    await inventoryModel.find(
+      prepareData.find(
+        {
+          purchaseId: req.params.purchaseId,
+        },
+        req
+      )
+    )
+  );
+});
 module.exports = router;

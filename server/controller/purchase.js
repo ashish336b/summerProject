@@ -95,4 +95,32 @@ router.post("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   res.json(await purchaseModel.findById(req.params.id));
 });
+/**
+ * method : POST
+ * url : /crm/purchase/return
+ */
+router.post("/return", async (req, res, next) => {
+  req.body = prepareData.create(req.body, req);
+  req.body.isCredit = false;
+  req.body.paidDate = Date.now();
+  req.body.isReturn = true;
+  new purchaseModel(req.body).save().then((result) => {
+    req.body.item.forEach(async (item) => {
+      item.purchaseId = result._id.toString();
+      item.space = "";
+      item.purchasedFrom = req.body.vendorName;
+      item.createdBy = req.body.createdBy;
+      let inventoryData = await inventoryModel.findOne({
+        _id: item.inventoryId,
+      });
+      if (inventoryData.quantity !== 0) {
+        let remainingQtyAftRet = inventoryData.quantity - item.quantity;
+        inventoryData.quantity =
+          remainingQtyAftRet > 0 ? remainingQtyAftRet : 0;
+      }
+      await inventoryData.save();
+    });
+    res.send(result);
+  });
+});
 module.exports = router;
