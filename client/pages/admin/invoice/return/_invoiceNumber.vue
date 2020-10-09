@@ -250,6 +250,7 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
 export default {
   data: () => ({
     invoiceData: "",
@@ -316,7 +317,9 @@ export default {
       this.$axios
         .post("/crm/invoice/return", invoiceReturnData)
         .then((result) => {
-          alert("success");
+          Swal.fire(`Success!`, `Invoice Created`, "success").then((result) => {
+            this.$router.push("/admin/invoice");
+          });
         });
     },
   },
