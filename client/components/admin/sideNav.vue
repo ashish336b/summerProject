@@ -41,6 +41,20 @@
       </ul>
       <ul class="menu-list">
         <li>
+          <nuxt-link to="/admin/purchase/return">
+            <div class="list">
+              <span
+                class="iconify"
+                data-icon="ri:medicine-bottle-line"
+                data-inline="false"
+              ></span>
+              <p>Purchase Return</p>
+            </div>
+          </nuxt-link>
+        </li>
+      </ul>
+      <ul class="menu-list">
+        <li>
           <nuxt-link to="/admin/invoice">
             <div class="list">
               <span
