@@ -36,77 +36,77 @@ router.post("/", async (req, res, next) => {
   let invoiceDataToSave = req.body;
 
   let netTotal = 0;
-  invoiceDataToSave.item.forEach((item) => {
-    let reduceQty = item.quantity;
-    reduceQty = parseInt(reduceQty);
+  try {
+    invoiceDataToSave.item.forEach(async (item) => {
+      let reduceQty = item.quantity;
+      reduceQty = parseInt(reduceQty);
 
-    let total = item.quantity * item.rate;
-    let totalAfterDiscount = total - (total * item.discountRate) / 100;
-    item.total = parseFloat(total).toFixed(2);
-    item.totalAfterDiscount = parseFloat(totalAfterDiscount).toFixed(2);
-    netTotal = netTotal + totalAfterDiscount;
-    inventoryModel.findById(item.inventoryId, (err, doc) => {
-      if (err) {
-        console.log(err);
-      } else {
-        let oldQty = parseInt(doc.quantity);
-        let newQty = oldQty - reduceQty;
-        newQty = newQty <= 0 ? 0 : newQty;
-        doc.quantity = newQty;
-        doc.save();
-      }
+      let total = item.quantity * item.rate;
+      let totalAfterDiscount = total - (total * item.discountRate) / 100;
+      item.total = parseFloat(total).toFixed(2);
+      item.totalAfterDiscount = parseFloat(totalAfterDiscount).toFixed(2);
+      netTotal = netTotal + totalAfterDiscount;
+      let invDoc = await inventoryModel.findById(item.inventoryId);
+      let oldQty = parseInt(invDoc.quantity);
+      let newQty = oldQty - reduceQty;
+      newQty = newQty <= 0 ? 0 : newQty;
+      invDoc.quantity = newQty;
+      await invDoc.save();
     });
-  });
-  // grand total
-  invoiceDataToSave.grandTotal = netTotal;
-  // net total
-  invoiceDataToSave.netTotal =
-    netTotal - parseFloat(invoiceDataToSave.discountAmt);
-  invoiceDataToSave.netTotal = parseFloat(invoiceDataToSave.netTotal)
-    .toFixed(2)
-    .toString();
-  //  discount amount
-  invoiceDataToSave.discountAmt = parseFloat(invoiceDataToSave.discountAmt)
-    .toFixed(2)
-    .toString();
-  // grand total
-  invoiceDataToSave.grandTotal = parseFloat(invoiceDataToSave.grandTotal)
-    .toFixed(2)
-    .toString();
+    // grand total
+    invoiceDataToSave.grandTotal = netTotal;
+    // net total
+    invoiceDataToSave.netTotal =
+      netTotal - parseFloat(invoiceDataToSave.discountAmt);
+    invoiceDataToSave.netTotal = parseFloat(invoiceDataToSave.netTotal)
+      .toFixed(2)
+      .toString();
+    //  discount amount
+    invoiceDataToSave.discountAmt = parseFloat(invoiceDataToSave.discountAmt)
+      .toFixed(2)
+      .toString();
+    // grand total
+    invoiceDataToSave.grandTotal = parseFloat(invoiceDataToSave.grandTotal)
+      .toFixed(2)
+      .toString();
 
-  new invoiceModel(prepareData.create(invoiceDataToSave, req))
-    .save()
-    .then(async (result) => {
-      if (req.body.phoneNumber.trim()) {
-        let oneUser = await userModel.find(
-          prepareData.find({ phoneNumber: invoiceDataToSave.phoneNumber }, req)
-        );
-        let userObjToSave;
-        if (oneUser) {
-          let name = invoiceDataToSave.name.split(" ");
-          if (name.length > 2) {
-            userObjToSave = {
-              firstName: name[0],
-              lastName: name[2],
-              middleName: name[1],
-            };
-          } else if (name.length == 2) {
-            userObjToSave = {
-              firstName: name[0],
-              lastName: name[1],
-            };
-          }
-          userObjToSave.role = "customer";
-          userObjToSave.phoneNumber = req.body.phoneNumber.trim();
-          userObjToSave.address = req.body.address.trim();
-          await new userModel(userObjToSave).save();
+    var result = await new invoiceModel(
+      prepareData.create(invoiceDataToSave, req)
+    ).save();
+    if (req.body.phoneNumber.trim()) {
+      let oneUser = await userModel.find(
+        prepareData.find({ phoneNumber: invoiceDataToSave.phoneNumber }, req)
+      );
+
+      let userObjToSave;
+      if (oneUser) {
+        let name = invoiceDataToSave.name.split(" ");
+        if (name.length > 2) {
+          userObjToSave = {
+            firstName: name[0],
+            lastName: name[2],
+            middleName: name[1],
+          };
+        } else if (name.length == 2) {
+          userObjToSave = {
+            firstName: name[0],
+            lastName: name[1],
+          };
         }
+        userObjToSave.role = "customer";
+        userObjToSave.phoneNumber = req.body.phoneNumber.trim();
+        userObjToSave.address = req.body.address.trim();
+        await new userModel(userObjToSave).save();
+        res.json({
+          error: null,
+          data: result,
+        });
       }
-      res.json({
-        error: null,
-        data: result,
-      });
-    });
+    }
+  } catch (error) {
+    console.log("error sdf sdf sdfffffffffffffffffffffffffffffffffffff");
+    console.log(error);
+  }
 });
 /**
  * method : GET
