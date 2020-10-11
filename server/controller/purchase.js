@@ -68,22 +68,26 @@ router.post("/", async (req, res, next) => {
           .toLowerCase()
           .replace(/\s+/g, "-"),
       });
+      item.purchaseId = result._id.toString();
+      item.space = "";
+      item.purchasedFrom = req.body.vendorName;
+      item.createdBy = req.body.createdBy;
+      item.vendorId = vendorResult._id;
+      item.productSlug = `${item.productName} ${item.mrp}`
+        .toLowerCase()
+        .replace(/\s+/g, "-");
       if (getInventory) {
         getInventory.quantity += item.quantity;
         await getInventory.save();
       } else {
-        item.purchaseId = result._id.toString();
-        item.space = "";
-        item.purchasedFrom = req.body.vendorName;
-        item.createdBy = req.body.createdBy;
-        item.vendorId = vendorResult._id;
-        item.productSlug = `${item.productName} ${item.mrp}`
-          .toLowerCase()
-          .replace(/\s+/g, "-");
         new inventoryModel(prepareData.create(item, req))
           .save()
-          .then((res) => {});
+          .then((result) => {});
       }
+      item.isDisplay = false;
+      new inventoryModel(prepareData.create(item), req)
+        .save()
+        .then((result) => {});
     });
     res.json({ error: false, message: "Purchase Created" });
   });

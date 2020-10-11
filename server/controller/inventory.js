@@ -11,7 +11,7 @@ router.get("/paginate", async (req, res, next) => {
     inventoryModel,
     {
       searchableField: ["productName", "manufacturer", "mrp", "cp"],
-      filterBy: prepareData.find({}, req),
+      filterBy: prepareData.find({ isDisplay: true }, req),
     },
     req
   );
@@ -32,6 +32,7 @@ router.get("/autoComplete", (req, res, next) => {
     queryParams = prepareData.find(
       {
         productName: searchRegix,
+        isDisplay: true,
       },
       req
     );
@@ -40,6 +41,7 @@ router.get("/autoComplete", (req, res, next) => {
       {
         productName: searchRegix,
         quantity: { $gt: 0 },
+        isDisplay: true,
       },
       req
     );
@@ -78,6 +80,7 @@ router.get("/:purchaseId", async (req, res, next) => {
       prepareData.find(
         {
           purchaseId: req.params.purchaseId,
+          isDisplay: false,
         },
         req
       )

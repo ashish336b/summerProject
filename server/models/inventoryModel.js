@@ -15,6 +15,7 @@ const inventoryModel = new mongoose.Schema(
     vendorId: { type: mongoose.Schema.ObjectId, ref: "vendor" },
     purchasedFrom: { type: String },
     purchaseId: { type: String },
+    isDisplay: { type: Boolean, default: true },
     isDeleted: { type: Boolean, default: false },
   },
   {
