@@ -3,6 +3,7 @@
     <div class="container">
       <div class="button-container">
         <nuxt-link
+          v-if="!purchaseData.isReturn"
           :to="`/admin/purchase/return/${$route.params.id}`"
           class="button is-primary"
           >Return</nuxt-link

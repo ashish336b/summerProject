@@ -3,6 +3,7 @@
     <div class="hero-container">
       <div class="container">
         <nuxt-link
+          v-if="!invoiceData.isReturn"
           :to="`/admin/invoice/return/${encodeURIComponent(
             invoiceData.invoiceNumber
           )}`"
@@ -55,7 +56,7 @@
                 <td>{{ item.productName }}</td>
                 <td>{{ item.quantity }}</td>
                 <td>{{ item.rate }}</td>
-                <td>{{ item.discountRate }}</td>
+                <td>{{ item.discountRate ? item.discountRate : "0" }}</td>
                 <td>{{ item.totalAdjust }}</td>
               </tr>
               <tr>
