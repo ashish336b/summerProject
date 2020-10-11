@@ -114,8 +114,12 @@ router.post("/return", async (req, res, next) => {
       item.space = "";
       item.purchasedFrom = req.body.vendorName;
       item.createdBy = req.body.createdBy;
+
       let inventoryData = await inventoryModel.findOne({
-        _id: item.inventoryId,
+        productSlug: `${item.productName} ${item.mrp}`
+          .toLowerCase()
+          .replace(/\s+/g, "-"),
+        isDisplay: true,
       });
       if (inventoryData.quantity !== 0) {
         let remainingQtyAftRet = inventoryData.quantity - item.quantity;
