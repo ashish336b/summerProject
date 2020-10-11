@@ -136,7 +136,7 @@ router.post("/return", async (req, res, next) => {
   let netTotal = 0;
   invoiceReturnDataToSave.item.forEach(async (item) => {
     let increaseQty = parseInt(item.quantity);
-    let doc = inventoryModel.findById(item.inventoryId);
+    let doc = await inventoryModel.findById(item.inventoryId);
     let oldQty = parseInt(doc.quantity);
     doc.quantity = oldQty + increaseQty;
     await doc.save();
