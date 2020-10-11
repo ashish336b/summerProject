@@ -291,7 +291,6 @@ export default {
       this.invoiceToSave.phoneNumber = customer.phoneNumber;
     },
     selectProduct: function (product) {
-      console.log(product);
       this.autoComplete.text = product.productName;
       console.log(this.autoComplete.text);
       this.item.rate = product.mrp;
@@ -303,6 +302,7 @@ export default {
       this.invoiceToSave.item.push({ ...this.item });
       this.calculateGrandTotal;
       this.refresh = !this.refresh;
+      this.autoComplete.text = "";
       this.item = {
         productName: "",
         rate: "",

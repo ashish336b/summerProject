@@ -1,6 +1,15 @@
 <template>
   <adminSidebar>
     <div class="hero-container">
+      <div class="container">
+        <nuxt-link
+          :to="`/admin/invoice/return/${encodeURIComponent(
+            invoiceData.invoiceNumber
+          )}`"
+          class="button is-primary"
+          >Return</nuxt-link
+        >
+      </div>
       <div class="invoice-container mx-6 my-2">
         <div class="invoive-header">
           <h1 class="has-text-centered is-size-5">

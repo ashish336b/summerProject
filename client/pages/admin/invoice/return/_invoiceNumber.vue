@@ -281,6 +281,7 @@ export default {
       };
     },
     edit: function (item, index) {
+      this.item = { ...item };
       this.item = {
         productName: item.productName,
         rate: item.rate,

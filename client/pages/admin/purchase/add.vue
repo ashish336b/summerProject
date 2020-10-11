@@ -113,7 +113,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in purchaseData.item" :key="item.productName">
+            <tr v-for="(item, i) in purchaseData.item" :key="item.productName">
               <td>1</td>
               <td>{{ item.productName }}</td>
               <td>{{ item.manufacturer }}</td>
@@ -124,7 +124,22 @@
               <td>{{ item.mrpAmount }}</td>
               <td>{{ item.cp }}</td>
               <td>{{ item.cpAmount }}</td>
-              <td></td>
+              <td>
+                <a @click="edit(item, i)" class="has-text-primary">
+                  <span
+                    class="iconify"
+                    data-icon="ant-design:edit-outlined"
+                    data-inline="false"
+                  ></span>
+                </a>
+                <a @click="remove(i)" class="has-text-danger">
+                  <span
+                    class="iconify"
+                    data-icon="mdi:delete"
+                    data-inline="false"
+                  ></span>
+                </a>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -145,7 +160,7 @@
                 @selected="selectProduct($event)"
                 @tab="$refs.manufacturer.focus()"
                 :reset="refresh"
-                :text="autoComplete.text"
+                :text="autoComplete.search"
                 @newVal="
                   (val) => {
                     items.productName = val;
@@ -285,7 +300,7 @@ export default {
   data: () => ({
     refresh: false,
     autoComplete: {
-      text: "",
+      search: "",
     },
     purchaseData: {
       invoiceNumber: "",
@@ -320,6 +335,7 @@ export default {
       this.purchaseData.item.push(this.items);
       this.grandTotal;
       this.refresh = !this.refresh;
+      this.autoComplete.search = "";
       this.items = {
         productName: "",
         manufacturer: "",
@@ -332,6 +348,16 @@ export default {
         cpAmount: "",
       };
     },
+    edit: function (item, index) {
+      this.autoComplete.search = this.purchaseData.item[index].productName;
+      this.items = { ...this.purchaseData.item[index] };
+      this.purchaseData.item.splice(index, 1);
+      this.grandTotal;
+    },
+    remove: function (index) {
+      this.purchaseData.item.splice(index, 1);
+      this.grandTotal;
+    },
     selectVendor: function (vendor) {
       this.purchaseData.vendorName = vendor.vendorName;
       this.purchaseData.phoneNumber = vendor.phoneNumber;
@@ -340,7 +366,8 @@ export default {
     },
 
     selectProduct: function (product) {
-      this.autoComplete.text = product.productName;
+      this.autoComplete.search = product.productName;
+      this.items.productName = product.productName;
       this.items.manufacturer = product.manufacturer;
       this.items.unit = product.unit;
     },

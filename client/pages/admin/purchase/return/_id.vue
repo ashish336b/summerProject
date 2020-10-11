@@ -295,20 +295,13 @@ export default {
   }),
   methods: {
     edit: function (item, index) {
-      this.items = {
-        productName: item.productName,
-        manufacturer: item.manufacturer,
-        unit: item.unit,
-        packaging: item.packaging,
-        qty: item.qty,
-        mrp: item.mrp,
-        cp: item.cp,
-      };
+      this.items = { ...item };
       this.purchaseData.item.splice(index, 1);
       this.grandTotal;
     },
     remove: function (index) {
       this.purchaseData.item.splice(index, 1);
+      this.grandTotal;
     },
     add: function () {
       let quantity = this.items.packaging * this.items.qty;

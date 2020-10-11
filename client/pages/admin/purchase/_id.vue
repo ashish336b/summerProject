@@ -1,6 +1,13 @@
 <template>
   <adminSidebar>
     <div class="container">
+      <div class="button-container">
+        <nuxt-link
+          :to="`/admin/purchase/return/${$route.params.id}`"
+          class="button is-primary"
+          >Return</nuxt-link
+        >
+      </div>
       <div class="invoice-container">
         <div class="invoice-header has-text-centered">
           <h1>{{ purchaseData.vendorName }}</h1>
@@ -49,10 +56,8 @@ export default {
   }),
   created() {
     this.$axios.get(`/crm/purchase/${this.$route.params.id}`).then((result) => {
-      console.log(result);
       this.purchaseData = result.data;
     });
-    console.log(this.purchaseData);
   },
 };
 </script>
