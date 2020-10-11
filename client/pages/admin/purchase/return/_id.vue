@@ -305,6 +305,7 @@ export default {
         cp: item.cp,
       };
       this.purchaseData.item.splice(index, 1);
+      this.grandTotal;
     },
     remove: function (index) {
       this.purchaseData.item.splice(index, 1);
@@ -364,7 +365,19 @@ export default {
         });
     },
   },
-  computed: {},
+  computed: {
+    grandTotal: function () {
+      this.purchaseData.grandTotal = this.purchaseData.item.reduce(
+        (acc, curr) => {
+          if (!acc) {
+            return parseInt(curr.cpAmount);
+          }
+          return acc + parseInt(curr.cpAmount);
+        },
+        0
+      );
+    },
+  },
   async created() {
     let result = await this.$axios.get(
       `/crm/purchase/${this.$route.params.id}`

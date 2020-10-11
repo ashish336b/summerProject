@@ -291,9 +291,11 @@ export default {
         inventoryId: item.inventoryId,
       };
       this.invoiceData.item.splice(index, 1);
+      this.calculateGrandTotal;
     },
     remove: function (index) {
       this.invoiceData.item.splice(index, 1);
+      this.calculateGrandTotal;
     },
     returnInvoice: function () {
       let item = this.invoiceData.item.map((el) => {
@@ -327,6 +329,14 @@ export default {
     totalAdjust: function () {
       this.item.total = this.item.quantity * this.item.rate;
       return this.item.total - this.item.total * (this.item.discountRate / 100);
+    },
+    calculateGrandTotal: function () {
+      this.invoiceData.grandTotal = this.invoiceData.item.reduce(
+        (acc, curr) => {
+          return acc + parseFloat(curr.totalAdjust);
+        },
+        0
+      );
     },
     calculateNetTotal: function () {
       if (this.invoiceData) {
