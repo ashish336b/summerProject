@@ -236,15 +236,32 @@
             </div>
           </div>
         </div>
-        <div class="column is-2">
-          <div class="field">
-            <label class="label is-small">cp/qty</label>
+        <div class="column is-3">
+          <div class="columns mb-0 mt-1">
+            <div class="column pr-1 pl-3 py-0">
+              <label class="label is-small">CP Amount &nbsp; &nbsp; OR</label>
+            </div>
+            <div class="column pr-1 pl-3 py-0">
+              <label class="label is-small">CP/QTY</label>
+            </div>
+          </div>
+          <div class="field has-addons">
             <div class="control">
               <input
                 class="input"
-                type="text"
+                type="number"
+                @input="getCp()"
+                v-model="items.cpAmount"
+                placeholder="Total CP"
+              />
+            </div>
+            <div class="control">
+              <input
+                class="input"
+                type="number"
+                @input="getCpAmount()"
                 v-model="items.cp"
-                placeholder="cp"
+                placeholder="CP/Qty"
               />
             </div>
           </div>
@@ -325,6 +342,19 @@ export default {
     },
   }),
   methods: {
+    getCp: function () {
+      this.items.cp =
+        this.items.cpAmount / (this.items.packaging * this.items.qty);
+      if (!isFinite(this.items.cp)) {
+        this.items.cp = 0;
+      } else {
+        this.items.cp = parseFloat(this.items.cp).toFixed(2);
+      }
+    },
+    getCpAmount: function () {
+      this.items.cpAmount =
+        this.items.packaging * this.items.qty * this.items.cp;
+    },
     add: function () {
       let quantity = this.items.packaging * this.items.qty;
       let cpAmount = this.items.cp * quantity;
@@ -371,7 +401,6 @@ export default {
       this.items.manufacturer = product.manufacturer;
       this.items.unit = product.unit;
     },
-
     savePurchase: function () {
       this.$axios
         .post("/crm/purchase", this.purchaseData)
