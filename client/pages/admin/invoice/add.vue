@@ -83,7 +83,11 @@
             </tr>
           </thead>
           <tbody>
+            <tr v-if="invoiceToSave.item.length == 0">
+              <td colspan="7" class="has-text-centered">Nothing Added Yet</td>
+            </tr>
             <tr
+              v-else
               v-for="item in invoiceToSave.item"
               :key="`${item.productName}${item.rate}${item.quantity}`"
             >
@@ -99,7 +103,7 @@
         </table>
       </div>
       <div class="columns is-multiline">
-        <div class="column is-4">
+        <div class="column is-3">
           <div class="field">
             <label class="label is-small">Product Name</label>
             <div class="control">
@@ -122,7 +126,7 @@
             </div>
           </div>
         </div>
-        <div class="column is-1">
+        <div class="column is-2">
           <div class="field">
             <label class="label is-small">Qty</label>
             <div class="control">
@@ -136,7 +140,7 @@
             </div>
           </div>
         </div>
-        <div class="column is-1">
+        <div class="column is-2">
           <div class="field">
             <label class="label is-small">Rate</label>
             <div class="control">
@@ -149,7 +153,7 @@
             </div>
           </div>
         </div>
-        <div class="column is-1">
+        <div class="column is-2">
           <div class="field">
             <label class="label is-small">Total</label>
             <div class="control">
@@ -163,19 +167,38 @@
             </div>
           </div>
         </div>
-        <div class="column is-1">
-          <div class="field">
-            <label class="label is-small">Discount %</label>
+        <div class="column is-3">
+          <div class="columns mb-0 mt-1">
+            <div class="column pr-1 pl-3 py-0">
+              <label class="label is-small">Disc. % &nbsp; or</label>
+            </div>
+            <div class="column pr-1 pl-3 py-0">
+              <label class="label is-small">Disc. Amt</label>
+            </div>
+          </div>
+          <div class="field has-addons">
             <div class="control">
               <input
                 class="input"
                 v-model="item.discountRate"
+                @input="calculateDisAmt()"
+                type="number"
+                placeholder="0"
+              />
+            </div>
+            <div class="control">
+              <input
+                class="input"
+                v-model="item.discountAmt"
+                @input="calculateDisRate()"
                 type="number"
                 placeholder="0"
               />
             </div>
           </div>
         </div>
+      </div>
+      <div class="columns is-multiline">
         <div class="column is-2">
           <div class="field">
             <label class="label is-small">Total Adj</label>
@@ -217,12 +240,31 @@
       <div class="columns is-multiline">
         <div class="column is-8"></div>
         <div class="column is-3">
-          <div class="field">
-            <label class="label is-small">Adjust Amount</label>
+          <div class="columns mb-0 mt-1">
+            <div class="column pr-1 pl-3 py-0">
+              <label class="label is-small"
+                >Adjust In % &nbsp;&nbsp;&nbsp; or</label
+              >
+            </div>
+            <div class="column pr-1 pl-3 py-0">
+              <label class="label is-small">Adjust in Amt</label>
+            </div>
+          </div>
+          <div class="field has-addons">
+            <div class="control">
+              <input
+                class="input"
+                v-model="invoiceToSave.discountRate"
+                @input="calculateAdjustAmt()"
+                type="number"
+                placeholder="0"
+              />
+            </div>
             <div class="control">
               <input
                 class="input"
                 v-model="invoiceToSave.discountAmt"
+                @input="calculateAdjustRate()"
                 type="number"
                 placeholder="0"
               />
@@ -273,6 +315,7 @@ export default {
       grandTotal: "",
       netTotal: "",
       discountAmt: "0",
+      discountRate: "0",
     },
     item: {
       inventoryId: "",
@@ -282,9 +325,30 @@ export default {
       total: "",
       totalAdjust: "",
       discountRate: "",
+      discountAmt: "",
     },
   }),
   methods: {
+    calculateDisAmt: function () {
+      this.item.discountAmt = parseFloat(
+        (this.item.total * this.item.discountRate) / 100
+      ).toFixed(2);
+    },
+    calculateDisRate: function () {
+      this.item.discountRate = parseFloat(
+        (this.item.discountAmt / this.item.total) * 100
+      ).toFixed(2);
+    },
+    calculateAdjustRate: function () {
+      this.invoiceToSave.discountRate = parseFloat(
+        (this.invoiceToSave.discountAmt / this.invoiceToSave.grandTotal) * 100
+      ).toFixed(2);
+    },
+    calculateAdjustAmt: function () {
+      let discountAmt =
+        (this.invoiceToSave.discountRate * this.invoiceToSave.grandTotal) / 100;
+      this.invoiceToSave.discountAmt = parseFloat(discountAmt).toFixed(2);
+    },
     selectCustomer: function (customer) {
       this.invoiceToSave.name = customer.label;
       this.invoiceToSave.address = customer.address;
@@ -342,7 +406,9 @@ export default {
   computed: {
     totalAdjust: function () {
       this.item.total = this.item.quantity * this.item.rate;
-      return this.item.total - this.item.total * (this.item.discountRate / 100);
+      return parseFloat(
+        this.item.total - this.item.total * (this.item.discountRate / 100)
+      ).toFixed(2);
     },
     calculateGrandTotal: function () {
       this.invoiceToSave.grandTotal = this.invoiceToSave.item.reduce(
