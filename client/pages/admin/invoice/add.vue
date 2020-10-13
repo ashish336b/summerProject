@@ -73,31 +73,48 @@
         <table class="table is-striped is-fullwidth">
           <thead>
             <tr>
-              <th>Sn</th>
-              <th>ProductName</th>
-              <th>quantity</th>
+              <th>#</th>
+              <th>Product Name</th>
+              <th>Qty</th>
               <th>Rate</th>
-              <th>discount %</th>
-              <th>total</th>
+              <th>Total</th>
+              <th>Discount(Rs.)</th>
+              <th>Total Adj</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
             <tr v-if="invoiceToSave.item.length == 0">
-              <td colspan="7" class="has-text-centered">Nothing Added Yet</td>
+              <td colspan="8" class="has-text-centered">Nothing Added Yet</td>
             </tr>
             <tr
               v-else
-              v-for="item in invoiceToSave.item"
+              v-for="(item, i) in invoiceToSave.item"
               :key="`${item.productName}${item.rate}${item.quantity}`"
             >
-              <th>1</th>
-              <th>{{ item.productName }}</th>
-              <th>{{ item.quantity }}</th>
-              <th>{{ item.rate }}</th>
-              <th>{{ item.discountRate }}</th>
-              <th>{{ item.total }}</th>
-              <th></th>
+              <td>{{ i + 1 }}</td>
+              <td>{{ item.productName }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>{{ item.rate }}</td>
+              <td>{{ item.total }}</td>
+              <td>{{ item.discountRate }}</td>
+              <td>{{ item.totalAdjust }}</td>
+              <td>
+                <a @click="edit(item, i)" class="has-text-primary">
+                  <span
+                    class="iconify"
+                    data-icon="ant-design:edit-outlined"
+                    data-inline="false"
+                  ></span>
+                </a>
+                <a @click="remove(i)" class="has-text-danger">
+                  <span
+                    class="iconify"
+                    data-icon="mdi:delete"
+                    data-inline="false"
+                  ></span>
+                </a>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -329,6 +346,16 @@ export default {
     },
   }),
   methods: {
+    edit: function (item, index) {
+      this.autoComplete.text = this.invoiceToSave.item[index].productName;
+      this.item = { ...this.invoiceToSave.item[index] };
+      this.invoiceToSave.item.splice(index, 1);
+      this.calculateGrandTotal;
+    },
+    remove: function (index) {
+      this.invoiceToSave.item.splice(index, 1);
+      this.calculateGrandTotal;
+    },
     calculateDisAmt: function () {
       this.item.discountAmt = parseFloat(
         (this.item.total * this.item.discountRate) / 100
