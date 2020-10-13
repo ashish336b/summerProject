@@ -290,6 +290,41 @@
           </div>
         </div>
       </div>
+      <div class="columns is-mulitline">
+        <div class="column is-9"></div>
+        <div class="column is-3">
+          <div class="columns mb-0 mt-1">
+            <div class="column pr-1 pl-3 py-0">
+              <label class="label is-small"
+                >Adjust In % &nbsp;&nbsp;&nbsp; or</label
+              >
+            </div>
+            <div class="column pr-1 pl-3 py-0">
+              <label class="label is-small">Adjust in Amt</label>
+            </div>
+          </div>
+          <div class="field has-addons">
+            <div class="control">
+              <input
+                class="input"
+                v-model="purchaseData.discountRate"
+                @input="calculateAdjustAmt()"
+                type="number"
+                placeholder="0"
+              />
+            </div>
+            <div class="control">
+              <input
+                class="input"
+                v-model="purchaseData.discountAmt"
+                @input="calculateAdjustRate()"
+                type="number"
+                placeholder="0"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="columns is-multiline">
         <div class="column is-10"></div>
         <div class="column is-2">
@@ -298,9 +333,9 @@
             <div class="control">
               <input
                 class="input"
-                v-model="purchaseData.netTotal"
+                v-model="calculateNetTotal"
                 type="text"
-                placeholder="Mrp"
+                placeholder="NetTotal"
               />
             </div>
           </div>
@@ -330,6 +365,8 @@ export default {
       panNumber: "",
       item: [],
       grandTotal: "",
+      discountAmt: "",
+      discountRate: "",
       netTotal: "",
     },
     items: {
@@ -353,6 +390,16 @@ export default {
       } else {
         this.items.cp = parseFloat(this.items.cp).toFixed(2);
       }
+    },
+    calculateAdjustRate: function () {
+      this.purchaseData.discountRate = parseFloat(
+        (this.purchaseData.discountAmt / this.purchaseData.grandTotal) * 100
+      ).toFixed(2);
+    },
+    calculateAdjustAmt: function () {
+      let discountAmt =
+        (this.purchaseData.discountRate * this.purchaseData.grandTotal) / 100;
+      this.purchaseData.discountAmt = parseFloat(discountAmt).toFixed(2);
     },
     getCpAmount: function () {
       this.items.cpAmount =
@@ -432,6 +479,11 @@ export default {
         },
         0
       );
+    },
+    calculateNetTotal: function () {
+      return (this.purchaseData.netTotal = parseFloat(
+        this.purchaseData.grandTotal - this.purchaseData.discountAmt
+      ).toFixed(2));
     },
   },
 };
