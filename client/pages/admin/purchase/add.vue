@@ -99,22 +99,25 @@
         <table class="table is-fullwidth">
           <thead>
             <tr>
-              <th>Sn</th>
-              <th>ProductName</th>
+              <th>#</th>
+              <th>Product Name</th>
               <th>Manufacturer</th>
               <th>Unit</th>
-              <th>packaging</th>
-              <th>quantity</th>
-              <th>mrp</th>
-              <th>mrpAmount</th>
-              <th>cp</th>
-              <th>cpAmount</th>
+              <th>Packaging</th>
+              <th>Qty</th>
+              <th>MRP</th>
+              <th>MRP Amount</th>
+              <th>CP</th>
+              <th>CP Amount</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
+            <tr v-if="!purchaseData.item.length">
+              <td colspan="11" class="has-text-centered">Nothing Added Yet</td>
+            </tr>
             <tr v-for="(item, i) in purchaseData.item" :key="item.productName">
-              <td>1</td>
+              <td>{{ i + 1 }}</td>
               <td>{{ item.productName }}</td>
               <td>{{ item.manufacturer }}</td>
               <td>{{ item.unit }}</td>

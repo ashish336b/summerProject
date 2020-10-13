@@ -110,7 +110,7 @@
           </thead>
           <tbody>
             <tr v-for="(item, i) in purchaseData.item" :key="i">
-              <td>1</td>
+              <td>{{ i + 1 }}</td>
               <td>{{ item.productName }}</td>
               <td>{{ item.manufacturer }}</td>
               <td>{{ item.unit }}</td>

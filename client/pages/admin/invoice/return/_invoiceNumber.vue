@@ -68,22 +68,24 @@
           <thead>
             <tr>
               <th>Sn</th>
-              <th>ProductName</th>
-              <th>quantity</th>
+              <th>Product Name</th>
+              <th>Qty</th>
               <th>Rate</th>
-              <th>discount %</th>
-              <th>total</th>
+              <th>Total</th>
+              <th>discount</th>
+              <th>Total Adjust</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(item, i) in invoiceData.item" :key="i">
-              <th>1</th>
+              <th>{{ i + 1 }}</th>
               <th>{{ item.productName }}</th>
               <th>{{ item.quantity }}</th>
               <th>{{ item.rate }}</th>
-              <th>{{ item.discountRate ? item.discountRate : 0 }}</th>
               <th>{{ item.total }}</th>
+              <th>{{ item.discountRate ? item.discountRate : 0 }}</th>
+              <th>{{ item.totalAdjust }}</th>
               <th>
                 <a @click="edit(item, i)" class="has-text-primary">
                   <span
@@ -105,7 +107,7 @@
         </table>
       </div>
       <div class="columns is-multiline">
-        <div class="column is-4">
+        <div class="column is-3">
           <div class="field">
             <label class="label is-small">Product Name</label>
             <div class="control">
@@ -118,7 +120,7 @@
             </div>
           </div>
         </div>
-        <div class="column is-1">
+        <div class="column is-2">
           <div class="field">
             <label class="label is-small">Qty</label>
             <div class="control">
@@ -132,7 +134,7 @@
             </div>
           </div>
         </div>
-        <div class="column is-1">
+        <div class="column is-2">
           <div class="field">
             <label class="label is-small">Rate</label>
             <div class="control">
@@ -145,7 +147,7 @@
             </div>
           </div>
         </div>
-        <div class="column is-1">
+        <div class="column is-2">
           <div class="field">
             <label class="label is-small">Total</label>
             <div class="control">
@@ -159,13 +161,30 @@
             </div>
           </div>
         </div>
-        <div class="column is-1">
-          <div class="field">
-            <label class="label is-small">Discount %</label>
+        <div class="column is-3">
+          <div class="columns mb-0 mt-1">
+            <div class="column pr-1 pl-3 py-0">
+              <label class="label is-small">Disc. % &nbsp; or</label>
+            </div>
+            <div class="column pr-1 pl-3 py-0">
+              <label class="label is-small">Disc. Amt</label>
+            </div>
+          </div>
+          <div class="field has-addons">
             <div class="control">
               <input
                 class="input"
                 v-model="item.discountRate"
+                @input="calculateDisAmt()"
+                type="number"
+                placeholder="0"
+              />
+            </div>
+            <div class="control">
+              <input
+                class="input"
+                v-model="item.discountAmt"
+                @input="calculateDisRate()"
                 type="number"
                 placeholder="0"
               />
@@ -213,12 +232,31 @@
       <div class="columns is-multiline">
         <div class="column is-8"></div>
         <div class="column is-3">
-          <div class="field">
-            <label class="label is-small">Adjust Amount</label>
+          <div class="columns mb-0 mt-1">
+            <div class="column pr-1 pl-3 py-0">
+              <label class="label is-small"
+                >Adjust In % &nbsp;&nbsp;&nbsp; or</label
+              >
+            </div>
+            <div class="column pr-1 pl-3 py-0">
+              <label class="label is-small">Adjust in Amt</label>
+            </div>
+          </div>
+          <div class="field has-addons">
             <div class="control">
               <input
                 class="input"
                 v-model="invoiceData.discountAmt"
+                @input="calculateAdjustAmt()"
+                type="number"
+                placeholder="0"
+              />
+            </div>
+            <div class="control">
+              <input
+                class="input"
+                v-model="invoiceData.discountRate"
+                @input="calculateAdjustRate()"
                 type="number"
                 placeholder="0"
               />
@@ -278,25 +316,37 @@ export default {
         total: "",
         totalAdjust: "",
         discountRate: "",
+        discountAmt: "",
       };
     },
     edit: function (item, index) {
       this.item = { ...item };
-      this.item = {
-        productName: item.productName,
-        rate: item.rate,
-        quantity: item.quantity,
-        total: item.total,
-        totalAdjust: item.totalAdjust,
-        discountRate: item.discountRate,
-        inventoryId: item.inventoryId,
-      };
       this.invoiceData.item.splice(index, 1);
       this.calculateGrandTotal;
     },
     remove: function (index) {
       this.invoiceData.item.splice(index, 1);
       this.calculateGrandTotal;
+    },
+    calculateDisAmt: function () {
+      this.item.discountAmt = parseFloat(
+        (this.item.total * this.item.discountRate) / 100
+      ).toFixed(2);
+    },
+    calculateDisRate: function () {
+      this.item.discountRate = parseFloat(
+        (this.item.discountAmt / this.item.total) * 100
+      ).toFixed(2);
+    },
+    calculateAdjustRate: function () {
+      this.invoiceData.discountRate = parseFloat(
+        (this.invoiceData.discountAmt / this.invoiceData.grandTotal) * 100
+      ).toFixed(2);
+    },
+    calculateAdjustAmt: function () {
+      let discountAmt =
+        (this.invoiceData.discountRate * this.invoiceData.grandTotal) / 100;
+      this.invoiceData.discountAmt = parseFloat(discountAmt).toFixed(2);
     },
     returnInvoice: function () {
       let item = this.invoiceData.item.map((el) => {
@@ -317,7 +367,6 @@ export default {
         netTotal: parseFloat(this.invoiceData.netTotal),
         discountAmt: this.invoiceData.discountAmt,
       };
-      console.log(invoiceReturnData);
       this.$axios
         .post("/crm/invoice/return", invoiceReturnData)
         .then((result) => {
@@ -352,6 +401,19 @@ export default {
     let result = await this.$axios.get(
       `/crm/invoice/invoiceNumber/${this.$route.params.invoiceNumber}`
     );
+    result.data.item.forEach((el) => {
+      el.discountAmt = el.discountAmt ? el.discountAmt : 0;
+      el.discountRate = parseFloat((el.discountAmt / el.total) * 100).toFixed(
+        2
+      );
+    });
+    result.data.discountAmt = !result.data.discountAmt
+      ? 0
+      : result.data.discountAmt;
+    result.data.discountRate = parseFloat(
+      (result.data.discountAmt / result.data.grandTotal) * 100
+    ).toFixed(2);
+    console.log(result.data);
     this.invoiceData = result.data;
   },
 };
