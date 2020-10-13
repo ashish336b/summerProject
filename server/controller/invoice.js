@@ -37,21 +37,19 @@ router.post("/", async (req, res, next) => {
 
   let netTotal = 0;
   try {
-    invoiceDataToSave.item.forEach(async (item) => {
-      let reduceQty = item.quantity;
-      reduceQty = parseInt(reduceQty);
-
+    invoiceDataToSave.item.forEach((item) => {
+      let reduceQty = parseInt(item.quantity);
       let total = item.quantity * item.rate;
       let totalAfterDiscount = total - (total * item.discountRate) / 100;
       item.total = parseFloat(total).toFixed(2);
       item.totalAfterDiscount = parseFloat(totalAfterDiscount).toFixed(2);
       netTotal = netTotal + totalAfterDiscount;
-      let invDoc = await inventoryModel.findById(item.inventoryId);
-      let oldQty = parseInt(invDoc.quantity);
-      let newQty = oldQty - reduceQty;
-      newQty = newQty <= 0 ? 0 : newQty;
-      invDoc.quantity = newQty;
-      await invDoc.save();
+      inventoryModel.findById(item.inventoryId).then((invDoc) => {
+        let newQty = parseInt(invDoc.quantity) - reduceQty;
+        newQty = newQty <= 0 ? 0 : newQty;
+        invDoc.quantity = newQty;
+        invDoc.save();
+      });
     });
     // grand total
     invoiceDataToSave.grandTotal = netTotal;
@@ -134,12 +132,13 @@ router.post("/return", async (req, res, next) => {
   req.body.isReturn = true;
   let invoiceReturnDataToSave = req.body;
   let netTotal = 0;
-  invoiceReturnDataToSave.item.forEach(async (item) => {
+  invoiceReturnDataToSave.item.forEach((item) => {
     let increaseQty = parseInt(item.quantity);
-    let doc = await inventoryModel.findById(item.inventoryId);
-    let oldQty = parseInt(doc.quantity);
-    doc.quantity = oldQty + increaseQty;
-    await doc.save();
+    inventoryModel.findById(item.inventoryId).then((doc) => {
+      let oldQty = parseInt(doc.quantity);
+      doc.quantity = oldQty + increaseQty;
+      doc.save();
+    });
     /* calculate total and all */
     let total = item.quantity * item.rate;
     let totalAfterDiscount = total - (total * item.discountRate) / 100;
