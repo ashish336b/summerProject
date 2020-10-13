@@ -317,6 +317,7 @@ export default {
         netTotal: parseFloat(this.invoiceData.netTotal),
         discountAmt: this.invoiceData.discountAmt,
       };
+      console.log(invoiceReturnData);
       this.$axios
         .post("/crm/invoice/return", invoiceReturnData)
         .then((result) => {
