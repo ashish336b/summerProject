@@ -67,6 +67,7 @@ router.post("/", async (req, res, next) => {
         productSlug: `${item.productName} ${item.mrp}`
           .toLowerCase()
           .replace(/\s+/g, "-"),
+        isDisplay: true,
       });
       item.purchaseId = result._id.toString();
       item.space = "";
