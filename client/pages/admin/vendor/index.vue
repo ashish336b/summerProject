@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import datatable from "../../../components/datatable";
+import datatable from "@/components/datatable";
 export default {
   components: {
     datatable,
@@ -39,41 +39,29 @@ export default {
           field: "vendorName",
           column: "Name",
           render: function (field) {
-            return !field ? "ok" : field;
+            return !field ? "-" : field;
           },
         },
         {
           field: "phoneNumber",
           column: "Phone No.",
           render: function (field) {
-            return !field ? "..." : field;
+            return !field ? "-" : field;
           },
         },
         {
           field: "address",
           column: "Address",
           render: function (field) {
-            return !field ? "<p class='has-text-primary'>No Email</p>" : field;
+            return !field ? "-" : field;
           },
         },
         {
           field: "panNumber",
           column: "panNumber",
           render: function (field) {
-            return !field ? "<p class='has-text-primary'>No Email</p>" : field;
+            return !field ? "-" : field;
           },
-        },
-      ],
-      actions: [
-        {
-          event: "editEvent",
-          class: "is-white has-text-primary px-2 py-0 mx-0 my-0",
-          value: `<span class="iconify" data-icon="ant-design:edit-filled" data-inline="false"></span>`,
-        },
-        {
-          event: "deleteEvent",
-          class: "is-white has-text-danger px-2 py-0 mx-0 my-0",
-          value: `<span class="iconify" data-icon="ant-design:delete-filled" data-inline="false"></span>`,
         },
       ],
     },

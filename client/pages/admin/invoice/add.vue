@@ -314,7 +314,7 @@
 
 <script>
 import Swal from "sweetalert2";
-import AutoComplete from "../../../components/autocomplete";
+import AutoComplete from "@/components/autocomplete";
 export default {
   components: {
     AutoComplete,

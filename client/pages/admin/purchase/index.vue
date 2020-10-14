@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import datatable from "../../../components/datatable";
+import datatable from "@/components/datatable";
 export default {
   components: {
     datatable,
@@ -44,31 +44,38 @@ export default {
       endpoint: "/crm/purchase/paginate",
       columns: [
         {
+          field: "invoiceNumber",
+          column: "#",
+          render: function (field) {
+            return !field ? "-" : field;
+          },
+        },
+        {
+          field: "createdAt",
+          column: "Date",
+          render: function (field) {
+            return !field ? "-" : new Date(field).toLocaleDateString();
+          },
+        },
+        {
           field: "vendorName",
-          column: "VendorName",
+          column: "Vendor",
           render: function (field) {
-            return !field ? "ok" : field;
+            return !field ? "-" : field;
           },
         },
         {
-          field: "phoneNumber",
-          column: "Phone No.",
+          field: "netTotal",
+          column: "Amount",
           render: function (field) {
-            return !field ? "..." : field;
+            return !field ? "-" : field;
           },
         },
         {
-          field: "address",
-          column: "Address",
+          field: "paidDate",
+          column: "Paid Date",
           render: function (field) {
-            return !field ? "<p class='has-text-primary'>No Email</p>" : field;
-          },
-        },
-        {
-          field: "panNumber",
-          column: "PAN",
-          render: function (field) {
-            return !field ? "<p class='has-text-primary'>No Email</p>" : field;
+            return !field ? "-" : new Date(field).toLocaleDateString();
           },
         },
       ],

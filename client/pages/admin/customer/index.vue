@@ -13,7 +13,7 @@
   </div>
 </template>
 <script>
-import datatable from "../../../components/datatable";
+import datatable from "@/components/datatable";
 export default {
   components: {
     datatable,
@@ -26,50 +26,38 @@ export default {
       columns: [
         {
           field: "firstName",
-          column: "FirstName",
+          column: "First Name",
           render: function (field) {
-            return !field ? "ok" : field;
+            return !field ? "-" : field;
           },
         },
         {
           field: "lastName",
-          column: "LastName",
+          column: "Last Name",
           render: function (field) {
-            return !field ? "..." : field;
+            return !field ? "-" : field;
           },
         },
         {
           field: "address",
           column: "Address",
           render: function (field) {
-            return !field ? "<p class='has-text-primary'>No Email</p>" : field;
+            return !field ? "-" : field;
           },
         },
         {
           field: "username",
           column: "UserName",
           render: function (field) {
-            return !field ? "<p class='has-text-primary'>No Email</p>" : field;
+            return !field ? "-" : field;
           },
         },
         {
           field: "role",
           column: "Role",
           render: function (field) {
-            return !field ? "<p class='has-text-primary'>No Email</p>" : field;
+            return !field ? "-" : field;
           },
-        },
-      ],
-      actions: [
-        {
-          event: "editEvent",
-          class: "is-white has-text-primary px-2 py-0 mx-0 my-0",
-          value: `<span class="iconify" data-icon="ant-design:edit-filled" data-inline="false"></span>`,
-        },
-        {
-          event: "deleteEvent",
-          class: "is-white has-text-danger px-2 py-0 mx-0 my-0",
-          value: `<span class="iconify" data-icon="ant-design:delete-filled" data-inline="false"></span>`,
         },
       ],
     },

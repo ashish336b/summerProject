@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import datatable from "../../../components/datatable";
+import datatable from "@/components/datatable";
 export default {
   components: {
     datatable,
@@ -45,15 +45,22 @@ export default {
       endpoint: "/crm/invoice/paginate",
       columns: [
         {
-          field: "name",
-          column: "Name",
+          field: "invoiceNumber",
+          column: "#",
           render: function (field) {
             return !field ? "-" : field;
           },
         },
         {
-          field: "phoneNumber",
-          column: "Phone No.",
+          field: "createdAt",
+          column: "Date",
+          render: function (field) {
+            return !field ? "-" : new Date(field).toLocaleDateString();
+          },
+        },
+        {
+          field: "name",
+          column: "Name",
           render: function (field) {
             return !field ? "-" : field;
           },
@@ -62,23 +69,16 @@ export default {
           field: "netTotal",
           column: "netTotal",
           render: function (field) {
-            return !field ? "<p class='has-text-primary'>No Email</p>" : field;
+            return !field ? "-" : field;
           },
         },
         {
           field: "paidDate",
           column: "paidDate",
           render: function (field) {
-            return !field ? "-" : field;
-          },
-        },
-        {
-          field: "isCredit",
-          column: "status",
-          render: function (field) {
             return !field
-              ? "<p class='has-text-primary'>Not Paid</p>"
-              : "<p class='has-text-primary'>Paid</p>";
+              ? `<span class="tag is-link is-rounded">credit</span>`
+              : field;
           },
         },
       ],

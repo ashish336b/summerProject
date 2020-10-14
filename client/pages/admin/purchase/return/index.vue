@@ -4,13 +4,8 @@
       <div class="columns is-multiline">
         <div class="column is-11">
           <h1 class="has-text-info has-text-weight-bold is-size-4">
-            Purchased Items
+            Purchase Return Items
           </h1>
-        </div>
-        <div class="column is-1">
-          <nuxt-link to="/admin/purchase/add" class="button is-small is-primary"
-            >Add</nuxt-link
-          >
         </div>
       </div>
     </div>
@@ -44,31 +39,31 @@ export default {
       endpoint: "/crm/purchase/paginate/return",
       columns: [
         {
+          field: "invoiceNumber",
+          column: "#",
+          render: function (field) {
+            return !field ? "-" : field;
+          },
+        },
+        {
+          field: "createdAt",
+          column: "Invoice Date",
+          render: function (field) {
+            return !field ? "-" : new Date(field).toLocaleDateString();
+          },
+        },
+        {
           field: "vendorName",
-          column: "VendorName",
+          column: "Vendor",
           render: function (field) {
-            return !field ? "ok" : field;
+            return !field ? "-" : field;
           },
         },
         {
-          field: "phoneNumber",
-          column: "Phone No.",
+          field: "netTotal",
+          column: "Amount",
           render: function (field) {
-            return !field ? "..." : field;
-          },
-        },
-        {
-          field: "address",
-          column: "Address",
-          render: function (field) {
-            return !field ? "<p class='has-text-primary'>No Email</p>" : field;
-          },
-        },
-        {
-          field: "panNumber",
-          column: "PAN",
-          render: function (field) {
-            return !field ? "<p class='has-text-primary'>No Email</p>" : field;
+            return !field ? "-" : field;
           },
         },
       ],

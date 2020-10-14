@@ -42,6 +42,21 @@
                 <td>{{ item.quantity }}</td>
                 <td>{{ item.cpAmount }}</td>
               </tr>
+              <tr>
+                <td colspan="5"></td>
+                <td>GrandTotal</td>
+                <td>{{ purchaseData.grandTotal }}</td>
+              </tr>
+              <tr>
+                <td colspan="5"></td>
+                <td>Discount Amt</td>
+                <td>{{ purchaseData.grandTotal - purchaseData.netTotal }}</td>
+              </tr>
+              <tr>
+                <td colspan="5"></td>
+                <td>Discount Amt</td>
+                <td>{{ purchaseData.netTotal }}</td>
+              </tr>
             </tbody>
           </table>
         </div>
