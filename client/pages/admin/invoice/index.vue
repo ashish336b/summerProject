@@ -66,14 +66,14 @@ export default {
         },
         {
           field: "netTotal",
-          column: "netTotal",
+          column: "Amount",
           render: function (field) {
             return !field ? "-" : field;
           },
         },
         {
           field: "paidDate",
-          column: "paidDate",
+          column: "Paid Date",
           render: function (field) {
             return !field
               ? `<span class="tag is-link is-rounded">credit</span>`
