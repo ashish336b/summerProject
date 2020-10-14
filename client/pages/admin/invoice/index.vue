@@ -14,7 +14,6 @@
         </div>
       </div>
     </div>
-    <button class="button">A</button>
     <datatable
       :endpoint="tableData.endpoint"
       :columns="tableData.columns"
