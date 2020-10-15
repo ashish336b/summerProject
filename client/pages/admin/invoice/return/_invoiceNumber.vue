@@ -7,7 +7,11 @@
             <div class="has-text-primary is-size-4">Customer Details</div>
           </div>
           <div class="column is-2">
-            <button class="button is-info" @click="returnInvoice()">
+            <button
+              class="button is-info"
+              :disabled="!isValid"
+              @click="returnInvoice()"
+            >
               Return
             </button>
           </div>
@@ -207,7 +211,13 @@
         </div>
         <div class="column is-2">
           <div class="action mt-5">
-            <button class="button is-primary" @click="add()">Add</button>
+            <button
+              class="button is-primary"
+              :disabled="!isDisabled"
+              @click="add()"
+            >
+              Add
+            </button>
           </div>
         </div>
       </div>
@@ -394,6 +404,21 @@ export default {
         this.invoiceData.netTotal =
           this.invoiceData.grandTotal - this.invoiceData.discountAmt;
         return this.invoiceData.netTotal;
+      }
+    },
+    isDisabled: function () {
+      return (
+        this.item.productName.length > 0 && this.item.quantity && this.item.rate
+      );
+    },
+    isValid: function () {
+      if (this.invoiceData.item) {
+        return (
+          this.invoiceData.name.length > 0 &&
+          this.invoiceData.address.length > 0 &&
+          this.invoiceData.phoneNumber.length > 0 &&
+          this.invoiceData.item.length > 0
+        );
       }
     },
   },
