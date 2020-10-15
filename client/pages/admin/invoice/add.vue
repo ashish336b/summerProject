@@ -404,7 +404,6 @@ export default {
     },
     selectProduct: function (product) {
       this.autoComplete.text = product.productName;
-      console.log(this.autoComplete.text);
       this.item.rate = product.mrp;
       this.item.inventoryId = product.inventoryId;
     },
