@@ -6,7 +6,11 @@
           <div class="has-text-info is-size-4">Vendor Info</div>
         </div>
         <div class="column is-5">
-          <button class="button is-info is-small" @click="savePurchase()">
+          <button
+            class="button is-info is-small"
+            :disabled="!isValid"
+            @click="savePurchase()"
+          >
             Save Purchase
           </button>
         </div>
@@ -271,7 +275,13 @@
         </div>
       </div>
       <div class="add-order-details">
-        <button class="button is-small is-info" @click="add()">Add</button>
+        <button
+          class="button is-small is-info"
+          :disabled="!isDisabled"
+          @click="add()"
+        >
+          Add
+        </button>
       </div>
       <div class="columns is-multiline">
         <div class="column is-10"></div>
@@ -484,6 +494,25 @@ export default {
       return (this.purchaseData.netTotal = parseFloat(
         this.purchaseData.grandTotal - this.purchaseData.discountAmt
       ).toFixed(2));
+    },
+    isDisabled: function () {
+      console.log(this.items);
+      return (
+        parseInt(this.items.packaging) > 0 &&
+        parseInt(this.items.qty) > 0 &&
+        parseFloat(this.items.cp) > 0 &&
+        parseFloat(this.items.cpAmount) > 0
+      );
+    },
+    isValid: function () {
+      return (
+        this.purchaseData.item.length != 0 &&
+        this.purchaseData.vendorName.length > 0 &&
+        this.purchaseData.phoneNumber.length > 0 &&
+        this.purchaseData.panNumber.length > 0 &&
+        parseFloat(this.purchaseData.grandTotal) > 0 &&
+        parseFloat(this.purchaseData.netTotal) > 0
+      );
     },
   },
 };
