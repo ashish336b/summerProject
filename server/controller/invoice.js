@@ -31,10 +31,8 @@ router.get("/paginate/:type?", async (req, res, next) => {
  * url : /crm/invoice
  */
 router.post("/", async (req, res, next) => {
-  // invoices are credit by default
-  req.body.isCredit = true;
+  if (!JSON.parse(req.body.isCredit)) req.body.paidDate = Date.now();
   let invoiceDataToSave = req.body;
-
   let netTotal = 0;
   try {
     invoiceDataToSave.item.forEach((item) => {
@@ -79,7 +77,7 @@ router.post("/", async (req, res, next) => {
       let userObjToSave;
       if (oneUser) {
         let name = invoiceDataToSave.name.split(" ");
-        if (name.length > 2) {
+        if (name.length === 3) {
           userObjToSave = {
             firstName: name[0],
             lastName: name[2],
@@ -89,6 +87,11 @@ router.post("/", async (req, res, next) => {
           userObjToSave = {
             firstName: name[0],
             lastName: name[1],
+          };
+        } else {
+          userObjToSave = {
+            firstName: name[0],
+            lastName: "",
           };
         }
         userObjToSave.role = "customer";
