@@ -496,7 +496,6 @@ export default {
       ).toFixed(2));
     },
     isDisabled: function () {
-      console.log(this.items);
       return (
         parseInt(this.items.packaging) > 0 &&
         parseInt(this.items.qty) > 0 &&

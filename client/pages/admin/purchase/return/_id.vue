@@ -6,7 +6,11 @@
           <div class="has-text-info is-size-4">Vendor Info</div>
         </div>
         <div class="column is-5">
-          <button class="button is-info is-small" @click="savePurchaseReturn()">
+          <button
+            class="button is-info is-small"
+            :disabled="!isValid"
+            @click="savePurchaseReturn()"
+          >
             Save Purchase Return
           </button>
         </div>
@@ -222,22 +226,45 @@
             </div>
           </div>
         </div>
-        <div class="column is-2">
-          <div class="field">
-            <label class="label is-small">cp/qty</label>
+        <div class="column is-3">
+          <div class="columns mb-0 mt-1">
+            <div class="column pr-1 pl-3 py-0">
+              <label class="label is-small">CP Amount &nbsp; &nbsp; OR</label>
+            </div>
+            <div class="column pr-1 pl-3 py-0">
+              <label class="label is-small">CP/QTY</label>
+            </div>
+          </div>
+          <div class="field has-addons">
             <div class="control">
               <input
                 class="input"
-                type="text"
+                type="number"
+                @input="getCp()"
+                v-model="items.cpAmount"
+                placeholder="Total CP"
+              />
+            </div>
+            <div class="control">
+              <input
+                class="input"
+                type="number"
+                @input="getCpAmount()"
                 v-model="items.cp"
-                placeholder="cp"
+                placeholder="CP/Qty"
               />
             </div>
           </div>
         </div>
       </div>
       <div class="add-order-details">
-        <button class="button is-small is-info" @click="add()">Add</button>
+        <button
+          class="button is-small is-info"
+          :disabled="!isDisabled"
+          @click="add()"
+        >
+          Add
+        </button>
       </div>
       <div class="columns is-multiline">
         <div class="column is-10"></div>
@@ -329,6 +356,19 @@ export default {
     },
   }),
   methods: {
+    getCpAmount: function () {
+      this.items.cpAmount =
+        this.items.packaging * this.items.qty * this.items.cp;
+    },
+    getCp: function () {
+      this.items.cp =
+        this.items.cpAmount / (this.items.packaging * this.items.qty);
+      if (!isFinite(this.items.cp)) {
+        this.items.cp = 0;
+      } else {
+        this.items.cp = parseFloat(this.items.cp).toFixed(2);
+      }
+    },
     edit: function (item, index) {
       this.items = { ...item };
       this.purchaseData.item.splice(index, 1);
@@ -410,6 +450,25 @@ export default {
     },
   },
   computed: {
+    isDisabled: function () {
+      return (
+        parseInt(this.items.packaging) > 0 &&
+        parseInt(this.items.qty) > 0 &&
+        parseFloat(this.items.cp) > 0
+      );
+    },
+    isValid: function () {
+      if (this.purchaseData.item) {
+        return (
+          this.purchaseData.item.length != 0 &&
+          this.purchaseData.vendorName.length > 0 &&
+          this.purchaseData.phoneNumber.length > 0 &&
+          this.purchaseData.panNumber.length > 0 &&
+          parseFloat(this.purchaseData.grandTotal) > 0 &&
+          parseFloat(this.purchaseData.netTotal) > 0
+        );
+      }
+    },
     grandTotal: function () {
       this.purchaseData.grandTotal = this.purchaseData.item.reduce(
         (acc, curr) => {
