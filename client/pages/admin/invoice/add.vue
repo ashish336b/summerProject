@@ -7,7 +7,11 @@
             <div class="has-text-primary is-size-4">Customer Details</div>
           </div>
           <div class="column is-2">
-            <button class="button is-info" @click="createInvoice()">
+            <button
+              class="button is-info"
+              :disabled="!isValid"
+              @click="createInvoice()"
+            >
               Add Invoice
             </button>
           </div>
@@ -48,7 +52,7 @@
               </div>
             </div>
           </div>
-          <div class="column is-4">
+          <div class="column is-2">
             <div class="field">
               <label class="label is-small">PhoneNumber</label>
               <div class="control">
@@ -59,6 +63,19 @@
                   placeholder="Phone Number"
                   ref="phoneNumber"
                 />
+              </div>
+            </div>
+          </div>
+          <div class="column is-2">
+            <div class="field">
+              <label class="label is-small">Cash/Credit</label>
+              <div class="control">
+                <div class="select">
+                  <select v-model="invoiceToSave.isCredit">
+                    <option value="false">Cash</option>
+                    <option value="true">credit</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
@@ -87,11 +104,7 @@
             <tr v-if="invoiceToSave.item.length == 0">
               <td colspan="8" class="has-text-centered">Nothing Added Yet</td>
             </tr>
-            <tr
-              v-else
-              v-for="(item, i) in invoiceToSave.item"
-              :key="`${item.productName}${item.rate}${item.quantity}`"
-            >
+            <tr v-else v-for="(item, i) in invoiceToSave.item" :key="i">
               <td>{{ i + 1 }}</td>
               <td>{{ item.productName }}</td>
               <td>{{ item.quantity }}</td>
@@ -125,7 +138,8 @@
             <label class="label is-small">Product Name</label>
             <div class="control">
               <AutoComplete
-                id="search"
+                id="searchItem"
+                ref="productName"
                 placeholder="Name"
                 attr="label"
                 value="label"
@@ -232,7 +246,13 @@
         </div>
         <div class="column is-2">
           <div class="action mt-5">
-            <button class="button is-primary" @click="add()">Add</button>
+            <button
+              class="button is-primary"
+              :disabled="isDisabled"
+              @click="add()"
+            >
+              Add
+            </button>
           </div>
         </div>
       </div>
@@ -328,6 +348,7 @@ export default {
       name: "",
       phoneNumber: "",
       address: "",
+      isCredit: "true",
       item: [],
       grandTotal: "",
       netTotal: "",
@@ -402,6 +423,7 @@ export default {
         totalAdjust: "",
         discountRate: "",
       };
+      document.getElementById("searchItem").focus();
     },
     createInvoice: function () {
       this.calculateGrandTotal;
@@ -419,6 +441,7 @@ export default {
         name: this.invoiceToSave.name,
         phoneNumber: this.invoiceToSave.phoneNumber,
         address: this.invoiceToSave.address,
+        isCredit: this.invoiceToSave.isCredit,
         item: items,
         grandTotal: this.invoiceToSave.grandTotal,
         discountAmt: this.invoiceToSave.discountAmt,
@@ -449,6 +472,21 @@ export default {
       this.invoiceToSave.netTotal =
         this.invoiceToSave.grandTotal - this.invoiceToSave.discountAmt;
       return this.invoiceToSave.netTotal;
+    },
+    isDisabled: function () {
+      return !(
+        this.item.productName.length > 0 &&
+        this.item.quantity &&
+        this.item.rate
+      );
+    },
+    isValid: function () {
+      return (
+        this.invoiceToSave.name.length > 0 &&
+        this.invoiceToSave.address.length > 0 &&
+        this.invoiceToSave.phoneNumber.length > 0 &&
+        this.invoiceToSave.item.length > 0
+      );
     },
   },
 };

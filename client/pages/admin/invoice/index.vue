@@ -39,7 +39,7 @@ export default {
   },
   data: () => ({
     tableData: {
-      params: null,
+      params: { sortBy: "date" },
       refresh: true,
       endpoint: "/crm/invoice/paginate",
       columns: [
@@ -77,7 +77,7 @@ export default {
           render: function (field) {
             return !field
               ? `<span class="tag is-link is-rounded">credit</span>`
-              : field;
+              : new Date(field).toLocaleDateString();
           },
         },
       ],

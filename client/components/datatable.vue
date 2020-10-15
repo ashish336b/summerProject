@@ -169,7 +169,7 @@ export default {
       params: {
         page: 1,
         limit: 10,
-        sortBy: "name",
+        sortBy: "createdAt",
         order: "desc",
         searchedText: "",
         totalPage: "",
@@ -240,7 +240,10 @@ export default {
     },
     fetchPage: async function () {
       if (this.parameters) {
-        this.tableData.params = this.parameters;
+        this.tableData.params = {
+          ...this.tableData.params,
+          ...this.parameters,
+        };
       }
       this.tableData.url =
         this.endpoint +
