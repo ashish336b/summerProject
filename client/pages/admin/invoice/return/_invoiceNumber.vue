@@ -257,7 +257,7 @@
               <input
                 class="input"
                 v-model="invoiceData.discountAmt"
-                @input="calculateAdjustAmt()"
+                @input="calculateAdjustRate()"
                 type="number"
                 placeholder="0"
               />
@@ -266,7 +266,7 @@
               <input
                 class="input"
                 v-model="invoiceData.discountRate"
-                @input="calculateAdjustRate()"
+                @input="calculateAdjustAmt()"
                 type="number"
                 placeholder="0"
               />
@@ -438,7 +438,6 @@ export default {
     result.data.discountRate = parseFloat(
       (result.data.discountAmt / result.data.grandTotal) * 100
     ).toFixed(2);
-    console.log(result.data);
     this.invoiceData = result.data;
   },
 };
