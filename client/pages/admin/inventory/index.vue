@@ -36,21 +36,21 @@ export default {
           field: "productName",
           column: "ProductName",
           render: function (field) {
-            return !field ? "ok" : field;
+            return !field ? "-" : field;
           },
         },
         {
           field: "manufacturer",
           column: "Manufacturer",
           render: function (field) {
-            return !field ? "..." : field;
+            return !field ? "-" : field;
           },
         },
         {
           field: "quantity",
           column: "Quantity",
           render: function (field) {
-            return !field ? "<p class='has-text-primary'>No Email</p>" : field;
+            return !field ? "<p class='has-text-danger'>No Stock</p>" : field;
           },
         },
         {
