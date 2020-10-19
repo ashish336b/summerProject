@@ -70,12 +70,12 @@ router.post("/", async (req, res, next) => {
       prepareData.create(invoiceDataToSave, req)
     ).save();
     if (req.body.phoneNumber.trim()) {
-      let oneUser = await userModel.find(
+      let oneUser = await userModel.findOne(
         prepareData.find({ phoneNumber: invoiceDataToSave.phoneNumber }, req)
       );
 
       let userObjToSave;
-      if (oneUser) {
+      if (!oneUser) {
         let name = invoiceDataToSave.name.split(" ");
         if (name.length === 3) {
           userObjToSave = {
@@ -98,11 +98,11 @@ router.post("/", async (req, res, next) => {
         userObjToSave.phoneNumber = req.body.phoneNumber.trim();
         userObjToSave.address = req.body.address.trim();
         await new userModel(userObjToSave).save();
-        res.json({
-          error: null,
-          data: result,
-        });
       }
+      res.json({
+        error: null,
+        data: result,
+      });
     }
   } catch (error) {
     console.log("error");
