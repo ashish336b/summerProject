@@ -24,5 +24,10 @@ router.use(
   verifyAdminToken,
   require("../controller/report/sales")
 );
+router.use(
+  "/crm/report/purchase",
+  verifyAdminToken,
+  require("../controller/report/purchase")
+);
 router.use("/crm/dev/utility", require("../controller/dev/utility"));
 module.exports = router;
