@@ -48,5 +48,13 @@ router.get("/allSales/:type", async (req, res, next) => {
       ),
     });
   }
+  if (type == "today") {
+    res.json({
+      paidSales: await allSalesReport.getDailyReport(
+        todayTimeStamp,
+        dbFieldForPaidSales
+      ),
+    });
+  }
 });
 module.exports = router;
