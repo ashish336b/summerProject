@@ -25,7 +25,7 @@ router.get("/allSales/:type", async (req, res, next) => {
   );
   const todayTimeStamp = new Date(new Date().toLocaleDateString());
   const lastMonthTimeStamp = new Date() - 30 * 24 * 60 * 60 * 1000;
-  const lastWeekTimeStamp = new Date() - 7 * 24 * 60 * 60 * 100;
+  const lastWeekTimeStamp = new Date() - 7 * 24 * 60 * 60 * 1000;
   const allSalesReport = new Report(invoiceModel, queryParamsForPaidSales);
   if (type == "allTime") {
     res.json({
