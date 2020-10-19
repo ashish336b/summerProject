@@ -126,7 +126,7 @@
       <p class="menu-label has-text-weight-bold">Report</p>
       <ul class="menu-list">
         <li>
-          <a class>
+          <nuxt-link to="/admin/purchase/report">
             <div class="list">
               <span
                 class="iconify"
@@ -135,7 +135,7 @@
               ></span>
               <p>Purchase Report</p>
             </div>
-          </a>
+          </nuxt-link>
         </li>
       </ul>
       <ul class="menu-list">
