@@ -5,14 +5,39 @@
         <div class="has-text-right">
           <div class="select is-small">
             <select @change="change($event)">
-              <option value="allTime">All Time</option>
-              <option value="lastMonth">Last 30 Days</option>
+              <option value="allTime">Lifetime</option>
+              <option value="lastMonth" selected>Last 30 Days</option>
               <option value="lastWeek">Last 7 Days</option>
               <option value="today">Today</option>
             </select>
           </div>
         </div>
-        <canvas id="invoice-chart" width="1000" height="400"></canvas>
+        <canvas id="invoice-chart" width="1000" height="250"></canvas>
+      </div>
+    </div>
+    <div class="table-container">
+      <div class="box">
+        <table class="table is-stripped">
+          <thead>
+            <tr>
+              <th>Date/Time</th>
+              <th>Sales</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(date, index) in [...xLabel].reverse()" :key="index">
+              <td scope="row" v-if="timeframe != 'allTime'">
+                {{ new Date(date).toDateString().slice(3) }}
+              </td>
+              <td scope="row" v-else>
+                {{ new Date(date).toDateString().slice(4).replace("01", "") }}
+              </td>
+              <td>
+                {{ format([...table.paidSales].reverse()[index]) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </adminSidebar>
@@ -25,6 +50,9 @@ export default {
     timeframe: "lastMonth",
     paidSales: [],
     xLabel: [],
+    table: {
+      paidSales: "",
+    },
   }),
   methods: {
     generateChart: function (timeframe) {
@@ -47,11 +75,20 @@ export default {
             result.data.paidSales.result,
             timeframe
           );
+          this.table.paidSales = this.paidSales;
           this.chart(this.xLabel, this.paidSales, timeframe);
         });
     },
     change: function (event) {
+      this.timeframe = event.target.value;
       this.generateChart(event.target.value);
+    },
+    format: function (currency) {
+      let formatter = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "NPR",
+      });
+      return `Rs. ${formatter.format(currency).slice(3)}`;
     },
     generateDatarow: function (array, timeframe) {
       let container = [];
@@ -72,11 +109,21 @@ export default {
     chart: function (xLabel, paidSales, timeFrame) {
       Chart.defaults.global.defaultFontFamily = "Nunito";
       Chart.defaults.global.defaultFontColor = "#858796";
-      let ctx = document.getElementById("invoice-chart").getContext("2d");
-      let myChart = new Chart(ctx, {
+      var ctx = document.getElementById("invoice-chart").getContext("2d");
+      if (myChart) {
+        myChart.destroy();
+      }
+      var myChart = new Chart(ctx, {
         type: "line",
         data: {
-          labels: xLabel,
+          labels: xLabel.map((el) => {
+            let label = new Date(el).toDateString().slice(4);
+            if (timeFrame == "allTime") {
+              label = label.split(" ");
+              label.splice(1, 1);
+            }
+            return label;
+          }),
           datasets: [
             {
               label: "Cash Recieved",

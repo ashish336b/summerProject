@@ -140,7 +140,7 @@
       </ul>
       <ul class="menu-list">
         <li>
-          <a class>
+          <nuxt-link to="/admin/invoice/report">
             <div class="list">
               <span
                 class="iconify"
@@ -149,7 +149,7 @@
               ></span>
               <p>Sales Report</p>
             </div>
-          </a>
+          </nuxt-link>
         </li>
       </ul>
     </aside>
