@@ -8,7 +8,13 @@
         @deleteEvent="deleteEvent($event)"
         :parameters="tableData.params"
         :refresh="tableData.refresh"
-      ></datatable>
+      >
+        <template slot-scope="item">
+          <button @click="goToProfile(item)" class="button is-primary is-small">
+            Profile
+          </button>
+        </template>
+      </datatable>
     </adminSidebar>
   </div>
 </template>
@@ -63,6 +69,9 @@ export default {
     },
   }),
   methods: {
+    goToProfile: function (item) {
+      this.$router.push(`/admin/customer/${item._id}`);
+    },
     deleteEvent: function (event) {
       this.$axios.post("api/auth/delete", { id: event.id }).then((res) => {
         this.tableData.params = event.params;
