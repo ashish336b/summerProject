@@ -92,10 +92,46 @@
             </table>
           </div>
           <div v-if="tabNumber == 3">
-            <h1>Three</h1>
+              <table class="table is-fullwidth">
+              <thead>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Credit/Debit</th>
+                <th>Paid Date</th>
+                <th>Actions</th>
+              </thead>
+              <tbody>
+                <tr v-for="(data , i) in profile.params.returnInvoices" :key="i">
+                  <td>{{new Date(data.date).toLocaleDateString()}}</td>
+                  <td>{{data.netTotal}}</td>
+                  <td>{{data.isCredit ? "credit" : 'Paid'}}</td>
+                  <td>{{data.paidDate ? new Date(data.paidDate).toLocaleDateString() : '-'}}</td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
           <div v-if="tabNumber == 4">
-            <h1>Four</h1>
+            <table class="table is-fullwidth">
+              <thead>
+                <tr>
+                  <th>Product Name</th>
+                  <th>Quantity</th>
+                  <th>Rate</th>
+                  <th>Discount Rate</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(data,i) in profile.params.allReturnItems" :key="i">
+                  <td>{{data.productName}}</td>
+                  <td>{{data.quantity}}</td>
+                  <td>{{data.rate}}</td>
+                  <td>{{data.discountRate ? `${data.discountRate.replace(".00","")}%` : "0%"}}</td>
+                  <td>{{data.totalAfterDiscount}}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
