@@ -17,7 +17,9 @@
     </div>
     <div class="table-container">
       <div class="box">
-        <table class="table is-stripped">
+        <table
+          class="table is-fullwidth has-text-centered is-bordered is-stripped"
+        >
           <thead>
             <tr>
               <th>Date/Time</th>
