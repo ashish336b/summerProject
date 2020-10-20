@@ -194,4 +194,59 @@ router.post("/return", async (req, res, next) => {
   ).save();
   res.json(savedData);
 });
+/**
+ * type : GET
+ * path : crm/invoice/toSaledItem
+ */
+router.get("/groupBy/topSaledItem/:type", async (req, res, next) => {
+  let queryParam;
+  if (req.params.type === "lastMonth") {
+    queryParam = {
+      date: {
+        $gt: new Date() - 30 * 24 * 60 * 60 * 1000,
+      },
+    };
+  }
+  if (req.params.type === "lastWeek") {
+    queryParam = {
+      date: {
+        $gt: new Date() - 7 * 24 * 60 * 60 * 1000,
+      },
+    };
+  }
+  if (req.params.type === "today") {
+    queryParam = {
+      date: {
+        $gt: new Date(new Date().toLocaleDateString()),
+      },
+    };
+  }
+  const allInvoiceResult = await invoiceModel
+    .find(prepareData.find(queryParam, req))
+    .select("item");
+  const allItemInGroup = allInvoiceResult.map((el) => el.item);
+  const allSaledItem = [];
+  allItemInGroup.forEach((el) => {
+    allSaledItem.push(...el);
+  });
+  const allNameOfItem = allSaledItem.map((el) => el.productName);
+  const distinctItemName = [...new Set(allNameOfItem)];
+  const group = [];
+  distinctItemName.forEach((el) => {
+    let s1 = {
+      quantity: 0,
+    };
+    allSaledItem.forEach((eachItem) => {
+      if (eachItem.productName === el) {
+        s1["productName"] = eachItem.productName;
+        s1["quantity"] = s1["quantity"] + parseInt(eachItem.quantity);
+      }
+    });
+    group.push(s1);
+  });
+  group.sort((a, b) => {
+    return b.quantity - a.quantity;
+  });
+  res.send(group);
+});
 module.exports = router;
