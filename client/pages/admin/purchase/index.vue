@@ -83,7 +83,9 @@ export default {
           field: "paidDate",
           column: "Paid Date",
           render: function (field) {
-            return !field ? "-" : new Date(field).toLocaleDateString();
+            return !field
+              ? `<span class="tag is-link is-rounded">credit</span>`
+              : new Date(field).toLocaleDateString();
           },
         },
       ],
