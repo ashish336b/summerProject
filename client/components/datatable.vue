@@ -35,7 +35,7 @@
             </div>
           </div>
         </div>
-        <table class="table is-fullwidth is-striped custom-table">
+        <table class="table is-fullwidth">
           <thead>
             <tr>
               <th v-for="i in columns" :key="i.column" @click="sortBy(i.field)">
@@ -291,11 +291,9 @@ export default {
   width: 100%;
 }
 .custom-table {
-  width: 100%;
   thead {
     tr {
       cursor: pointer;
-      width: 100%;
       th {
         padding: 12px !important;
         svg {
