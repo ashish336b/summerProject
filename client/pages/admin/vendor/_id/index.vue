@@ -1,24 +1,34 @@
 <template>
   <adminSidebar>
-    <div class="container" v-if="profile.params">
+    <div class="container" v-if="profile.vendorDetails">
       <div class="box">
         <h1 class="has-text-centered is-size-4 has-text-primary">Profile</h1>
         <div class="details-container py-3">
           <div class="columns is-multiline">
             <div class="column is-4">
-              <p class="is-size-5">Name : {{profile.params.customer.firstName}} {{profile.params.customer.lastName}}</p>
+              <p class="is-size-5">
+                Name :{{ profile.vendorDetails.vendorName }}
+              </p>
             </div>
             <div class="column is-4">
-              <p class="is-size-5">Phone : {{profile.params.customer.phoneNumber}} </p>
+              <p class="is-size-5">
+                Phone : {{ profile.vendorDetails.phoneNumber }}
+              </p>
             </div>
             <div class="column is-4">
-              <p class="is-size-5">Address : {{profile.params.customer.address}} </p>
+              <p class="is-size-5">
+                Address : {{ profile.vendorDetails.address }}
+              </p>
             </div>
             <div class="column is-4">
-              <p class="is-size-5">Credit Amount : Rs. {{profile.params.credit}}</p>
+              <p class="is-size-5">
+                Credit Amount : Rs. {{ profile.creditPurchase }}
+              </p>
             </div>
             <div class="column is-4">
-              <p class="is-size-5">Total Paid : Rs. {{profile.params.totalPaid}} </p>
+              <p class="is-size-5">
+                Total Paid : Rs. {{ profile.cashPurchase }}
+              </p>
             </div>
           </div>
         </div>
@@ -59,11 +69,17 @@
                 <th>Actions</th>
               </thead>
               <tbody>
-                <tr v-for="(data , i) in profile.params.invoices" :key="i">
-                  <td>{{new Date(data.date).toLocaleDateString()}}</td>
-                  <td>{{data.netTotal}}</td>
-                  <td>{{data.isCredit ? "credit" : 'Paid'}}</td>
-                  <td>{{data.paidDate ? new Date(data.paidDate).toLocaleDateString() : '-'}}</td>
+                <tr v-for="(data, i) in profile.vendorPurchase" :key="i">
+                  <td>{{ new Date(data.createdAt).toLocaleDateString() }}</td>
+                  <td>{{ data.netTotal }}</td>
+                  <td>{{ data.isCredit ? "credit" : "Paid" }}</td>
+                  <td>
+                    {{
+                      data.paidDate
+                        ? new Date(data.paidDate).toLocaleDateString()
+                        : "-"
+                    }}
+                  </td>
                   <td></td>
                 </tr>
               </tbody>
@@ -75,24 +91,26 @@
                 <tr>
                   <th>Product Name</th>
                   <th>Quantity</th>
-                  <th>Rate</th>
-                  <th>Discount Rate</th>
-                  <th>Total</th>
+                  <th>MRP/Unit</th>
+                  <th>CP/Unit</th>
+                  <th>Mrp Amount</th>
+                  <th>CP Amount</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(data,i) in profile.params.allInvoiceItem" :key="i">
-                  <td>{{data.productName}}</td>
-                  <td>{{data.quantity}}</td>
-                  <td>{{data.rate}}</td>
-                  <td>{{data.discountRate ? `${data.discountRate.replace(".00","")}%` : "0%"}}</td>
-                  <td>{{data.totalAfterDiscount}}</td>
+                <tr v-for="(data, i) in profile.item" :key="i">
+                  <td>{{ data.productName }}</td>
+                  <td>{{ data.quantity }}</td>
+                  <td>{{ data.mrp }}</td>
+                  <td>{{ data.cp }}</td>
+                  <td>{{ data.mrpAmount }}</td>
+                  <td>{{ data.cpAmount }}</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div v-if="tabNumber == 3">
-              <table class="table is-fullwidth">
+            <table class="table is-fullwidth">
               <thead>
                 <th>Date</th>
                 <th>Amount</th>
@@ -101,11 +119,17 @@
                 <th>Actions</th>
               </thead>
               <tbody>
-                <tr v-for="(data , i) in profile.params.returnInvoices" :key="i">
-                  <td>{{new Date(data.date).toLocaleDateString()}}</td>
-                  <td>{{data.netTotal}}</td>
-                  <td>{{data.isCredit ? "credit" : 'Paid'}}</td>
-                  <td>{{data.paidDate ? new Date(data.paidDate).toLocaleDateString() : '-'}}</td>
+                <tr v-for="(data, i) in profile.vendorPurchaseReturn" :key="i">
+                  <td>{{ new Date(data.date).toLocaleDateString() }}</td>
+                  <td>{{ data.netTotal }}</td>
+                  <td>{{ data.isCredit ? "credit" : "Paid" }}</td>
+                  <td>
+                    {{
+                      data.paidDate
+                        ? new Date(data.paidDate).toLocaleDateString()
+                        : "-"
+                    }}
+                  </td>
                   <td></td>
                 </tr>
               </tbody>
@@ -117,18 +141,20 @@
                 <tr>
                   <th>Product Name</th>
                   <th>Quantity</th>
-                  <th>Rate</th>
-                  <th>Discount Rate</th>
-                  <th>Total</th>
+                  <th>MRP/Unit</th>
+                  <th>CP/Unit</th>
+                  <th>Mrp Amount</th>
+                  <th>CP Amount</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(data,i) in profile.params.allReturnItems" :key="i">
-                  <td>{{data.productName}}</td>
-                  <td>{{data.quantity}}</td>
-                  <td>{{data.rate}}</td>
-                  <td>{{data.discountRate ? `${data.discountRate.replace(".00","")}%` : "0%"}}</td>
-                  <td>{{data.totalAfterDiscount}}</td>
+                <tr v-for="(data, i) in profile.returnItem" :key="i">
+                  <td>{{ data.productName }}</td>
+                  <td>{{ data.quantity }}</td>
+                  <td>{{ data.mrp }}</td>
+                  <td>{{ data.cp }}</td>
+                  <td>{{ data.mrpAmount }}</td>
+                  <td>{{ data.cpAmount }}</td>
                 </tr>
               </tbody>
             </table>
@@ -144,7 +170,7 @@ export default {
   data: () => ({
     isActive: true,
     tabNumber: 1,
-    profile: "",
+    profile: [],
   }),
   methods: {
     activeTab: function (id) {
@@ -154,7 +180,7 @@ export default {
   },
   async created() {
     let data = await this.$axios.get(
-      `/crm/customer/profile/${this.$route.params.id}`
+      `/crm/vendor/profile/${this.$route.params.id}`
     );
     this.profile = data.data;
     console.log(this.profile);

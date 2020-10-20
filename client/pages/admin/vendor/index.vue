@@ -19,7 +19,13 @@
       @deleteEvent="deleteEvent($event)"
       :parameters="tableData.params"
       :refresh="tableData.refresh"
-    ></datatable>
+    >
+      <template slot-scope="item">
+        <button class="button is-primary is-small" @click="goToProfile(item)">
+          Profile
+        </button>
+      </template>
+    </datatable>
   </adminSidebar>
 </template>
 
@@ -66,7 +72,11 @@ export default {
       ],
     },
   }),
-  methods: {},
+  methods: {
+    goToProfile: function (item) {
+      this.$router.push("/admin/vendor/" + item._id);
+    },
+  },
 };
 </script>
 

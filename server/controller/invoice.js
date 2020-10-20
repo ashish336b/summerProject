@@ -126,6 +126,33 @@ router.get("/invoiceNumber/:invoiceNumber", async (req, res, next) => {
   );
 });
 /**
+ * method : PUT
+ * url : crm/invoice/markAsPaid/:id
+ */
+router.put("/markAsPaid/:id", (req, res, next) => {
+  let date = new Date(req.body.date);
+  if (date.setHours(0, 0, 0, 0) == new Date().setHours(0, 0, 0, 0))
+    date = Date.now();
+  invoiceModel
+    .findByIdAndUpdate(req.params.id, {
+      isCredit: false,
+      paidDate: new Date(date),
+    })
+    .then(() => res.json({ error: null, message: "success" }));
+});
+/**
+ * type: PUT
+ * path: crm/invoice/unmarkAsPaid/:id
+ */
+router.put("/unmarkAsPaid/:id", (req, res, next) => {
+  invoiceModel
+    .findByIdAndUpdate(req.params.id, {
+      isCredit: true,
+      paidDate: null,
+    })
+    .then(() => res.send({ error: null, message: "success" }));
+});
+/**
  * type: POST
  * path: crm/invoice/return
  */
