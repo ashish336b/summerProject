@@ -101,6 +101,38 @@ router.get("/:id", async (req, res, next) => {
   res.json(await purchaseModel.findById(req.params.id));
 });
 /**
+ * type : PUT
+ * url : crm/purchase/markAsPaid/:id
+ */
+router.put("/markAsPaid/:id", (req, res, next) => {
+  let date = new Date(req.body.date);
+  if (date.setHours(0, 0, 0, 0) == new Date().setHours(0, 0, 0, 0)) {
+    date = Date.now();
+  }
+  purchaseModel
+    .findByIdAndUpdate(req.params.id, {
+      isCredit: false,
+      paidDate: new Date(date),
+    })
+    .then((result) => {
+      res.send({ error: null, message: "success" });
+    });
+});
+/**
+ * type : PUT
+ * url : crm/purchase/unmarkAsPaid/:id
+ */
+router.put("/unmarkAsPaid/:id", (req, res, next) => {
+  purchaseModel
+    .findByIdAndUpdate(req.params.id, {
+      isCredit: true,
+      paidDate: null,
+    })
+    .then((result) => {
+      res.send({ error: null, message: "success" });
+    });
+});
+/**
  * method : POST
  * url : /crm/purchase/return
  */

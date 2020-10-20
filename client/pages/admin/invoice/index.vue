@@ -33,7 +33,7 @@
         >
           Mark As Paid
         </a>
-        <a v-else class="button is-small is-info" @click="mark(item)">
+        <a v-else class="button is-small is-danger" @click="mark(item)">
           Mark As Credit
         </a>
       </template>
@@ -154,7 +154,6 @@ export default {
         });
       }
     },
-    markAsCredit: function (item) {},
   },
 };
 </script>
