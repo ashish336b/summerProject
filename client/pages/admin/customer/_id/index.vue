@@ -6,19 +6,30 @@
         <div class="details-container py-3">
           <div class="columns is-multiline">
             <div class="column is-4">
-              <p class="is-size-5">Name : {{profile.params.customer.firstName}} {{profile.params.customer.lastName}}</p>
+              <p class="is-size-5">
+                Name : {{ profile.params.customer.firstName }}
+                {{ profile.params.customer.lastName }}
+              </p>
             </div>
             <div class="column is-4">
-              <p class="is-size-5">Phone : {{profile.params.customer.phoneNumber}} </p>
+              <p class="is-size-5">
+                Phone : {{ profile.params.customer.phoneNumber }}
+              </p>
             </div>
             <div class="column is-4">
-              <p class="is-size-5">Address : {{profile.params.customer.address}} </p>
+              <p class="is-size-5">
+                Address : {{ profile.params.customer.address }}
+              </p>
             </div>
             <div class="column is-4">
-              <p class="is-size-5">Credit Amount : Rs. {{profile.params.credit}}</p>
+              <p class="is-size-5">
+                Credit Amount : Rs. {{ profile.params.credit }}
+              </p>
             </div>
             <div class="column is-4">
-              <p class="is-size-5">Total Paid : Rs. {{profile.params.totalPaid}} </p>
+              <p class="is-size-5">
+                Total Paid : Rs. {{ profile.params.totalPaid }}
+              </p>
             </div>
           </div>
         </div>
@@ -59,11 +70,17 @@
                 <th>Actions</th>
               </thead>
               <tbody>
-                <tr v-for="(data , i) in profile.params.invoices" :key="i">
-                  <td>{{new Date(data.date).toLocaleDateString()}}</td>
-                  <td>{{data.netTotal}}</td>
-                  <td>{{data.isCredit ? "credit" : 'Paid'}}</td>
-                  <td>{{data.paidDate ? new Date(data.paidDate).toLocaleDateString() : '-'}}</td>
+                <tr v-for="(data, i) in profile.params.invoices" :key="i">
+                  <td>{{ new Date(data.date).toLocaleDateString() }}</td>
+                  <td>{{ data.netTotal }}</td>
+                  <td>{{ data.isCredit ? "credit" : "Paid" }}</td>
+                  <td>
+                    {{
+                      data.paidDate
+                        ? new Date(data.paidDate).toLocaleDateString()
+                        : "-"
+                    }}
+                  </td>
                   <td></td>
                 </tr>
               </tbody>
@@ -81,18 +98,24 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(data,i) in profile.params.allInvoiceItem" :key="i">
-                  <td>{{data.productName}}</td>
-                  <td>{{data.quantity}}</td>
-                  <td>{{data.rate}}</td>
-                  <td>{{data.discountRate ? `${data.discountRate.replace(".00","")}%` : "0%"}}</td>
-                  <td>{{data.totalAfterDiscount}}</td>
+                <tr v-for="(data, i) in profile.params.allInvoiceItem" :key="i">
+                  <td>{{ data.productName }}</td>
+                  <td>{{ data.quantity }}</td>
+                  <td>{{ data.rate }}</td>
+                  <td>
+                    {{
+                      data.discountRate
+                        ? `${data.discountRate.replace(".00", "")}%`
+                        : "0%"
+                    }}
+                  </td>
+                  <td>{{ data.totalAfterDiscount }}</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div v-if="tabNumber == 3">
-              <table class="table is-fullwidth">
+            <table class="table is-fullwidth">
               <thead>
                 <th>Date</th>
                 <th>Amount</th>
@@ -101,11 +124,17 @@
                 <th>Actions</th>
               </thead>
               <tbody>
-                <tr v-for="(data , i) in profile.params.returnInvoices" :key="i">
-                  <td>{{new Date(data.date).toLocaleDateString()}}</td>
-                  <td>{{data.netTotal}}</td>
-                  <td>{{data.isCredit ? "credit" : 'Paid'}}</td>
-                  <td>{{data.paidDate ? new Date(data.paidDate).toLocaleDateString() : '-'}}</td>
+                <tr v-for="(data, i) in profile.params.returnInvoices" :key="i">
+                  <td>{{ new Date(data.date).toLocaleDateString() }}</td>
+                  <td>{{ data.netTotal }}</td>
+                  <td>{{ data.isCredit ? "credit" : "Paid" }}</td>
+                  <td>
+                    {{
+                      data.paidDate
+                        ? new Date(data.paidDate).toLocaleDateString()
+                        : "-"
+                    }}
+                  </td>
                   <td></td>
                 </tr>
               </tbody>
@@ -123,12 +152,18 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(data,i) in profile.params.allReturnItems" :key="i">
-                  <td>{{data.productName}}</td>
-                  <td>{{data.quantity}}</td>
-                  <td>{{data.rate}}</td>
-                  <td>{{data.discountRate ? `${data.discountRate.replace(".00","")}%` : "0%"}}</td>
-                  <td>{{data.totalAfterDiscount}}</td>
+                <tr v-for="(data, i) in profile.params.allReturnItems" :key="i">
+                  <td>{{ data.productName }}</td>
+                  <td>{{ data.quantity }}</td>
+                  <td>{{ data.rate }}</td>
+                  <td>
+                    {{
+                      data.discountRate
+                        ? `${data.discountRate.replace(".00", "")}%`
+                        : "0%"
+                    }}
+                  </td>
+                  <td>{{ data.totalAfterDiscount }}</td>
                 </tr>
               </tbody>
             </table>
@@ -157,7 +192,6 @@ export default {
       `/crm/customer/profile/${this.$route.params.id}`
     );
     this.profile = data.data;
-    console.log(this.profile);
   },
 };
 </script>
