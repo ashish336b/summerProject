@@ -143,7 +143,6 @@ export default {
                 date: this.date,
               })
               .then(({ data }) => {
-                console.log(data);
                 if (!data.error)
                   this.tableData.refresh = !this.tableData.refresh;
               });

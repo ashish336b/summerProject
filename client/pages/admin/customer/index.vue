@@ -87,7 +87,12 @@
               </div>
             </section>
             <footer class="modal-card-foot">
-              <button class="button is-success">Save changes</button>
+              <button
+                class="button is-success"
+                @click="saveEditedCustomer(model.id)"
+              >
+                Save changes
+              </button>
               <button
                 class="button"
                 @click="
@@ -127,6 +132,7 @@
 </template>
 <script>
 import datatable from "@/components/datatable";
+import Swal from "sweetalert2";
 export default {
   components: {
     datatable,
@@ -134,6 +140,7 @@ export default {
   data: () => ({
     model: {
       isActive: false,
+      id: "",
       modelData: {
         firstName: "",
         lastName: "",
@@ -190,17 +197,25 @@ export default {
       this.$router.push(`/admin/customer/${item._id}`);
     },
     editCustomer: function ({ item, params }) {
-      console.log(item);
-      console.log(params);
       this.model.isActive = true;
+      this.model.id = item._id;
       this.model.modelData.firstName = item.firstName;
       this.model.modelData.lastName = item.lastName;
       this.model.modelData.address = item.address;
       this.model.modelData.username = item.username;
       this.model.modelData.role = item.role;
     },
-    saveEditedCustomer: function ({ item }) {
-      this.$axios.put(`/crm/customer/${item._id}`).then((result) => {});
+    saveEditedCustomer: function (id) {
+      this.$axios
+        .put(`/crm/customer/${id}`, { ...this.model.modelData })
+        .then(({ data }) => {
+          this.model.isActive = false;
+          Swal.fire(`Success!`, `Customer Edited Successfully`, "success").then(
+            (result) => {
+              this.tableData.refresh = !this.tableData.refresh;
+            }
+          );
+        });
     },
     deleteEvent: function (event) {
       this.$axios.post("api/auth/delete", { id: event.id }).then((res) => {
