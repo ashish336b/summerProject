@@ -119,4 +119,29 @@ router.get("/profile/:id", async (req, res, next) => {
       console.log(err);
     });
 });
+/**
+ * type : POST
+ * path : crm/customer/:id
+ */
+router.put("/:id", (req, res, next) => {
+  userModel.findByIdAndUpdate(req.params.id, req.body).then((result) => {
+    res.json({ error: null, message: "edited" });
+  });
+});
+/**
+ * type: DELETE
+ * path: crm/customer/:id
+ */
+router.delete("/:id", (req, res, next) => {
+  userModel
+    .findByIdAndUpdate(req.params.id, {
+      isDeleted: true,
+    })
+    .then(() => {
+      res.send({ error: null, message: "delete successfully" });
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
 module.exports = router;
