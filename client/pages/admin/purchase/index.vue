@@ -25,7 +25,7 @@
       <template slot-scope="item">
         <a class="button is-primary is-small" @click="goToinfo(item)"> Info </a>
         <a
-          v-if="item.isCredit"
+          v-if="item.item.isCredit"
           class="button is-primary is-small"
           @click="mark(item)"
           >Mark As Paid</a
@@ -92,10 +92,10 @@ export default {
     },
   }),
   methods: {
-    goToinfo: function (item) {
+    goToinfo: function ({ item }) {
       this.$router.push(`/admin/purchase/${item._id}`);
     },
-    mark: function (item) {
+    mark: function ({ item }) {
       if (item.paidDate) {
         Swal.fire({
           title: `Mark #${item.invoiceNumber} as Credit`,

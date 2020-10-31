@@ -27,7 +27,7 @@
           Details
         </a>
         <a
-          v-if="item.isCredit"
+          v-if="item.item.isCredit"
           class="button is-small is-primary"
           @click="mark(item)"
         >
@@ -95,10 +95,10 @@ export default {
     },
   }),
   methods: {
-    goToInvoice: function (item) {
+    goToInvoice: function ({ item }) {
       this.$router.push(`/admin/invoice/${item._id}`);
     },
-    mark: function (item) {
+    mark: function ({ item }) {
       if (item.paidDate) {
         Swal.fire({
           title: `Mark #${item.invoiceNumber} as Credit`,

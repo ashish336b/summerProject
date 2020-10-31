@@ -70,7 +70,7 @@ export default {
     },
   }),
   methods: {
-    goToinfo: function (item) {
+    goToinfo: function ({ item }) {
       this.$router.push(`/admin/purchase/${item._id}`);
     },
   },

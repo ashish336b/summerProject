@@ -79,7 +79,7 @@ export default {
     },
   }),
   methods: {
-    goToInvoice: function (item) {
+    goToInvoice: function ({ item }) {
       this.$router.push(`/admin/invoice/${item._id}`);
     },
   },

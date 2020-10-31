@@ -73,7 +73,7 @@ export default {
     },
   }),
   methods: {
-    goToProfile: function (item) {
+    goToProfile: function ({ item }) {
       this.$router.push("/admin/vendor/" + item._id);
     },
   },
