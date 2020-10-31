@@ -18,6 +18,33 @@ router.get("/paginate", async (req, res, next) => {
   res.json(paginatedResult);
 });
 /**
+ * type:PUT
+ * url:crm/inventory/:id
+ */
+router.put("/:id", (req, res, next) => {
+  inventoryModel
+    .findByIdAndUpdate(req.params.id, req.body)
+    .then(() => {
+      res.json({ error: null, message: "edit success" });
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
+/**
+ * type:delete
+ * url:crm/inventory/:id
+ */
+router.delete("/:id", (req, res, next) => {
+  inventoryModel
+    .findByIdAndUpdate(req.params.id, {
+      isDeleted: true,
+    })
+    .then(() => {
+      res.json({ error: null, message: "success" });
+    });
+});
+/**
  * method : GET
  * path : /crm/inventory/autoComplete
  */

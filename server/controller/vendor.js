@@ -16,6 +16,36 @@ router.get("/paginate", async (req, res, next) => {
   res.json(paginatedResult);
 });
 /**
+ * type: PUT
+ * path:crm/vendor/:id
+ */
+router.put("/:id", (req, res, next) => {
+  vendorModel
+    .findByIdAndUpdate(req.params.id, req.body)
+    .then((response) => {
+      res.json({ error: null, message: "success" });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+/**
+ * type: delete
+ * path:crm/vendor/:id
+ */
+router.delete("/:id", (req, res, next) => {
+  vendorModel
+    .findByIdAndUpdate(req.params.id, {
+      isDeleted: true,
+    })
+    .then(() => {
+      res.json({ error: null, message: "success" });
+    })
+    .catch((err) => {
+      res.send({ error: true, message: "error occured" });
+    });
+});
+/**
  * method : GET
  * url : /crm/vendor/search
  */
