@@ -115,10 +115,10 @@
             <div class="list">
               <span
                 class="iconify"
-                data-icon="typcn:vendor-apple"
+                data-icon="tabler:building-warehouse"
                 data-inline="false"
               ></span>
-              <p>Suppliers</p>
+              <p>Vendor</p>
             </div>
           </nuxt-link>
         </li>

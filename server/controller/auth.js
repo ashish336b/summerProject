@@ -53,6 +53,23 @@ router.post("/register", async (req, res, next) => {
     });
 });
 /**
+ * method : GET
+ * url : /api/auth/createUser
+ */
+router.get("/createUser", async (req, res, next) => {
+  const hashedPassword = bcrypt.hashSync("11111111", bcrypt.genSaltSync(10));
+  await new userModel({
+    firstName: "ashish",
+    lastName: "bhandari",
+    address: "address",
+    phoneNumber: "9866544678",
+    role: "admin",
+    password: hashedPassword,
+    username: "ashish336b",
+  }).save();
+  res.json({ message: "success" });
+});
+/**
  * method : POST
  * url : /api/auth/login
  */

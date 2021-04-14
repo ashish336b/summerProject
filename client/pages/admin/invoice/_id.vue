@@ -13,10 +13,10 @@
       </div>
       <div class="invoice-container mx-6 my-2">
         <div class="invoive-header">
-          <h1 class="has-text-centered is-size-5">
+          <h1 class="has-text-centered is-size-5 has-text-weight-bold">
             Grocery Store Management System
           </h1>
-          <p class="has-text-centered">6th Sem Summer Project</p>
+          <p class="has-text-centered has-text-weight-semibold">Balkot,Bhaktpur</p>
           <p class="has-text-centered">Phone No. 124578963</p>
           <p class="has-text-centered">Pan No : 124578963</p>
         </div>

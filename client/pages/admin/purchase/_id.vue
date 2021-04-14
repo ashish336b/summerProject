@@ -11,13 +11,13 @@
       </div>
       <div class="invoice-container">
         <div class="invoice-header has-text-centered">
-          <h1>{{ purchaseData.vendorName }}</h1>
-          <p>{{ purchaseData.address }}</p>
-          <p>Pan No : {{ purchaseData.panNumber }}</p>
+          <h1 class="is-size-4 is-dark has-text-weight-bold">{{ purchaseData.vendorName }}</h1>
+          <p class="is-size-5">{{ purchaseData.address }}</p>
+          <p class="is-size-5">Pan No : {{ purchaseData.panNumber }}</p>
         </div>
         <div class="invoice-date">
-          <h1>Date : 10/5/2020</h1>
-          <h1>invoice : {{ purchaseData.invoiceNumber }}</h1>
+          <h1 class="has-text-weight-semibold">Date : 10/5/2020</h1>
+          <h1 class="has-text-weight-semibold">invoice : {{ purchaseData.invoiceNumber }}</h1>
         </div>
         <div class="invoice-details">
           <table class="table is-fullwidth is-stripped">
@@ -44,7 +44,7 @@
               </tr>
               <tr>
                 <td colspan="5"></td>
-                <td>GrandTotal</td>
+                <td>Grand Total</td>
                 <td>{{ purchaseData.grandTotal }}</td>
               </tr>
               <tr>
@@ -54,7 +54,7 @@
               </tr>
               <tr>
                 <td colspan="5"></td>
-                <td>Discount Amt</td>
+                <td>Total Amt</td>
                 <td>{{ purchaseData.netTotal }}</td>
               </tr>
             </tbody>
